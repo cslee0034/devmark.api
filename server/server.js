@@ -1,0 +1,10 @@
+const express = require("express");
+const app = express();
+const test = require("./routes/test");
+
+app.use("/api", test);
+
+const port = 5000;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
