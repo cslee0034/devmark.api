@@ -1,3 +1,17 @@
 .App {
   text-align: center;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.header-container-left {
+  display: flex;
+}
+
+.header-container-right {
+  display: flex;
+}
