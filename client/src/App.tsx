@@ -7,8 +7,9 @@ import About from "./components/views/About";
 import BookmarkPage from "./components/views/BookmarkPage";
 import LoginPage from "./components/views/LoginPage";
 import Footer from "./components/views/Footer";
+import React from "react";
 
-function App() {
+const App: React.FC = () => {
   const callApi = async () => {
     axios.get("/api").then((res) => {
       console.log(res.data.test);
