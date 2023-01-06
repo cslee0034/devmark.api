@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
+import Slidebar from "./components/Slidebar";
+import Navbar from "./components/NavBar";
 import FrontPage from "./components/views/FrontPage";
-import About from "./components/views/About";
-import BookmarkPage from "./components/views/BookmarkPage";
-import LoginPage from "./components/views/LoginPage";
-import Footer from "./components/views/Footer";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React from "react";
+import "./App.css";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   const callApi = async () => {
@@ -21,36 +20,44 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="App">
-      <Router>
-        <div className="header-container">
-          <div className="header-container-left">
-            <div className="box">
-              <Link to="/">Home</Link>
-            </div>
-            <div className="box">
-              <Link to="/about">About</Link>
-            </div>
-          </div>
-          <div className="header-container-right">
-            <div className="box">
-              <Link to="/bookmark">Bookmark</Link>
-            </div>
-            <div className="box">
-              <Link to="/login">Login</Link>
-            </div>
-          </div>
+    <div id="page-top">
+      {/* Page Wrapper */}
+      <div id="wrapper">
+        {/* Sidebar */}
+        <div id="sidebar">
+          <Slidebar />
         </div>
-        <Routes>
-          <Route path="/" element={<FrontPage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/bookmark" element={<BookmarkPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-      </Router>
-      <Footer />
+        {/* End of Sidebar */}
+
+        {/* Content Wrapper */}
+        <div id="content-wrapper">
+          {/* Main Content */}
+          <div id="content">
+            {/* Navbar Content */}
+            <div id="navbar">
+              <Navbar />
+            </div>
+            {/* End of Navber Content */}
+
+            {/* Begin Page Content */}
+            <div id="main-page">
+              <FrontPage />
+            </div>
+            {/* End of Page Content */}
+          </div>
+
+          {/* Footer */}
+          <div>
+            <Footer />
+          </div>
+          {/* End of Footer */}
+          {/* End of Main Content */}
+        </div>
+        {/* End of Content Wrapper */}
+      </div>
+      {/* End of Page Wrapper */}
     </div>
   );
-}
+};
 
 export default App;
