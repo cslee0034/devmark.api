@@ -26,13 +26,72 @@
 
   color: white;
   text-decoration-line: none;
+
+  display: flex;
+  justify-content: center;
 }
 
 .sidebar-brand:hover {
   color: #d9b70d;
 }
 
-.dashboard:hover {
+.sidebar-dashboard {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-dashboard-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-bookmark {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-bookmark-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-schedule {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-schedule-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-memo {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-memo-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-tag {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-tag-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-about {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-about-container:hover {
   color: #d9b70d;
 }
 
@@ -49,7 +108,7 @@
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   margin-left: auto;
-  margin-right: 3.5rem;
+  margin-right: 6rem;
 }
 
 .btn-search {
@@ -67,7 +126,16 @@
   color: #d9b70d;
 }
 
-.UserName:hover {
+#sidebarToggleTop {
+  color: #253c59;
+}
+
+.username-item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.username:hover {
   cursor: pointer;
 }
 
@@ -76,14 +144,68 @@
   width: 100%;
 }
 
-/* Main page */
+/* Front page */
 
 #main-page {
   justify-content: center;
   text-align: center;
 }
 
-/* Footer */
-.footer-container{
+.frontpage-container {
+  width: 100%;
+  position: relative;
+}
+
+.background-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  opacity: 0.4;
+  width: 60%;
+  z-index: 1;
+}
+
+.front-page-text {
+  position: absolute;
   text-align: center;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* Footer */
+.footer-container {
+  text-align: center;
+}
+
+/* Media query */
+@media (max-width: 770px) {
+  .namespace {
+    display: none;
+  }
+  .sidebar-brand-explain {
+    display: none;
+  }
+  .sidebar-dashboard-explain {
+    display: none;
+  }
+  .sidebar-bookmark-explain {
+    display: none;
+  }
+  .sidebar-schedule-explain {
+    display: none;
+  }
+  .sidebar-memo-explain {
+    display: none;
+  }
+  .sidebar-tag-explain {
+    display: none;
+  }
+  .sidebar-about-explain {
+    display: none;
+  }
 }

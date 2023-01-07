@@ -46,15 +46,16 @@ const App: React.FC = () => {
             {/* End of Page Content */}
           </div>
 
-          {/* Footer */}
-          <div>
-            <Footer />
-          </div>
-          {/* End of Footer */}
           {/* End of Main Content */}
         </div>
         {/* End of Content Wrapper */}
       </div>
+      {/* Footer */}
+      <div>
+        <Footer />
+      </div>
+      {/* End of Footer */}
+
       {/* End of Page Wrapper */}
     </div>
   );

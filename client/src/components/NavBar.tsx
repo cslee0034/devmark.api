@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-function NavBar() {
+const NavBar: React.FC = () => {
+  const [toggle, setToggle] = useState(false);
+
   return (
     // Navbar
     <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -11,8 +14,12 @@ function NavBar() {
       <button
         id="sidebarToggleTop"
         className="btn btn-link d-md-none rounded-circle mr-3"
+        // onclickEvent Toggle
+        onClick={() => {
+          setToggle((e) => !e);
+        }}
       >
-        <i className="bar">토글키</i>
+        <FontAwesomeIcon icon={faBars} />
       </button>
 
       {/* Search */}
@@ -45,14 +52,16 @@ function NavBar() {
         <div className="vr m-2"></div>
 
         {/* Dropdown UserName */}
-        <div className="nav-item dropdown-center UserName ">
+        <div className="nav-item dropdown-center username ">
           <div
-            className="data-toggle nav-link active"
+            className="data-toggle nav-link active username-item"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            LoggedIn &nbsp;
-            <FontAwesomeIcon icon={faUser} />
+            <span className="namespace">UserName&nbsp;</span>
+            <div>
+              <FontAwesomeIcon icon={faUser} />
+            </div>
           </div>
           <ul className="dropdown-menu">
             <li>
@@ -75,6 +84,6 @@ function NavBar() {
       </ul>
     </nav>
   );
-}
+};
 
 export default NavBar;

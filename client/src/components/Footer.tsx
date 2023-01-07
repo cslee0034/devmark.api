@@ -1,12 +1,12 @@
 import React from "react";
 
-function Footer() {
+const Footer: React.FC = () => {
   return (
     <div className="footer-container">
-      <hr />
+      <hr className="mt-0" />
       <div>Copyright © cslee0034@gmail.com</div>
     </div>
   );
-}
+};
 
 export default Footer;
