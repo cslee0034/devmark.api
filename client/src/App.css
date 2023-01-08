@@ -108,7 +108,11 @@
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   margin-left: auto;
-  margin-right: 6rem;
+  margin-right: 3rem;
+}
+
+.sidebar-toggle {
+  border: none;
 }
 
 .btn-search {
@@ -133,6 +137,8 @@
 .username-item {
   display: flex;
   flex-wrap: wrap;
+
+  border: white;
 }
 
 .username:hover {
