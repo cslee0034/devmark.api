@@ -1,3 +1,301 @@
 .App {
   text-align: center;
 }
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/* Sidebar */
+
+#sidebar {
+  width: 16rem;
+
+  justify-content: center;
+  text-align: center;
+
+  background-color: #253c59;
+  color: white;
+}
+
+.sidebar-brand {
+  padding-top: 1rem;
+  padding-bottom: 1.4rem;
+
+  color: white;
+  text-decoration-line: none;
+
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-brand:hover {
+  color: #d9b70d;
+}
+
+.sidebar-bookmark {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-bookmark-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-schedule {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-schedule-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-tils {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-tils-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-feed {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-feed-container:hover {
+  color: #d9b70d;
+}
+
+.sidebar-about {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sidebar-about-container:hover {
+  color: #d9b70d;
+}
+
+/* Navbar */
+
+.navbar-search {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+  margin-right: auto;
+}
+
+.navbar-left-container {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: auto;
+  margin-right: 3rem;
+}
+
+.sidebar-toggle {
+  border: none;
+}
+
+.btn-search {
+  border-color: #253c59;
+  color: #253c59;
+}
+
+.btn-search:hover {
+  border-color: #d9b70d;
+  color: #d9b70d;
+}
+
+.btn-search:active {
+  border-color: #d9b70d;
+  color: #d9b70d;
+}
+
+#sidebarToggleTop {
+  color: #253c59;
+}
+
+.notification{
+  border: none;
+  background-color: white;
+}
+
+.username-item {
+  display: flex;
+  flex-wrap: wrap;
+
+  border: white;
+}
+
+.username:hover {
+  cursor: pointer;
+}
+
+#content-wrapper {
+  justify-content: center;
+  width: 100%;
+}
+
+/* Front page */
+
+#main-page {
+  justify-content: center;
+  text-align: center;
+}
+
+.frontpage-container {
+  width: 100%;
+  position: relative;
+}
+
+.background-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  opacity: 0.4;
+  width: 60%;
+  z-index: 1;
+}
+
+.front-page-text {
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* Bookmark Page */
+
+.bookmark-header{
+  text-align: left;
+
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: 25px;
+}
+
+.btn-toolbar {
+  justify-content: center;
+
+  margin-top: 40px;
+}
+
+.card-container{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.card-each{
+  height: 290px;
+  width: 240px;
+}
+
+.card-img-top{
+  height: 220px;
+
+  object-fit: cover;
+}
+
+/* Login Page */
+.login-wrapper{
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+.login-container{
+  width: 300px;
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.login-header{
+  margin-bottom: 30px;
+}
+
+.remember-me{
+  display: flex;
+  justify-content: left;
+
+  font-size: 14px;
+}
+.remember-me-button{
+  margin-right: 6px;
+}
+
+.login-button {
+  border: 1px solid;
+  background-color: white;
+  border-color: #253c59;
+  color: #253c59;
+
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+
+  border-radius: 30px;
+}
+
+.login-button:hover {
+  background-color: #253c59;
+  color: white;
+}
+
+.login-button:active {
+  background-color: #253c59;
+  color: white;
+
+  border-color: white;
+}
+
+.guide {
+   text-decoration-line: none;
+}
+
+
+/* Footer */
+.footer-container {
+  text-align: center;
+}
+
+/* Media query */
+@media (max-width: 770px) {
+  .namespace {
+    display: none;
+  }
+  .sidebar-brand-explain {
+    display: none;
+  }
+  .sidebar-bookmark-explain {
+    display: none;
+  }
+  .sidebar-schedule-explain {
+    display: none;
+  }
+  .sidebar-tils-explain {
+    display: none;
+  }
+  .sidebar-feed-explain {
+    display: none;
+  }
+  .sidebar-about-explain {
+    display: none;
+  }
+}
