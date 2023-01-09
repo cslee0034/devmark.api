@@ -1,13 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookBookmark } from "@fortawesome/free-solid-svg-icons";
-import { faGauge } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import { faTag } from "@fortawesome/free-solid-svg-icons";
-import { BrowserRouter, Link } from "react-router-dom";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
 
 const Slidebar: React.FC = () => {
   return (
@@ -27,19 +26,7 @@ const Slidebar: React.FC = () => {
       {/* Divider */}
       <hr className="sidebar-divider my-0 mb-3" />
 
-      {/* Slidebar - Dashboard */}
-      <li className="nav-item sidebar-dashboard-container">
-        <Link to='/dashboard' className="nav-link sidebar-dashboard" aria-current="page">
-          <div>
-            <FontAwesomeIcon icon={faGauge} />
-          </div>
-          <div className="sidebar-dashboard-explain">&nbsp; Dashboard</div>
-        </Link>
-      </li>
-
-      {/* Divider */}
-      <hr className="sidebar-divider my-3" />
-
+      {/* Slidebar - Bookmark */}
       <li className="nav-item my-1 sidebar-bookmark-container">
         <Link to='/bookmark' className="nav-link sidebar-bookmark">
           <div>
@@ -49,6 +36,10 @@ const Slidebar: React.FC = () => {
         </Link>
       </li>
 
+      {/* Divider */}
+      <hr className="sidebar-divider my-3" />
+
+      {/* Slidebar - Schedule */}
       <li className="nav-item my-1 sidebar-schedule-container">
         <Link to='/schedule' className="nav-link sidebar-schedule">
           <div>
@@ -57,26 +48,31 @@ const Slidebar: React.FC = () => {
           <div className="sidebar-schedule-explain">&nbsp; Schedule</div>
         </Link>
       </li>
-      <li className="nav-item my-1 sidebar-memo-container">
-        <Link to='/memo' className="nav-link sidebar-memo">
+
+      {/* Slidebar - TILs */}
+      <li className="nav-item my-1 sidebar-tils-container">
+        <Link to='/tils' className="nav-link sidebar-tils">
           <div>
             <FontAwesomeIcon icon={faEdit} />
           </div>
-          <div className="sidebar-memo-explain">&nbsp; Memo</div>
+          <div className="sidebar-tils-explain">&nbsp; TILs</div>
         </Link>
       </li>
-      <li className="nav-item my-1 sidebar-tag-container">
-        <Link to='/tag' className="nav-link sidebar-tag">
+
+      {/* Slidebar - Feed */}
+      <li className="nav-item my-1 sidebar-feed-container">
+        <Link to='/feed' className="nav-link sidebar-feed">
           <div>
-            <FontAwesomeIcon icon={faTag} />
+          <FontAwesomeIcon icon={faComment} />
           </div>
-          <div className="sidebar-tag-explain">&nbsp; Tag</div>
+          <div className="sidebar-feed-explain">&nbsp; Feed</div>
         </Link>
       </li>
 
       {/* Divider */}
       <hr className="sidebar-divider my-0 mt-3 mb-3" />
 
+      {/* Slidebar - About */}
       <li className="nav-item my-1 sidebar-about-container">
         <Link to='/about' className="nav-link sidebar-about">
           <div>

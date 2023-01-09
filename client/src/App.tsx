@@ -10,13 +10,11 @@ import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
-
-import "./App.css";
-import DashboardPage from "./views/DashboardPage";
 import AboutPage from "./views/AboutPage";
 import SchedulePage from "./views/SchedulePage";
-import MemoPage from "./views/MemoPage";
-import TagPage from "./views/TagPage";
+import TILsPage from "./views/TILsPage";
+import FeedPage from "./views/FeedPage";
+import "./App.css";
 
 export const UserContext = createContext({
   setLoggedIn: (loggedIn: any): any => {},
@@ -74,12 +72,11 @@ const App: React.FC = () => {
                 <div id="main-page">
                   <Routes>
                     <Route path="/" element={<FrontPage />} />
-                    <Route path="dashboard" element={<DashboardPage />} />
                     <Route path="/bookmark" element={<BookmarkPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/schedule" element={<SchedulePage />} />
-                    <Route path="/memo" element={<MemoPage />} />
-                    <Route path="/tag" element={<TagPage />} />
+                    <Route path="/tils" element={<TILsPage />} />
+                    <Route path="/feed" element={<FeedPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                   </Routes>

@@ -9,11 +9,13 @@ const FrontPage: React.FC = () => {
         </h1>
         <h4>
           <br />
-          first line explanation ...
+          Dev-Mark helps you organize your bookmarks.
           <br />
-          second line explanation ...
           <br />
-          third line explanation ...
+          And manage your dev-life
+          <br />
+          <br />
+          Use feed to share your experience!
         </h4>
       </div>
       <img

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
@@ -7,7 +7,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../App";
 import { Link } from "react-router-dom";
 
-const NavBar = (value: {loggedIn:boolean}): JSX.Element => {
+const NavBar = (value: { loggedIn: boolean }): JSX.Element => {
   const { setSidebar } = useContext(UserContext);
   const { setLoggedIn } = useContext(UserContext);
 
@@ -44,11 +44,15 @@ const NavBar = (value: {loggedIn:boolean}): JSX.Element => {
       {/* Topbar Navbar */}
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">
-            <FontAwesomeIcon icon={faBell} />
-          </a>
-        </li>
+        <button className="nav-item position-relative notification">
+          <FontAwesomeIcon icon={faBell} />
+          {value.loggedIn ? (
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              4+
+              <span className="visually-hidden">unread messages</span>
+            </span>
+          ) : null}
+        </button>
 
         {/* BlockBar */}
         <div className="vr m-2"></div>
@@ -70,17 +74,21 @@ const NavBar = (value: {loggedIn:boolean}): JSX.Element => {
             </button>
             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
               <li>
-                <Link to='/profile' className="dropdown-item">
+                <Link to="/profile" className="dropdown-item">
                   Profile
                 </Link>
               </li>
               <li>
-                <Link to='/profile' className="dropdown-item" >
+                <Link to="/profile" className="dropdown-item">
                   Setting
                 </Link>
               </li>
               <li>
-                <a className="dropdown-item" onClick={() => setLoggedIn((prev: any) => !prev)}>
+                <a
+                  className="dropdown-item"
+                  onClick={() => setLoggedIn((prev: any) => !prev)}
+                  href="/"
+                >
                   Logout
                 </a>
               </li>
@@ -88,7 +96,8 @@ const NavBar = (value: {loggedIn:boolean}): JSX.Element => {
           </div>
         ) : (
           <div className="btn-group username">
-            <Link to='/login'
+            <Link
+              to="/login"
               type="button"
               className="btn data-toggle username-item"
               data-bs-display="static"
