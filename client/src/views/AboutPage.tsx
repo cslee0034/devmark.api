@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutPage: React.FC = () => {
+const AboutPage = (): JSX.Element => {
   return (
     <div className="frontpage-container">
       <div className="front-page-text mt-1">

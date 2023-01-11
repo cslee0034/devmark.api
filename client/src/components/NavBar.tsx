@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
@@ -7,7 +7,11 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../App";
 import { Link } from "react-router-dom";
 
-const NavBar = (value: { loggedIn: boolean }): JSX.Element => {
+interface P {
+  loggedIn: boolean;
+}
+
+const NavBar: FC<P> = (props: P): JSX.Element => {
   const { setSidebar } = useContext(UserContext);
   const { setLoggedIn } = useContext(UserContext);
 
@@ -46,7 +50,7 @@ const NavBar = (value: { loggedIn: boolean }): JSX.Element => {
         {/* Notification */}
         <button className="nav-item position-relative notification">
           <FontAwesomeIcon icon={faBell} />
-          {value.loggedIn ? (
+          {props.loggedIn ? (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               4+
               <span className="visually-hidden">unread messages</span>
@@ -58,7 +62,7 @@ const NavBar = (value: { loggedIn: boolean }): JSX.Element => {
         <div className="vr m-2"></div>
 
         {/* Dropdown UserName */}
-        {value.loggedIn ? (
+        {props.loggedIn ? (
           <div className="btn-group username">
             <button
               type="button"

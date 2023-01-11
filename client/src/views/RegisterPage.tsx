@@ -45,12 +45,20 @@ const RegisterPage = (): JSX.Element => {
             />
           </div>
         </div>
+        <div className="mb-3 row">
+          <div>
+            {/* Nickname Form */}
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword"
+              placeholder="Nickname"
+            />
+          </div>
+        </div>
 
         {/* Login Button */}
-        <button
-          className="login-button mb-4">
-            Register
-        </button>
+        <button className="login-button mb-4">Register</button>
 
         {/* Divider */}
         <hr className="sidebar-divider my-0 mb-4" />

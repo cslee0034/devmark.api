@@ -8,7 +8,7 @@ import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 
-const Slidebar: React.FC = () => {
+const Slidebar = (): JSX.Element => {
   return (
     // Slidebar
     <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion mb-3">
