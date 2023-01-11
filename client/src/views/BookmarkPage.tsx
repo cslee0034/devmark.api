@@ -1,6 +1,6 @@
 import React from "react";
 
-const BookmarkPage: React.FC = () => {
+const BookmarkPage = (): JSX.Element => {
   return (
     <div className="bookmarkpage-container">
       {/* Header */}
@@ -68,19 +68,19 @@ const BookmarkPage: React.FC = () => {
           <button type="button" className="btn btn-outline-secondary">
             {"<"}
           </button>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary none-border-left">
             1
           </button>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary none-border-left">
             2
           </button>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary none-border-left">
             3
           </button>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary none-border-left">
             4
           </button>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary none-border-both">
             5
           </button>
           <button type="button" className="btn btn-outline-secondary">

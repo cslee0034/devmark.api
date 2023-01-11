@@ -12,6 +12,7 @@
 
 #sidebar {
   width: 16rem;
+  min-height: 40rem;
 
   justify-content: center;
   text-align: center;
@@ -180,6 +181,14 @@
 
 /* Bookmark Page */
 
+.none-border-left{
+  border-left: none;
+}
+.none-border-both{
+  border-left: none;
+  border-right: none;
+}
+
 .bookmark-header{
   text-align: left;
 
@@ -206,8 +215,14 @@
 
 .card-img-top{
   height: 220px;
-
+  
   object-fit: cover;
+}
+
+/* TILs Page */
+.btn-center-disable{
+  border-left: none;
+  border-right: none;
 }
 
 /* Login Page */

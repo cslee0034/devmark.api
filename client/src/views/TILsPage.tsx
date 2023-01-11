@@ -1,6 +1,6 @@
 import React from "react";
 
-const TILsPage: React.FC = () => {
+const TILsPage = (): JSX.Element => {
   return (
     <div className="bookmarkpage-container">
       {/* Header */}
@@ -29,7 +29,7 @@ const TILsPage: React.FC = () => {
           <button type="button" className="btn btn-outline-secondary">
             {"<"}
           </button>
-          <button type="button" className="btn btn-outline-secondary disabled">
+          <button type="button" className="btn btn-outline-secondary disabled btn-center-disable">
             &nbsp;&nbsp;
           </button>
           <button type="button" className="btn btn-outline-secondary">

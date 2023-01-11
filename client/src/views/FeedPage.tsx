@@ -1,6 +1,6 @@
 import React from "react";
 
-const FeedPage: React.FC = () => {
+const FeedPage = (): JSX.Element => {
   return (
     <div className="bookmarkpage-container">
       {/* Header */}

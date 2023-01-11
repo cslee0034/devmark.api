@@ -1,6 +1,6 @@
 import React from "react";
 
-const FrontPage: React.FC = () => {
+const FrontPage = (): JSX.Element => {
   return (
     <div className="frontpage-container">
       <div className="front-page-text">
@@ -9,13 +9,13 @@ const FrontPage: React.FC = () => {
         </h1>
         <h4>
           <br />
-          Dev-Mark helps you organize your bookmarks.
+          Dev-Mark helps you organize your bookmarks
           <br />
           <br />
           And manage your dev-life
           <br />
           <br />
-          Use feed to share your experience!
+          Use feed to share your Dev experience!
         </h4>
       </div>
       <img

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Slidebar from "./components/Slidebar";
+import Slidebar from "./components/Sidebar";
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
 
@@ -21,11 +21,15 @@ export const UserContext = createContext({
   setSidebar: (sidebar: any): any => {},
 });
 
-const NavBar = Navbar as unknown as React.JSXElementConstructor<{
+interface Navbar {
   loggedIn: boolean;
-}>;
+}
 
-const App: React.FC = () => {
+interface Get {
+  test: string;
+}
+
+const App = (): JSX.Element => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [sidebar, setSidebar] = useState(true);
 
@@ -35,9 +39,19 @@ const App: React.FC = () => {
   );
 
   const callApi = async () => {
-    axios.get("/api").then((res) => {
-      console.log(res.data.test);
-    });
+    try {
+      await axios.get<Get>("/api").then((res) => {
+        // 응답이 온다고 해서 그냥 두면 안되고 any일 경우 타입 지정해주어야 한다.
+        console.log(res.data.test);
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // custom typeguard
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      }
+    }
   };
 
   useEffect(() => {
@@ -64,7 +78,7 @@ const App: React.FC = () => {
               <div id="content">
                 {/* Navbar Content */}
                 <div id="navbar">
-                  <NavBar loggedIn={loggedIn} />
+                  <Navbar loggedIn={loggedIn} />
                 </div>
                 {/* End of Navber Content */}
 
