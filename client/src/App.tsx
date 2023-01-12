@@ -50,6 +50,8 @@ const App = (): JSX.Element => {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
         );
+      } else {
+        console.error(error);
       }
     }
   };
