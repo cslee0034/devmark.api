@@ -18,48 +18,34 @@ exports.__esModule = true;
 exports.associate = void 0;
 var sequelize_1 = require("sequelize");
 var sequelize_2 = require("./sequelize");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var Post = /** @class */ (function (_super) {
+    __extends(Post, _super);
+    function Post() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return User;
+    return Post;
 }(sequelize_1.Model));
-User.init({
-    email: {
-        type: sequelize_1.DataTypes.STRING(20),
-        allowNull: false,
-        unique: true
-    },
-    password: {
-        type: sequelize_1.DataTypes.STRING(100),
+Post.init({
+    contentType: {
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     },
-    nickname: {
-        type: sequelize_1.DataTypes.STRING(20),
-        allowNull: true
+    content: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: false
     }
 }, {
     sequelize: sequelize_2.sequelize,
-    modelName: "User",
-    tableName: "user",
-    charset: "utf8",
-    collate: "utf8_general_ci"
+    modelName: "Post",
+    tableName: "post",
+    charset: "utf8mb4",
+    collate: "utf8mb4_general_ci"
 });
 var associate = function (db) {
-    db.User.hasMany(db.Bookmark, { foreignKey: "Users", sourceKey: "id" });
-    db.User.hasMany(db.Schedule, { foreignKey: "Users", sourceKey: "id" });
-    db.User.hasMany(db.Post, { foreignKey: "Users", sourceKey: "id" });
-    db.User.belongsToMany(db.User, {
-        through: "Follow",
-        as: "Follower",
-        foreignKey: "followingId"
-    });
-    db.User.belongsToMany(db.User, {
-        through: "Follow",
-        as: "Followings",
-        foreignKey: "followerId"
-    });
+    db.Post.belongsTo(db.User, { foreignKey: "Users", targetKey: "id" });
+    db.Post.hasMany(db.Comment, { foreignKey: "Posts", sourceKey: "id" });
+    db.Post.hasMany(db.Hashtag, { foreignKey: "Posts", sourceKey: "id" });
+    db.Post.hasMany(db.Image, { foreignKey: "Posts", sourceKey: "id" });
 };
 exports.associate = associate;
-exports["default"] = User;
+exports["default"] = Post;

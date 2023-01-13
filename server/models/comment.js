@@ -18,48 +18,27 @@ exports.__esModule = true;
 exports.associate = void 0;
 var sequelize_1 = require("sequelize");
 var sequelize_2 = require("./sequelize");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var Comment = /** @class */ (function (_super) {
+    __extends(Comment, _super);
+    function Comment() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return User;
+    return Comment;
 }(sequelize_1.Model));
-User.init({
-    email: {
-        type: sequelize_1.DataTypes.STRING(20),
-        allowNull: false,
-        unique: true
-    },
-    password: {
-        type: sequelize_1.DataTypes.STRING(100),
+Comment.init({
+    content: {
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
-    },
-    nickname: {
-        type: sequelize_1.DataTypes.STRING(20),
-        allowNull: true
     }
 }, {
     sequelize: sequelize_2.sequelize,
-    modelName: "User",
-    tableName: "user",
-    charset: "utf8",
-    collate: "utf8_general_ci"
+    modelName: "Comment",
+    tableName: "comment",
+    charset: "utf8mb4",
+    collate: "utf8mb4_general_ci"
 });
 var associate = function (db) {
-    db.User.hasMany(db.Bookmark, { foreignKey: "Users", sourceKey: "id" });
-    db.User.hasMany(db.Schedule, { foreignKey: "Users", sourceKey: "id" });
-    db.User.hasMany(db.Post, { foreignKey: "Users", sourceKey: "id" });
-    db.User.belongsToMany(db.User, {
-        through: "Follow",
-        as: "Follower",
-        foreignKey: "followingId"
-    });
-    db.User.belongsToMany(db.User, {
-        through: "Follow",
-        as: "Followings",
-        foreignKey: "followerId"
-    });
+    db.Comment.belongsTo(db.Post, { foreignKey: "Posts", targetKey: "id" });
 };
 exports.associate = associate;
-exports["default"] = User;
+exports["default"] = Comment;

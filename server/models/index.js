@@ -16,10 +16,28 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 exports.__esModule = true;
 __exportStar(require("./sequelize"), exports);
 var user_1 = require("./user");
+var bookmark_1 = require("./bookmark");
+var comment_1 = require("./comment");
+var hashtag_1 = require("./hashtag");
+var image_1 = require("./image");
+var post_1 = require("./post");
+var schedule_1 = require("./schedule");
 /* Export */
 __exportStar(require("./sequelize"), exports);
 /* Relationship */
 var db = {
+    Bookmark: bookmark_1["default"],
+    Comment: comment_1["default"],
+    Hashtag: hashtag_1["default"],
+    Image: image_1["default"],
+    Post: post_1["default"],
+    Schedule: schedule_1["default"],
     User: user_1["default"]
 };
+(0, bookmark_1.associate)(db);
+(0, comment_1.associate)(db);
+(0, hashtag_1.associate)(db);
+(0, image_1.associate)(db);
+(0, post_1.associate)(db);
+(0, schedule_1.associate)(db);
 (0, user_1.associate)(db);
