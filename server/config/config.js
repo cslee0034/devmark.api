@@ -1,28 +1,26 @@
-"use strict";
-exports.__esModule = true;
-var dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
-var config = {
+const config = {
     development: {
         username: "root",
         password: process.env.DB_PASSWORD,
         database: "dev-mark",
         host: "127.0.0.1",
-        dialect: "mysql"
+        dialect: "mysql",
     },
     test: {
         username: "root",
         password: process.env.DB_PASSWORD,
         database: "dev-mark",
         host: "127.0.0.1",
-        dialect: "mysql"
+        dialect: "mysql",
     },
     production: {
         username: "root",
         password: process.env.DB_PASSWORD,
         database: "dev-mark",
         host: "127.0.0.1",
-        dialect: "mysql"
-    }
+        dialect: "mysql",
+    },
 };
-exports["default"] = config;
+export default config;

@@ -1,23 +1,19 @@
 "use strict";
-exports.__esModule = true;
-exports.isNotLoggedIn = exports.isLoggedIn = void 0;
-/* isLoggedIn */
-var isLoggedIn = function (req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    }
-    else {
-        res.status(401).send("login required");
-    }
-};
-exports.isLoggedIn = isLoggedIn;
-/* isNotLoggedIn */
-var isNotLoggedIn = function (req, res, next) {
-    if (!req.isAuthenticated()) {
-        next();
-    }
-    else {
-        res.status(401).send("cannot approach after login");
-    }
-};
-exports.isNotLoggedIn = isNotLoggedIn;
+// import { Request, Response, NextFunction } from "express";
+// /* isLoggedIn */
+// const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+//   if (req.isAuthenticated()) {
+//     next();
+//   } else {
+//     res.status(401).send("login required");
+//   }
+// };
+// /* isNotLoggedIn */
+// const isNotLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+//   if (!req.isAuthenticated()) {
+//     next();
+//   } else {
+//     res.status(401).send("cannot approach after login");
+//   }
+// };
+// export { isLoggedIn, isNotLoggedIn };

@@ -1,13 +1,13 @@
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 type Config = {
-  username: string,
-  password: string,
-  database: string,
-  host: string
-  [key: string]: string,
-}
+  username: string;
+  password: string;
+  database: string;
+  host: string;
+  [key: string]: string;
+};
 
 interface IConfigGroup {
   development: Config;

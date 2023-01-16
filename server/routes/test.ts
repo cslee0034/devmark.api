@@ -1,9 +1,6 @@
-import * as express from "express";
+import express from "express";
+export const test = express.Router();
 
-const router = express.Router();
-
-router.get("/", (req, res) => {
+test.get("/", (req, res) => {
   res.send({ test: "hi" });
 });
-
-module.exports = router;
