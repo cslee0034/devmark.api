@@ -10,30 +10,22 @@ const LoginPage = (): JSX.Element => {
     <div className="login-wrapper mb-4">
       {/* Login Container */}
       <div className="login-container">
-        <div className="mb-3 row">
           {/* Header */}
           <h2 className="login-header">Welcome!</h2>
           {/* Email Form */}
-          <div>
             <input
               type="text"
               className="form-control"
               id="inputEmail"
               placeholder="Email"
             />
-          </div>
-        </div>
-        <div className="mb-3 row">
           {/* Password Form */}
-          <div>
             <input
               type="password"
               className="form-control"
               id="inputPassword"
               placeholder="Password"
             />
-          </div>
-        </div>
         {/* Remember Me */}
         <div className="form-check mb-3 remember-me">
           <input

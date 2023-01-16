@@ -59,7 +59,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 /* Router */
 var test = require("./routes/test.js");
+var auth = require("./routes/auth.js");
 app.use("/api", test);
+app.use("/auth", auth);
 /* Listen */
 app.listen(app.get("port"), function () {
     console.log("Listening on port ".concat(app.get("port")));

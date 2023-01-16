@@ -67,8 +67,10 @@ app.use(passport.session());
 
 /* Router */
 const test = require("./routes/test.js");
+const auth = require("./routes/auth.js");
 
 app.use("/api", test);
+app.use("/auth", auth);
 
 /* Listen */
 app.listen(app.get("port"), () => {

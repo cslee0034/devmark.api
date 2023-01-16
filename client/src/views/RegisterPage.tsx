@@ -1,64 +1,88 @@
-import React, { useContext } from "react";
+import axios, { AxiosResponse } from "axios";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
+
+interface Get {
+  test: string;
+}
+
+interface Post {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  nickname: string;
+}
 
 const RegisterPage = (): JSX.Element => {
-  const { setLoggedIn } = useContext(UserContext);
+  const RegisterClickHandeler = (e: any) => {
+    e.preventDefault();
+    signup(e);
+  };
+
+  const signup = async (e: any) => {
+    try {
+      await axios
+        .post<Post>("/auth", {
+          email: e.target.Email.value,
+          password: e.target.Password.value,
+          confirmPassword: e.target.ConfirmPassword.value,
+          nickname: e.target.Nickname.value,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     // Login wrapper
     <div className="login-wrapper mb-4">
       {/* Login Container */}
       <div className="login-container">
-        <div className="mb-3 row">
-          {/* Header */}
-          <h2 className="login-header">Register</h2>
+        {/* Header */}
+        <h2 className="login-header">Register</h2>
+        <form onSubmit={RegisterClickHandeler}>
           {/* Email Form */}
-          <div>
-            <input
-              type="text"
-              className="form-control"
-              id="inputEmail"
-              placeholder="Email"
-            />
-          </div>
-        </div>
-        <div className="mb-3 row">
+          <input
+            type="text"
+            className="form-control"
+            id="Email"
+            placeholder="Email"
+          />
           {/* Password Form */}
-          <div>
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Password"
-            />
-          </div>
-        </div>
-        <div className="mb-3 row">
+          <input
+            type="text"
+            className="form-control"
+            id="Password"
+            placeholder="Password"
+          />
           {/* Password Form */}
-          <div>
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Confirm Password"
-            />
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div>
-            {/* Nickname Form */}
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Nickname"
-            />
-          </div>
-        </div>
-
-        {/* Login Button */}
-        <button className="login-button mb-4">Register</button>
+          <input
+            type="text"
+            className="form-control"
+            id="ConfirmPassword"
+            placeholder="Confirm Password"
+          />
+          {/* Nickname Form */}
+          <input
+            type="nickname"
+            className="form-control"
+            id="Nickname"
+            placeholder="Nickname"
+          />
+          {/* Login Button */}
+          <button type="submit" className="login-button mb-4">
+            Register
+          </button>
+        </form>
 
         {/* Divider */}
         <hr className="sidebar-divider my-0 mb-4" />
