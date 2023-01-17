@@ -1,42 +1,28 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
+
 dotenv.config();
 
-type Config = {
-  username: string;
-  password: string;
-  database: string;
-  host: string;
-  [key: string]: string;
-};
-
-interface IConfigGroup {
-  development: Config;
-  test: Config;
-  production: Config;
-}
-
-const config: IConfigGroup = {
+export default  {
   development: {
-    username: "root",
-    password: process.env.DB_PASSWORD!,
-    database: "dev-mark",
-    host: "127.0.0.1",
-    dialect: "mysql",
+    username: 'root',
+    password: process.env.DB_PASSWORD,
+    database: 'dev-mark',
+    host: '127.0.0.1',
+    dialect: 'mysql' as const,
   },
   test: {
     username: "root",
-    password: process.env.DB_PASSWORD!,
-    database: "dev-mark",
+    password: process.env.DB_PASSWORD,
+    database: 'dev-mark',
     host: "127.0.0.1",
-    dialect: "mysql",
+    dialect: "mysql" as const
   },
   production: {
-    username: "root",
-    password: process.env.DB_PASSWORD!,
-    database: "dev-mark",
-    host: "127.0.0.1",
-    dialect: "mysql",
+    username: 'root',
+    password: process.env.DB_PASSWORD,
+    database: 'dev-mark',
+    host: '127.0.0.1',
+    dialect: 'mysql' as const,
+    logging: false,
   },
 };
-
-export default config;

@@ -1,23 +1,25 @@
-"use strict";
-// import * as passport from "passport";
-// import User from "../models/user";
-// export default () => {
-//   passport.serializeUser((user, done) => {
-//     done(null, user.id);
-//   });
-//   passport.deserializeUser<number>(async (id, done) => {
-//     try {
-//       const user = await User.findOne({
-//         where: { id },
-//       });
-//       if (!user) {
-//         return done(new Error("no user"));
-//       }
-//       return done(null, user);
-//       // req.user
-//     } catch (err) {
-//       console.error(err);
-//       return done(err);
-//     }
-//   });
-// };
+import passport from 'passport';
+import local from './local.js';
+import User from '../models/user';
+export default () => {
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+    passport.deserializeUser((id, done) => {
+        User.findOne({
+            where: { id },
+            include: [{
+                    model: User,
+                    attributes: ['id', 'nick'],
+                    as: 'Followers',
+                }, {
+                    model: User,
+                    attributes: ['id', 'nick'],
+                    as: 'Followings',
+                }],
+        })
+            .then(user => done(null, user))
+            .catch(err => done(err));
+    });
+    local();
+};

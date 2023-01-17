@@ -1,10 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-interface Get {
-  test: string;
-}
+import React, { useState } from "react";
+import Modal from "../utils/Modal";
 
 interface Post {
   email: string;
@@ -13,20 +9,61 @@ interface Post {
   nickname: string;
 }
 
-const RegisterPage = (): JSX.Element => {
-  const RegisterClickHandeler = (e: any) => {
+interface Modal {
+  header: string;
+  message: string;
+  toggle: any;
+}
+
+/* Modal Message Content*/
+let messageContent = "";
+let headerContent = "";
+
+/* Email Check Reg*/
+function email_check(email: string) {
+  var reg =
+    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  return reg.test(email);
+}
+
+const Register = (): JSX.Element => {
+  /* Modal View Toggle */
+  const [viewModal, setViewModal] = useState("");
+
+  /* Register Scripts */
+  const registerClickHandeler = (e: any) => {
     e.preventDefault();
+    /* Email Check */
+    if (!email_check(e.target.Email.value)) {
+      headerContent = "Email ERROR";
+      messageContent = "check your email again";
+      setViewModal("view");
+      return;
+    }
+
+    /* Password Check */
+    if (
+      e.target.Password.value !== "" &&
+      e.target.Password.value !== e.target.ConfirmPassword.value
+    ) {
+      headerContent = "Password ERROR";
+      messageContent = "password do not match";
+      setViewModal("view");
+      return;
+    }
+
+    /* Signup */
     signup(e);
   };
 
+  /* Signup Function */
   const signup = async (e: any) => {
     try {
       await axios
-        .post<Post>("/auth", {
+        .post<Post>("api/user/registration", {
           email: e.target.Email.value,
+          nick: e.target.Nickname.value,
           password: e.target.Password.value,
-          confirmPassword: e.target.ConfirmPassword.value,
-          nickname: e.target.Nickname.value,
         })
         .then((res) => {
           console.log(res);
@@ -43,13 +80,19 @@ const RegisterPage = (): JSX.Element => {
   };
 
   return (
-    // Login wrapper
     <div className="login-wrapper mb-4">
+      {viewModal === "view" ? (
+        <Modal
+          message={messageContent}
+          toggle={setViewModal}
+          header={headerContent}
+        />
+      ) : null}
       {/* Login Container */}
       <div className="login-container">
         {/* Header */}
         <h2 className="login-header">Register</h2>
-        <form onSubmit={RegisterClickHandeler}>
+        <form onSubmit={registerClickHandeler}>
           {/* Email Form */}
           <input
             type="text"
@@ -79,7 +122,7 @@ const RegisterPage = (): JSX.Element => {
             placeholder="Nickname"
           />
           {/* Login Button */}
-          <button type="submit" className="login-button mb-4">
+          <button type="submit" className="login-button mt-2 mb-4">
             Register
           </button>
         </form>
@@ -94,20 +137,10 @@ const RegisterPage = (): JSX.Element => {
         <button className="login-button mb-4">OAuth2</button>
 
         {/* Divider */}
-        <hr className="sidebar-divider my-0 mb-4" />
-
-        {/* Forger Password */}
-        <Link to="/forget" className="guide">
-          Forget password?
-        </Link>
-
-        {/* Register */}
-        <Link to="/login" className="guide">
-          Already have and account
-        </Link>
+        <hr className="sidebar-divider my-0 mb-2" />
       </div>
     </div>
   );
 };
 
-export default RegisterPage;
+export default Register;

@@ -1,26 +1,26 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
-const config = {
+export default {
     development: {
-        username: "root",
+        username: 'root',
         password: process.env.DB_PASSWORD,
-        database: "dev-mark",
-        host: "127.0.0.1",
-        dialect: "mysql",
+        database: 'dev-mark',
+        host: '127.0.0.1',
+        dialect: 'mysql',
     },
     test: {
         username: "root",
         password: process.env.DB_PASSWORD,
-        database: "dev-mark",
+        database: 'dev-mark',
         host: "127.0.0.1",
-        dialect: "mysql",
+        dialect: "mysql"
     },
     production: {
-        username: "root",
+        username: 'root',
         password: process.env.DB_PASSWORD,
-        database: "dev-mark",
-        host: "127.0.0.1",
-        dialect: "mysql",
+        database: 'dev-mark',
+        host: '127.0.0.1',
+        dialect: 'mysql',
+        logging: false,
     },
 };
-export default config;

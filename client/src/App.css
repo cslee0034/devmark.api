@@ -225,7 +225,7 @@
   border-right: none;
 }
 
-/* Login Page */
+/* Auth Page */
 .login-wrapper {
   width: 100%;
 
@@ -289,6 +289,43 @@
 
 .guide {
   text-decoration-line: none;
+}
+
+.account-toggle{
+  color: blue;
+}
+
+/* Modal */
+.modal-background{
+  position: fixed;
+  top: 200px;
+  width: 350px;
+  height: 250px;
+
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+
+  color: white;
+}
+
+.modal-head-container {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 12px;
+}
+
+.modal-header {
+  margin-left: 40px;
+}
+
+.modal-button{
+  margin-right: 40px;
+
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+
+  color: white;
 }
 
 /* Footer */

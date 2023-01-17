@@ -48,15 +48,15 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
       {/* Topbar Navbar */}
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
-        <button className="nav-item position-relative notification">
-          <FontAwesomeIcon icon={faBell} />
-          {props.loggedIn ? (
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              4+
-              <span className="visually-hidden">unread messages</span>
-            </span>
-          ) : null}
-        </button>
+          <button className="nav-item position-relative notification">
+            <FontAwesomeIcon icon={faBell} />
+            {props.loggedIn ? (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                4+
+                <span className="visually-hidden">unread messages</span>
+              </span>
+            ) : null}
+          </button>
 
         {/* BlockBar */}
         <div className="vr m-2"></div>
@@ -101,7 +101,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
         ) : (
           <div className="btn-group username">
             <Link
-              to="/login"
+              to="/auth"
               type="button"
               className="btn data-toggle username-item"
               data-bs-display="static"

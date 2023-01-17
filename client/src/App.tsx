@@ -8,13 +8,12 @@ import Footer from "./components/Footer";
 
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
-import LoginPage from "./views/LoginPage";
-import RegisterPage from "./views/RegisterPage";
 import AboutPage from "./views/AboutPage";
 import SchedulePage from "./views/SchedulePage";
 import TILsPage from "./views/TILsPage";
 import FeedPage from "./views/FeedPage";
 import "./App.css";
+import AuthPage from "./views/AuthPage";
 
 export const UserContext = createContext({
   setLoggedIn: (loggedIn: any): any => {},
@@ -40,7 +39,7 @@ const App = (): JSX.Element => {
 
   const callApi = async () => {
     try {
-      await axios.get<Get>("/api").then((res) => {
+      await axios.get<Get>("/api/test").then((res) => {
         // 응답이 온다고 해서 그냥 두면 안되고 any일 경우 타입 지정해주어야 한다.
         console.log(res.data.test);
       });
@@ -93,8 +92,7 @@ const App = (): JSX.Element => {
                     <Route path="/schedule" element={<SchedulePage />} />
                     <Route path="/tils" element={<TILsPage />} />
                     <Route path="/feed" element={<FeedPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/auth" element={<AuthPage />} />
                   </Routes>
                 </div>
                 {/* End of Page Content */}
