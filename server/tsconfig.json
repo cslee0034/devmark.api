@@ -1,0 +1,13 @@
+{
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "typeRoots": ["./types"],
+    "target": "ES6",
+    "allowSyntheticDefaultImports": true
+  }
+}

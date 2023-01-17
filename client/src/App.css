@@ -125,7 +125,7 @@
   color: #253c59;
 }
 
-.notification{
+.notification {
   border: none;
   background-color: white;
 }
@@ -170,7 +170,7 @@
 .front-page-text {
   position: absolute;
   text-align: center;
-  top: 40%;
+  top: 50%;
   left: 50%;
   width: 100%;
   transform: translate(-50%, -50%);
@@ -181,15 +181,15 @@
 
 /* Bookmark Page */
 
-.none-border-left{
+.none-border-left {
   border-left: none;
 }
-.none-border-both{
+.none-border-both {
   border-left: none;
   border-right: none;
 }
 
-.bookmark-header{
+.bookmark-header {
   text-align: left;
 
   margin-top: 25px;
@@ -203,36 +203,36 @@
   margin-top: 40px;
 }
 
-.card-container{
+.card-container {
   margin-left: 15px;
   margin-right: 15px;
 }
 
-.card-each{
+.card-each {
   height: 290px;
   width: 240px;
 }
 
-.card-img-top{
+.card-img-top {
   height: 220px;
-  
+
   object-fit: cover;
 }
 
 /* TILs Page */
-.btn-center-disable{
+.btn-center-disable {
   border-left: none;
   border-right: none;
 }
 
-/* Login Page */
-.login-wrapper{
+/* Auth Page */
+.login-wrapper {
   width: 100%;
 
   display: flex;
   justify-content: center;
 }
-.login-container{
+.login-container {
   width: 300px;
   margin-top: 30px;
 
@@ -240,17 +240,22 @@
   flex-direction: column;
 }
 
-.login-header{
+.login-header {
   margin-bottom: 30px;
 }
 
-.remember-me{
+.form-control {
+  margin-bottom: 16px;
+}
+
+.remember-me {
   display: flex;
   justify-content: left;
 
   font-size: 14px;
 }
-.remember-me-button{
+
+.remember-me-button {
   margin-right: 6px;
 }
 
@@ -259,6 +264,8 @@
   background-color: white;
   border-color: #253c59;
   color: #253c59;
+
+  width: 100%;
 
   padding-top: 6px;
   padding-bottom: 6px;
@@ -281,9 +288,45 @@
 }
 
 .guide {
-   text-decoration-line: none;
+  text-decoration-line: none;
 }
 
+.account-toggle{
+  color: blue;
+}
+
+/* Modal */
+.modal-background{
+  position: fixed;
+  top: 200px;
+  width: 350px;
+  height: 250px;
+
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+
+  color: white;
+}
+
+.modal-head-container {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 12px;
+}
+
+.modal-header {
+  margin-left: 40px;
+}
+
+.modal-button{
+  margin-right: 40px;
+
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+
+  color: white;
+}
 
 /* Footer */
 .footer-container {
