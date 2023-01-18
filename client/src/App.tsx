@@ -9,11 +9,11 @@ import Footer from "./components/Footer";
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
-import SchedulePage from "./views/SchedulePage";
 import TILsPage from "./views/TILsPage";
 import FeedPage from "./views/FeedPage";
 import "./App.css";
 import AuthPage from "./views/AuthPage";
+import Alarm from "./views/Alarm";
 
 export const UserContext = createContext({
   setLoggedIn: (loggedIn: any): any => {},
@@ -89,7 +89,7 @@ const App = (): JSX.Element => {
                     <Route path="/" element={<FrontPage />} />
                     <Route path="/bookmark" element={<BookmarkPage />} />
                     <Route path="/about" element={<AboutPage />} />
-                    <Route path="/schedule" element={<SchedulePage />} />
+                    <Route path="/Alarm" element={<Alarm />} />
                     <Route path="/tils" element={<TILsPage />} />
                     <Route path="/feed" element={<FeedPage />} />
                     <Route path="/auth" element={<AuthPage />} />

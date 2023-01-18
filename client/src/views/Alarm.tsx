@@ -1,14 +1,14 @@
 import React from "react";
 
-const SchedulePage = (): JSX.Element => {
+const Alarm = (): JSX.Element => {
   return (
     <div className="bookmarkpage-container">
       {/* Header */}
-      <h3 className="bookmark-header">Schedule</h3>
+      <h3 className="bookmark-header">Alarm</h3>
 
       {/* Content */}
     </div>
   );
 };
 
-export default SchedulePage;
+export default Alarm;

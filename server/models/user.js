@@ -1,4 +1,4 @@
-import Sequelize, { Model, } from 'sequelize';
+import Sequelize, { Model, } from "sequelize";
 class User extends Model {
     static initiate(sequelize) {
         User.init({
@@ -21,9 +21,9 @@ class User extends Model {
                 allowNull: true,
             },
             provider: {
-                type: Sequelize.ENUM('local', 'kakao'),
+                type: Sequelize.ENUM("local", "kakao"),
                 allowNull: false,
-                defaultValue: 'local',
+                defaultValue: "local",
             },
             snsId: {
                 type: Sequelize.STRING(30),
@@ -36,24 +36,23 @@ class User extends Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'User',
-            tableName: 'users',
+            modelName: "User",
+            tableName: "users",
             paranoid: true,
-            charset: 'utf8',
-            collate: 'utf8_general_ci',
+            charset: "utf8",
+            collate: "utf8_general_ci",
         });
     }
     static associate() {
-        // User.hasMany(Post);
         User.belongsToMany(User, {
-            foreignKey: 'followingId',
-            as: 'Followers',
-            through: 'Follow',
+            foreignKey: "followingId",
+            as: "Followers",
+            through: "Follow",
         });
         User.belongsToMany(User, {
-            foreignKey: 'followerId',
-            as: 'Followings',
-            through: 'Follow',
+            foreignKey: "followerId",
+            as: "Followings",
+            through: "Follow",
         });
     }
 }

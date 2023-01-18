@@ -1,17 +1,20 @@
 import Sequelize, { Model, } from 'sequelize';
 import User from './user.js';
-import Hashtag from './hashtag.js';
-class Post extends Model {
+class Box extends Model {
     static initiate(sequelize) {
-        Post.init({
+        Box.init({
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            content: {
-                type: Sequelize.STRING(140),
+            box: {
+                type: Sequelize.STRING(15),
                 allowNull: false,
+            },
+            img: {
+                type: Sequelize.STRING(200),
+                allowNull: true,
             },
             createdAt: Sequelize.DATE,
             updatedAt: Sequelize.DATE,
@@ -19,16 +22,15 @@ class Post extends Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Post',
-            tableName: 'posts',
+            modelName: 'Box',
+            tableName: 'boxs',
             paranoid: false,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
         });
     }
     static associate() {
-        Post.belongsTo(User);
-        Post.belongsToMany(Hashtag, { through: 'PostHashtag' });
+        Box.belongsTo(User);
     }
 }
-export default Post;
+export default Box;

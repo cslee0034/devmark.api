@@ -2,12 +2,14 @@
   "ts-node": {
     "files": true
   },
+  "exclude": ["node_modules", "build"],
   "compilerOptions": {
     "strict": true,
     "lib": ["es6"],
     "moduleResolution": "node",
-    "typeRoots": ["./types"],
     "target": "ES6",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "jest"]
   }
 }

@@ -1,17 +1,17 @@
-import Sequelize, { Model, } from 'sequelize';
-import User from './user.js';
-import Hashtag from './hashtag.js';
-class Post extends Model {
+import Sequelize, { Model, } from "sequelize";
+import Bookmark from "./bookmark.js";
+class Alarm extends Model {
     static initiate(sequelize) {
-        Post.init({
+        Alarm.init({
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            content: {
-                type: Sequelize.STRING(140),
+            time: {
+                type: Sequelize.DATE,
                 allowNull: false,
+                unique: true,
             },
             createdAt: Sequelize.DATE,
             updatedAt: Sequelize.DATE,
@@ -19,16 +19,15 @@ class Post extends Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Post',
-            tableName: 'posts',
+            modelName: "Alarm",
+            tableName: "alarms",
             paranoid: false,
-            charset: 'utf8mb4',
-            collate: 'utf8mb4_general_ci',
+            charset: "utf8",
+            collate: "utf8_general_ci",
         });
     }
     static associate() {
-        Post.belongsTo(User);
-        Post.belongsToMany(Hashtag, { through: 'PostHashtag' });
+        Alarm.belongsToMany(Bookmark, { through: "BookmarkAlarm" });
     }
 }
-export default Post;
+export default Alarm;

@@ -46,13 +46,13 @@
   color: #d9b70d;
 }
 
-.sidebar-schedule {
+.sidebar-Alarm {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.sidebar-schedule-container:hover {
+.sidebar-Alarm-container:hover {
   color: #d9b70d;
 }
 
@@ -299,8 +299,8 @@
 .modal-background{
   position: fixed;
   top: 200px;
-  width: 350px;
-  height: 250px;
+  width: 400px;
+  height: 300px;
 
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
@@ -312,7 +312,7 @@
   display: flex;
   justify-content: space-between;
 
-  margin-top: 12px;
+  margin-top: 15px;
 }
 
 .modal-header {
@@ -344,7 +344,7 @@
   .sidebar-bookmark-explain {
     display: none;
   }
-  .sidebar-schedule-explain {
+  .sidebar-Alarm-explain {
     display: none;
   }
   .sidebar-tils-explain {

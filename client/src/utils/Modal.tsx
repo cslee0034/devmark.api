@@ -7,7 +7,6 @@ interface P {
 }
 
 const Modal: FC<P> = (props: P): JSX.Element => {
-  console.log(props);
   return (
     <div className="modal-background">
       <div className="modal-container">
@@ -16,7 +15,7 @@ const Modal: FC<P> = (props: P): JSX.Element => {
 
           <button
             className="modal-button"
-            onClick={() => props.toggle((prev: any) => !prev)}
+            onClick={() => props.toggle((prev: string) => "")}
           >
             X
           </button>

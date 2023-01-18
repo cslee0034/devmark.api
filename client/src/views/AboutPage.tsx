@@ -12,9 +12,9 @@ const AboutPage = (): JSX.Element => {
         <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
         <h1>
-          <mark>Schedule</mark>
+          <mark>Alarm</mark>
         </h1>
-        <h3>use Schedule to manage your day</h3>
+        <h3>use Alarm to manage your day</h3>
 
         <hr className="sidebar-divider my-0 mt-4 mb-4" />
 

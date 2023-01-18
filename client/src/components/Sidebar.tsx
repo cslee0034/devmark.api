@@ -39,13 +39,13 @@ const Slidebar = (): JSX.Element => {
       {/* Divider */}
       <hr className="sidebar-divider my-3" />
 
-      {/* Slidebar - Schedule */}
-      <li className="nav-item my-1 sidebar-schedule-container">
-        <Link to='/schedule' className="nav-link sidebar-schedule">
+      {/* Slidebar - Alarm */}
+      <li className="nav-item my-1 sidebar-Alarm-container">
+        <Link to='/Alarm' className="nav-link sidebar-Alarm">
           <div>
             <FontAwesomeIcon icon={faClock} />
           </div>
-          <div className="sidebar-schedule-explain">&nbsp; Schedule</div>
+          <div className="sidebar-Alarm-explain">&nbsp; Alarm</div>
         </Link>
       </li>
 
