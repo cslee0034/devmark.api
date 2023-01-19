@@ -135,6 +135,7 @@
   flex-wrap: wrap;
 
   border: white;
+  margin-right: 5rem;
 }
 
 .username:hover {
@@ -291,15 +292,18 @@
   text-decoration-line: none;
 }
 
-.account-toggle{
+.account-toggle {
   color: blue;
 }
 
 /* Modal */
-.modal-background{
+
+.modal-container-background {
   position: fixed;
-  top: 200px;
-  width: 400px;
+  top: 30%;
+  left: 56%;
+  transform: translateX(-53%);
+  width: 441px;
   height: 300px;
 
   background-color: rgba(0, 0, 0, 0.8);
@@ -319,13 +323,17 @@
   margin-left: 40px;
 }
 
-.modal-button{
+.modal-button {
   margin-right: 40px;
 
   background-color: rgba(0, 0, 0, 0);
   border: none;
 
   color: white;
+}
+
+.modal-main {
+  margin-left: 10%;
 }
 
 /* Footer */

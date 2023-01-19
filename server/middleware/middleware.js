@@ -4,7 +4,8 @@ const isLoggedIn = (req, res, next) => {
         next();
     }
     else {
-        res.status(401).send("login required");
+        res.send({ Error: "Login required" });
+        return;
     }
 };
 /* isNotLoggedIn */
@@ -13,7 +14,8 @@ const isNotLoggedIn = (req, res, next) => {
         next();
     }
     else {
-        res.status(401).send("cannot approach after login");
+        res.send({ Error: "Already loggedin" });
+        return;
     }
 };
 export { isLoggedIn, isNotLoggedIn };

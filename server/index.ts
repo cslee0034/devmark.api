@@ -1,4 +1,5 @@
 import express from "express";
+import { Request } from "express";
 import morgan from "morgan";
 import expressSession from "express-session";
 import cookieParser from "cookie-parser";
@@ -6,7 +7,9 @@ import dotenv from "dotenv";
 import passport from "passport";
 import hpp from "hpp";
 import helmet from "helmet";
+import cors from "cors";
 
+import passportConfig from "./passport/index.js";
 import { api } from "./routes/route-hub.js";
 import { sequelize } from "./models/index.js";
 
@@ -21,6 +24,9 @@ const prod: boolean = process.env.NODE_ENV === "production";
 
 /* Port */
 app.set("port", prod ? process.env.PORT : 5000);
+
+/* PassportConfig */
+passportConfig();
 
 /* Sequelize */
 sequelize
@@ -41,7 +47,14 @@ if (prod) {
   app.use(morgan("dev"));
 }
 
+/* Cors Option */
+let corsOptions = {
+  origin: process.env.CLIENT_HOST,
+  credentials: true,
+};
+
 /* Middlewares */
+app.use(cors<Request>(corsOptions));
 app.use("/", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -62,6 +75,12 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+/* User info */
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 /* Router */
 app.use("/api", api);

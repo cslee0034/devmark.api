@@ -14,10 +14,12 @@ import FeedPage from "./views/FeedPage";
 import "./App.css";
 import AuthPage from "./views/AuthPage";
 import Alarm from "./views/Alarm";
+import Modal from "./utils/Modal";
 
 export const UserContext = createContext({
-  setLoggedIn: (loggedIn: any): any => {},
+  setLoginContent: (loggedIn: any): any => {},
   setSidebar: (sidebar: any): any => {},
+  setModalContent: (ModalContent: any): any => {},
 });
 
 interface Navbar {
@@ -25,27 +27,46 @@ interface Navbar {
 }
 
 interface Get {
-  test: string;
+  id: any;
+}
+
+interface Modal {
+  header: string;
+  message: string;
+  toggle: any;
 }
 
 const App = (): JSX.Element => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  axios.defaults.withCredentials = true;
+  const [loginContent, setLoginContent] = useState({
+    loggedIn: false,
+    userId: null,
+  });
   const [sidebar, setSidebar] = useState(true);
+  const [ModalContent, setModalContent] = useState({
+    header: "",
+    message: "",
+    toggle: "",
+  });
 
   const value = useMemo(
-    () => ({ setLoggedIn, setSidebar }),
-    [setLoggedIn, setSidebar]
+    () => ({ setLoginContent, setSidebar, setModalContent }),
+    [setLoginContent, setSidebar, setModalContent]
   );
 
-  const callApi = async () => {
+  const loginAPI = async () => {
     try {
-      await axios.get<Get>("/api/test").then((res) => {
-        // 응답이 온다고 해서 그냥 두면 안되고 any일 경우 타입 지정해주어야 한다.
-        console.log(res.data.test);
+      await axios.get<Get>("/api/info").then((res) => {
+        const UserId = res.data.id;
+        if (UserId) {
+          setLoginContent({
+            loggedIn: true,
+            userId: UserId,
+          });
+        }
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // custom typeguard
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
         );
@@ -56,7 +77,7 @@ const App = (): JSX.Element => {
   };
 
   useEffect(() => {
-    callApi();
+    loginAPI();
   }, []);
 
   return (
@@ -75,11 +96,20 @@ const App = (): JSX.Element => {
 
             {/* Content Wrapper */}
             <div id="content-wrapper">
+              {/* Modal */}
+              {ModalContent.toggle === "view" ? (
+                <Modal
+                  header={ModalContent.header}
+                  message={ModalContent.message}
+                  toggle={ModalContent.toggle}
+                />
+              ) : null}
+              {/* End of Modal */}
               {/* Main Content */}
               <div id="content">
                 {/* Navbar Content */}
                 <div id="navbar">
-                  <Navbar loggedIn={loggedIn} />
+                  <Navbar loggedIn={loginContent.loggedIn} />
                 </div>
                 {/* End of Navber Content */}
 

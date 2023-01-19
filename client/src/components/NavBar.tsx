@@ -6,14 +6,39 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../App";
 import { Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
 
 interface P {
   loggedIn: boolean;
 }
 
+interface Post {
+  id: number;
+}
+
 const NavBar: FC<P> = (props: P): JSX.Element => {
   const { setSidebar } = useContext(UserContext);
-  const { setLoggedIn } = useContext(UserContext);
+  const { setLoginContent } = useContext(UserContext);
+
+  const signout = async () => {
+    try {
+      await axios.post<Post>("api/user/logout").then((res) => {
+        setLoginContent({
+          loggedIn: false,
+          userId: null,
+        });
+        window.location.replace("/");
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     // Navbar
@@ -48,15 +73,15 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
       {/* Topbar Navbar */}
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
-          <button className="nav-item position-relative notification">
-            <FontAwesomeIcon icon={faBell} />
-            {props.loggedIn ? (
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                4+
-                <span className="visually-hidden">unread messages</span>
-              </span>
-            ) : null}
-          </button>
+        <button className="nav-item position-relative notification">
+          <FontAwesomeIcon icon={faBell} />
+          {props.loggedIn ? (
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              4+
+              <span className="visually-hidden">unread messages</span>
+            </span>
+          ) : null}
+        </button>
 
         {/* BlockBar */}
         <div className="vr m-2"></div>
@@ -72,7 +97,6 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               aria-expanded="false"
             >
               <div>
-                <span className="namespace">UserName&nbsp;</span>
                 <FontAwesomeIcon icon={faUser} />
               </div>
             </button>
@@ -90,7 +114,9 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               <li>
                 <a
                   className="dropdown-item"
-                  onClick={() => setLoggedIn((prev: any) => !prev)}
+                  onClick={() => {
+                    signout();
+                  }}
                   href="/"
                 >
                   Logout

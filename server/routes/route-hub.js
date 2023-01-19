@@ -1,7 +1,7 @@
 import express from "express";
 export const api = express.Router();
 /* Import route */
-import { test } from "./temp.js";
+import { info } from "./info.js";
 import { user } from "./user.js";
-api.use('/test', test);
+api.use('/info', info);
 api.use('/user', user);

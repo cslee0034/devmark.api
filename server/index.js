@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import passport from "passport";
 import hpp from "hpp";
 import helmet from "helmet";
+import cors from "cors";
+import passportConfig from "./passport/index.js";
 import { api } from "./routes/route-hub.js";
 import { sequelize } from "./models/index.js";
 /* Dotenv */
@@ -16,6 +18,8 @@ const app = express();
 const prod = process.env.NODE_ENV === "production";
 /* Port */
 app.set("port", prod ? process.env.PORT : 5000);
+/* PassportConfig */
+passportConfig();
 /* Sequelize */
 sequelize
     .sync({ force: true })
@@ -34,7 +38,13 @@ if (prod) {
 else {
     app.use(morgan("dev"));
 }
+/* Cors Option */
+let corsOptions = {
+    origin: process.env.CLIENT_HOST,
+    credentials: true,
+};
 /* Middlewares */
+app.use(cors(corsOptions));
 app.use("/", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,6 +63,11 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+/* User info */
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
 /* Router */
 app.use("/api", api);
 /* Listen */
