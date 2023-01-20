@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "jest": {
     "transform": {
       "^.+\\.ts$": "ts-jest"
@@ -22,8 +21,8 @@
     }
   },
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit",
-    "start": "tsc && node index"
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "start": "tsc && node server"
   },
   "author": "cslee0034",
   "license": "MIT",

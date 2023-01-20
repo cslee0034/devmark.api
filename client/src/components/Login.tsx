@@ -27,7 +27,7 @@ const Login = (): JSX.Element => {
   const signin = async (e: any) => {
     try {
       await axios
-        .post<Post>("api/user/login", {
+        .post<Post>("/api/user/login", {
           email: e.target.Email.value,
           password: e.target.Password.value,
         })

@@ -32,7 +32,7 @@ const login: RequestHandler = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.send({ Error: info.message });
+      return res.json({ Error: info.message });
     }
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -47,7 +47,7 @@ const login: RequestHandler = (req, res, next) => {
 /* logout */
 const logout: RequestHandler = (req, res) => {
   req.logout(() => {
-    res.redirect("/");
+    res.status(302).end()
   });
 };
 

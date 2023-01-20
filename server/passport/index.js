@@ -1,16 +1,21 @@
-import passport from "passport";
-import local from "./localStrategy.js";
-import User from "../models/user.js";
-export default () => {
-    passport.serializeUser((user, done) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const passport_1 = __importDefault(require("passport"));
+const localStrategy_js_1 = __importDefault(require("./localStrategy.js"));
+const user_js_1 = __importDefault(require("../models/user.js"));
+exports.default = () => {
+    passport_1.default.serializeUser((user, done) => {
         done(null, user.id);
     });
-    passport.deserializeUser((id, done) => {
-        User.findOne({
+    passport_1.default.deserializeUser((id, done) => {
+        user_js_1.default.findOne({
             where: { id },
         })
             .then((user) => done(null, user))
             .catch((err) => done(err));
     });
-    local();
+    (0, localStrategy_js_1.default)();
 };

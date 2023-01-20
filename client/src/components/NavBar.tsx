@@ -22,7 +22,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const signout = async () => {
     try {
-      await axios.post<Post>("api/user/logout").then((res) => {
+      await axios.post<Post>("/api/user/logout").then((res) => {
         setLoginContent({
           loggedIn: false,
           userId: null,

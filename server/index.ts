@@ -1,4 +1,4 @@
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import { Request } from "express";
 import morgan from "morgan";
 import expressSession from "express-session";
@@ -30,14 +30,13 @@ passportConfig();
 
 /* Sequelize */
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
-  .catch((err: Error) => {
+  .catch((err) => {
     console.error(err);
   });
-
 /* Morgan, Hpp, Helmet */
 if (prod) {
   app.use(hpp());
@@ -85,7 +84,14 @@ app.use((req, res, next) => {
 /* Router */
 app.use("/api", api);
 
-/* Listen */
-app.listen(app.get("port"), () => {
-  console.log(`Listening on port ${app.get("port")}`);
-});
+/* ErrorHandler */
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error(err);
+  res.locals.message = err.message;
+  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
+  res.status(err.status || 500);
+  res.render("error");
+};
+app.use(errorHandler);
+
+export default app;

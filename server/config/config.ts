@@ -13,7 +13,7 @@ export default  {
   test: {
     username: "root",
     password: process.env.DB_PASSWORD,
-    database: 'dev-mark',
+    database: 'dev-mark_test',
     host: "127.0.0.1",
     dialect: "mysql" as const
   },

@@ -5,7 +5,8 @@ const isLoggedIn: RequestHandler = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {
-    res.send({ Error: "Login required" });
+    res.status(403);
+    res.json({ Error: "Login required" });
     return;
   }
 };
@@ -15,7 +16,7 @@ const isNotLoggedIn: RequestHandler = (req, res, next) => {
   if (!req.isAuthenticated()) {
     next();
   } else {
-    res.send({ Error: "Already loggedin" });
+    res.json({ Error: "Already loggedin" });
     return;
   }
 };

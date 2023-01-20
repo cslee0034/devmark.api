@@ -71,7 +71,7 @@ const Register = (): JSX.Element => {
   const signup = async (e: any) => {
     try {
       await axios
-        .post<Post>("api/user/registration", {
+        .post<Post>("/api/user/registration", {
           email: e.target.Email.value,
           nick: e.target.Nickname.value,
           password: e.target.Password.value,
