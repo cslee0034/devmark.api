@@ -16,8 +16,9 @@ const AuthPage = (): JSX.Element => {
           <Login />
           {/* To register */}
           <div className="account-toggle" role="button" onClick={togglePage}>
-          Create Account
+            Create Account
           </div>
+          <div className="mb-5" />
         </>
       );
     } else {
@@ -28,7 +29,7 @@ const AuthPage = (): JSX.Element => {
           <div className="account-toggle" role="button" onClick={togglePage}>
             Already have an account
           </div>
-          <div className="mb-5"/>
+          <div className="mb-5" />
         </>
       );
     }

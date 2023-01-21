@@ -50,7 +50,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
           allowNull: true,
         },
         provider: {
-          type: Sequelize.ENUM("local", "kakao"),
+          type: Sequelize.ENUM("local", "kakao", "github"),
           allowNull: false,
           defaultValue: "local",
         },

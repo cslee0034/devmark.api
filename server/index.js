@@ -27,7 +27,7 @@ app.set("port", prod ? process.env.PORT : 5000);
 (0, index_js_1.default)();
 /* Sequelize */
 index_js_2.sequelize
-    .sync({ force: false })
+    .sync({ force: true })
     .then(() => {
     console.log("데이터베이스 연결 성공");
 })

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 
 /* Post Interface */
@@ -10,6 +11,7 @@ interface Post {
 }
 
 interface Get {
+  Error: any;
   id: number;
   nick: string;
 }
@@ -124,20 +126,24 @@ const Login = (): JSX.Element => {
         <hr className="sidebar-divider my-0 mb-4" />
 
         {/* OAuth1 */}
-        <button className="kakao-container mb-3">
-          <img
-            className="kakao-login"
-            src={`${process.env.PUBLIC_URL}/images/kakao_login.png`}
-          ></img>
-        </button>
+        <a href="http://localhost:5000/api/user/kakao">
+          <button className="kakao-container mb-3">
+            <img
+              className="kakao-login"
+              src={`${process.env.PUBLIC_URL}/images/kakao_login.png`}
+            ></img>
+          </button>
+        </a>
 
         {/* OAuth2 */}
-        <button className="github-container mb-3">
-          <img
-            className="github-login"
-            src={`${process.env.PUBLIC_URL}/images/github_login.png`}
-          ></img>
-        </button>
+        <a href="http://localhost:5000/api/user/github">
+          <button className="github-container mb-3">
+            <img
+              className="github-login"
+              src={`${process.env.PUBLIC_URL}/images/github_login.png`}
+            ></img>
+          </button>
+        </a>
 
         {/* Divider */}
         <hr className="sidebar-divider my-0 mb-2" />

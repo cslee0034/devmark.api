@@ -1,6 +1,6 @@
 import React from "react";
 
-const Alarm = (): JSX.Element => {
+const AlarmPage = (): JSX.Element => {
   return (
     <div className="bookmarkpage-container">
       {/* Header */}
@@ -11,4 +11,4 @@ const Alarm = (): JSX.Element => {
   );
 };
 
-export default Alarm;
+export default AlarmPage;

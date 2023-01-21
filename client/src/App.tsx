@@ -11,10 +11,11 @@ import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
 import TILsPage from "./views/TILsPage";
 import FeedPage from "./views/FeedPage";
-import "./App.css";
 import AuthPage from "./views/AuthPage";
-import Alarm from "./views/Alarm";
 import Modal from "./utils/Modal";
+import AlarmPage from "./views/Alarm";
+import "./App.css";
+import RedirectPage from "./views/RedirectPage";
 
 export const UserContext = createContext({
   setLoginContent: (loggedIn: any): any => {},
@@ -132,10 +133,11 @@ const App = (): JSX.Element => {
                     <Route path="/" element={<FrontPage />} />
                     <Route path="/bookmark" element={<BookmarkPage />} />
                     <Route path="/about" element={<AboutPage />} />
-                    <Route path="/Alarm" element={<Alarm />} />
+                    <Route path="/alarm" element={<AlarmPage />} />
                     <Route path="/tils" element={<TILsPage />} />
                     <Route path="/feed" element={<FeedPage />} />
                     <Route path="/auth" element={<AuthPage />} />
+                    <Route path="/redirect" element={<RedirectPage />} />
                   </Routes>
                 </div>
                 {/* End of Page Content */}

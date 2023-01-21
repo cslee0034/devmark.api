@@ -46,7 +46,7 @@ class User extends sequelize_1.Model {
                 allowNull: true,
             },
             provider: {
-                type: sequelize_1.default.ENUM("local", "kakao"),
+                type: sequelize_1.default.ENUM("local", "kakao", "github"),
                 allowNull: false,
                 defaultValue: "local",
             },
