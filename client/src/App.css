@@ -87,6 +87,9 @@
 }
 
 /* Navbar */
+.navbar-content {
+  height: 73px;
+}
 
 .navbar-search {
   margin-top: 0.5rem;
@@ -313,6 +316,30 @@
   color: blue;
 }
 
+.kakao-container {
+  border: none;
+  padding: 0 0 0 0;
+
+  background-color: white;
+}
+
+.kakao-login {
+  width: 300px;
+  height: 45px;
+}
+
+.github-container {
+  border: none;
+  padding: 0 0 0 0;
+
+  background-color: white;
+}
+
+.github-login {
+  width: 300px;
+  height: 45px;
+}
+
 /* Modal */
 
 .modal-container-background {
@@ -351,6 +378,7 @@
 
 .modal-main {
   margin-left: 10%;
+  margin-right: 10%;
 }
 
 /* Footer */

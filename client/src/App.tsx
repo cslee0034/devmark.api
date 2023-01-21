@@ -55,6 +55,7 @@ const App = (): JSX.Element => {
     [setLoginContent, setSidebar, setModalContent]
   );
 
+  /* Storage Login */
   const StorageLogin = async () => {
     if (window.localStorage.getItem("userId")) {
       try {
@@ -79,6 +80,7 @@ const App = (): JSX.Element => {
     }
   };
 
+  /* 매 렌더링 마다 Login 수행 */
   useEffect(() => {
     if (
       window.localStorage.getItem("userId") ||

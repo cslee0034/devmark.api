@@ -43,7 +43,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   return (
     // Navbar
-    <nav className="navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
+    <nav className="navbar-content navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
       {/* Slidebar Toggle */}
       <button
         type="button"

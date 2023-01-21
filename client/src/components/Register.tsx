@@ -148,15 +148,6 @@ const Register = (): JSX.Element => {
         </form>
 
         {/* Divider */}
-        <hr className="sidebar-divider my-0 mb-4" />
-
-        {/* OAuth1 */}
-        <button className="login-button mb-3">OAuth1</button>
-
-        {/* OAuth2 */}
-        <button className="login-button mb-4">OAuth2</button>
-
-        {/* Divider */}
         <hr className="sidebar-divider my-0 mb-2" />
       </div>
     </div>

@@ -124,10 +124,20 @@ const Login = (): JSX.Element => {
         <hr className="sidebar-divider my-0 mb-4" />
 
         {/* OAuth1 */}
-        <button className="login-button mb-3">OAuth1</button>
+        <button className="kakao-container mb-3">
+          <img
+            className="kakao-login"
+            src={`${process.env.PUBLIC_URL}/images/kakao_login.png`}
+          ></img>
+        </button>
 
         {/* OAuth2 */}
-        <button className="login-button mb-4">OAuth2</button>
+        <button className="github-container mb-3">
+          <img
+            className="github-login"
+            src={`${process.env.PUBLIC_URL}/images/github_login.png`}
+          ></img>
+        </button>
 
         {/* Divider */}
         <hr className="sidebar-divider my-0 mb-2" />
