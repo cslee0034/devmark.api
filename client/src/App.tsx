@@ -40,7 +40,8 @@ const App = (): JSX.Element => {
   axios.defaults.withCredentials = true;
   const [loginContent, setLoginContent] = useState({
     loggedIn: false,
-    userId: null,
+    userId: "",
+    userNick: "",
   });
   const [sidebar, setSidebar] = useState(true);
   const [ModalContent, setModalContent] = useState({
@@ -54,30 +55,37 @@ const App = (): JSX.Element => {
     [setLoginContent, setSidebar, setModalContent]
   );
 
-  const loginAPI = async () => {
-    try {
-      await axios.get<Get>("/api/info").then((res) => {
-        const UserId = res.data.id;
-        if (UserId) {
-          setLoginContent({
-            loggedIn: true,
-            userId: UserId,
-          });
-        }
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
+  const StorageLogin = async () => {
+    if (window.localStorage.getItem("userId")) {
+      try {
+        setLoginContent({
+          loggedIn: true,
+          userId: window.localStorage.getItem("userId")!,
+          userNick: window.localStorage.getItem("userNick")!,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (window.sessionStorage.getItem("userId")) {
+      try {
+        setLoginContent({
+          loggedIn: true,
+          userId: window.sessionStorage.getItem("userId")!,
+          userNick: window.sessionStorage.getItem("userNick")!,
+        });
+      } catch (error) {
         console.error(error);
       }
     }
   };
 
   useEffect(() => {
-    loginAPI();
+    if (
+      window.localStorage.getItem("userId") ||
+      window.sessionStorage.getItem("userId")
+    ) {
+      StorageLogin();
+    }
   }, []);
 
   return (
@@ -109,7 +117,10 @@ const App = (): JSX.Element => {
               <div id="content">
                 {/* Navbar Content */}
                 <div id="navbar">
-                  <Navbar loggedIn={loginContent.loggedIn} />
+                  <Navbar
+                    loggedIn={loginContent.loggedIn}
+                    userNick={loginContent.userNick}
+                  />
                 </div>
                 {/* End of Navber Content */}
 

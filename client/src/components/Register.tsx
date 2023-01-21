@@ -62,6 +62,14 @@ const Register = (): JSX.Element => {
       });
       return;
     }
+    if (e.target.Nickname.value.length > 15) {
+      setModalContent({
+        header: "Nickname ERROR",
+        message: "the maximum number of characters for a nickname is 15",
+        toggle: "view",
+      });
+      return;
+    }
 
     /* Signup */
     signup(e);

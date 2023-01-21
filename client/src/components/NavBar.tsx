@@ -10,6 +10,7 @@ import axios, { AxiosResponse } from "axios";
 
 interface P {
   loggedIn: boolean;
+  userNick: string;
 }
 
 interface Post {
@@ -53,23 +54,6 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
         <FontAwesomeIcon icon={faBars} />
       </button>
 
-      {/* Search */}
-      <nav className="d-sm-inline-block form-inline navbar-search">
-        <div className="container-fluid">
-          <form className="d-flex">
-            <input
-              className="form-control bg-light border-0 small"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-* btn-search" type="submit">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
-          </form>
-        </div>
-      </nav>
-
       {/* Topbar Navbar */}
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
@@ -88,7 +72,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
         {/* Dropdown UserName */}
         {props.loggedIn ? (
-          <div className="btn-group username">
+          <div className="btn-group username-content">
             <button
               type="button"
               className="btn data-toggle username-item"
@@ -96,6 +80,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               data-bs-display="static"
               aria-expanded="false"
             >
+              <div className="username-nick">{props.userNick} &nbsp;</div>
               <div>
                 <FontAwesomeIcon icon={faUser} />
               </div>
@@ -116,6 +101,8 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
                   className="dropdown-item"
                   onClick={() => {
                     signout();
+                    localStorage.clear();
+                    sessionStorage.clear();
                   }}
                   href="/"
                 >
@@ -125,7 +112,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
             </ul>
           </div>
         ) : (
-          <div className="btn-group username">
+          <div className="btn-group username-content">
             <Link
               to="/auth"
               type="button"

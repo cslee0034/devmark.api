@@ -11,16 +11,19 @@ interface Post {
 
 interface Get {
   id: number;
+  nick: string;
 }
 
 const Login = (): JSX.Element => {
   const { setModalContent } = useContext(UserContext);
-  const { setLoginContent } = useContext(UserContext);
 
-  const loginClickHandeler = (e: any) => {
+  const loginClickHandeler = async (e: any) => {
     e.preventDefault();
     /* Signin */
-    signin(e);
+    await signin(e);
+    /* Login */
+    await loginAPI(e);
+    window.location.replace("/");
   };
 
   /* Signin Function */
@@ -38,10 +41,37 @@ const Login = (): JSX.Element => {
               message: res.data.Error,
               toggle: "view",
             });
-          } else {
-            window.location.replace("/");
           }
         });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  /* LoginAPI */
+  const loginAPI = async (e: any) => {
+    try {
+      await axios.get<Get>("/api/info").then((res) => {
+        /* Remember == true일때 localStorage에 저장 */
+        if (e.target.Remember.checked) {
+          const UserId = String(res.data.id);
+          const UserNick = String(res.data.nick);
+          window.localStorage.setItem("userId", UserId);
+          window.localStorage.setItem("userNick", UserNick);
+        } else {
+          /* Remember == false일때 sessionStorage에 저장 */
+          const UserId = String(res.data.id);
+          const UserNick = String(res.data.nick);
+          window.sessionStorage.setItem("userId", UserId);
+          window.sessionStorage.setItem("userNick", UserNick);
+        }
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -80,7 +110,7 @@ const Login = (): JSX.Element => {
               className="form-check-input remember-me-button"
               type="checkbox"
               value=""
-              id="flexCheckDefault"
+              id="Remember"
             />
             <label className="form-check-label">Remember me</label>
           </div>

@@ -106,6 +106,10 @@
   border: none;
 }
 
+.sidebar-toggle:hover {
+  color: #d9b70d;
+}
+
 .btn-search {
   border-color: #253c59;
   color: #253c59;
@@ -130,6 +134,10 @@
   background-color: white;
 }
 
+.notification:hover {
+  color: #d9b70d;
+}
+
 .username-item {
   display: flex;
   flex-wrap: wrap;
@@ -138,8 +146,17 @@
   margin-right: 5rem;
 }
 
-.username:hover {
+.username-content:hover {
   cursor: pointer;
+  color: #d9b70d;
+}
+
+.username-nick {
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #content-wrapper {
