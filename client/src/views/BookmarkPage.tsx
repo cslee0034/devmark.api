@@ -1,10 +1,17 @@
 import React from "react";
+import Scrollback from "../utils/Scrollback";
+import Search from "../utils/Search";
 
 const BookmarkPage = (): JSX.Element => {
   return (
-    <div className="bookmarkpage-container">
+    <div className="mainpage-container">
       {/* Header */}
-      <h3 className="bookmark-header">Bookmark</h3>
+      <h3 className="main-header">
+        <div className="main-header-right">Bookmark</div>
+        <div className="main-header-left">
+          <Search search="" />
+        </div>
+      </h3>
 
       {/* Content */}
       <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
@@ -47,47 +54,17 @@ const BookmarkPage = (): JSX.Element => {
         <div className="col">
           <div className="card h-100">
             <img
-              src={`${process.env.PUBLIC_URL}/images/Node.js.png`}
-              className="card-img-top"
+              src={`${process.env.PUBLIC_URL}/images/add-item.png`}
+              className="card-img-add"
               alt="..."
             />
             <div className="card-body">
-              <h5 className="card-title">#nodejs</h5>
+              <h5 className="card-title">Add Box</h5>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Button */}
-      <div
-        className="btn-toolbar mb-3"
-        role="toolbar"
-        aria-label="Toolbar with button groups"
-      >
-        <div className="btn-group me-2" role="group" aria-label="First group">
-          <button type="button" className="btn btn-outline-secondary">
-            {"<"}
-          </button>
-          <button type="button" className="btn btn-outline-secondary none-border-left">
-            1
-          </button>
-          <button type="button" className="btn btn-outline-secondary none-border-left">
-            2
-          </button>
-          <button type="button" className="btn btn-outline-secondary none-border-left">
-            3
-          </button>
-          <button type="button" className="btn btn-outline-secondary none-border-left">
-            4
-          </button>
-          <button type="button" className="btn btn-outline-secondary none-border-both">
-            5
-          </button>
-          <button type="button" className="btn btn-outline-secondary">
-            {">"}
-          </button>
-        </div>
-      </div>
+      <Scrollback />
     </div>
   );
 };

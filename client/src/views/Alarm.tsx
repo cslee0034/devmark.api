@@ -2,9 +2,9 @@ import React from "react";
 
 const AlarmPage = (): JSX.Element => {
   return (
-    <div className="bookmarkpage-container">
+    <div className="mainpage-container">
       {/* Header */}
-      <h3 className="bookmark-header">Alarm</h3>
+      <h3 className="main-header">Alarm</h3>
 
       {/* Content */}
     </div>

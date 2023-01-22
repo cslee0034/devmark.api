@@ -87,6 +87,7 @@
 }
 
 /* Navbar */
+
 .navbar-content {
   height: 73px;
 }
@@ -110,21 +111,6 @@
 }
 
 .sidebar-toggle:hover {
-  color: #d9b70d;
-}
-
-.btn-search {
-  border-color: #253c59;
-  color: #253c59;
-}
-
-.btn-search:hover {
-  border-color: #d9b70d;
-  color: #d9b70d;
-}
-
-.btn-search:active {
-  border-color: #d9b70d;
   color: #d9b70d;
 }
 
@@ -210,11 +196,12 @@
   border-right: none;
 }
 
-.bookmark-header {
-  text-align: left;
+.main-header {
+  display: flex;
+  justify-content: space-between;
 
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   margin-left: 25px;
 }
 
@@ -238,6 +225,18 @@
   height: 220px;
 
   object-fit: cover;
+}
+
+.card-img-add {
+  height: 220px;
+  padding: 20px 30px 20px 30px;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0.2;
+}
+
+.card-body{
+  background-color: rgba(0, 0, 0, 0.04);;
 }
 
 /* TILs Page */
@@ -379,6 +378,45 @@
 .modal-main {
   margin-left: 10%;
   margin-right: 10%;
+}
+
+/* Search */
+
+.search-flex{
+  margin-right: 30px;
+  display: flex;
+}
+
+.search-form {
+  margin-bottom: 0;
+}
+
+.btn-search {
+  border-color: #253c59;
+  color: #253c59;
+}
+
+.btn-search:hover {
+  border-color: #d9b70d;
+  color: #d9b70d;
+}
+
+.btn-search:active {
+  border-color: #d9b70d;
+  color: #d9b70d;
+}
+
+/* Back to top */
+
+.back-to-top {
+  position: fixed;
+  right: 5%;
+  bottom: 5%;
+  z-index: 999;
+
+  background-color: white;
+
+  border-radius: 20px;
 }
 
 /* Footer */
