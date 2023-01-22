@@ -1,37 +1,62 @@
-import Sequelize, { Model, } from "sequelize";
-class User extends Model {
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = __importStar(require("sequelize"));
+class User extends sequelize_1.Model {
     static initiate(sequelize) {
         User.init({
             id: {
-                type: Sequelize.INTEGER,
+                type: sequelize_1.default.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
             email: {
-                type: Sequelize.STRING(40),
+                type: sequelize_1.default.STRING(40),
                 allowNull: true,
                 unique: true,
             },
             nick: {
-                type: Sequelize.STRING(15),
+                type: sequelize_1.default.STRING(15),
                 allowNull: false,
             },
             password: {
-                type: Sequelize.STRING(100),
+                type: sequelize_1.default.STRING(100),
                 allowNull: true,
             },
             provider: {
-                type: Sequelize.ENUM("local", "kakao"),
+                type: sequelize_1.default.ENUM("local", "kakao", "github"),
                 allowNull: false,
                 defaultValue: "local",
             },
             snsId: {
-                type: Sequelize.STRING(30),
+                type: sequelize_1.default.STRING(30),
                 allowNull: true,
             },
-            createdAt: Sequelize.DATE,
-            updatedAt: Sequelize.DATE,
-            deletedAt: Sequelize.DATE,
+            createdAt: sequelize_1.default.DATE,
+            updatedAt: sequelize_1.default.DATE,
+            deletedAt: sequelize_1.default.DATE,
         }, {
             sequelize,
             timestamps: true,
@@ -56,4 +81,4 @@ class User extends Model {
         });
     }
 }
-export default User;
+exports.default = User;

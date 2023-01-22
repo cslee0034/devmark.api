@@ -6,18 +6,44 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../App";
 import { Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
 
 interface P {
   loggedIn: boolean;
+  userNick: string;
+}
+
+interface Post {
+  id: number;
 }
 
 const NavBar: FC<P> = (props: P): JSX.Element => {
   const { setSidebar } = useContext(UserContext);
-  const { setLoggedIn } = useContext(UserContext);
+  const { setLoginContent } = useContext(UserContext);
+
+  const signout = async () => {
+    try {
+      await axios.post<Post>("/api/user/logout").then((res) => {
+        setLoginContent({
+          loggedIn: false,
+          userId: null,
+        });
+        window.location.replace("/");
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     // Navbar
-    <nav className="navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
+    <nav className="navbar-content navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
       {/* Slidebar Toggle */}
       <button
         type="button"
@@ -28,42 +54,25 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
         <FontAwesomeIcon icon={faBars} />
       </button>
 
-      {/* Search */}
-      <nav className="d-sm-inline-block form-inline navbar-search">
-        <div className="container-fluid">
-          <form className="d-flex">
-            <input
-              className="form-control bg-light border-0 small"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-* btn-search" type="submit">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
-          </form>
-        </div>
-      </nav>
-
       {/* Topbar Navbar */}
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
-          <button className="nav-item position-relative notification">
-            <FontAwesomeIcon icon={faBell} />
-            {props.loggedIn ? (
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                4+
-                <span className="visually-hidden">unread messages</span>
-              </span>
-            ) : null}
-          </button>
+        <button className="nav-item position-relative notification">
+          <FontAwesomeIcon icon={faBell} />
+          {props.loggedIn ? (
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              4+
+              <span className="visually-hidden">unread messages</span>
+            </span>
+          ) : null}
+        </button>
 
         {/* BlockBar */}
         <div className="vr m-2"></div>
 
         {/* Dropdown UserName */}
         {props.loggedIn ? (
-          <div className="btn-group username">
+          <div className="btn-group username-content">
             <button
               type="button"
               className="btn data-toggle username-item"
@@ -71,8 +80,8 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               data-bs-display="static"
               aria-expanded="false"
             >
+              <div className="username-nick">{props.userNick} &nbsp;</div>
               <div>
-                <span className="namespace">UserName&nbsp;</span>
                 <FontAwesomeIcon icon={faUser} />
               </div>
             </button>
@@ -90,7 +99,11 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               <li>
                 <a
                   className="dropdown-item"
-                  onClick={() => setLoggedIn((prev: any) => !prev)}
+                  onClick={() => {
+                    signout();
+                    localStorage.clear();
+                    sessionStorage.clear();
+                  }}
                   href="/"
                 >
                   Logout
@@ -99,7 +112,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
             </ul>
           </div>
         ) : (
-          <div className="btn-group username">
+          <div className="btn-group username-content">
             <Link
               to="/auth"
               type="button"

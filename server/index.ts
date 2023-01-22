@@ -1,4 +1,5 @@
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
+import { Request } from "express";
 import morgan from "morgan";
 import expressSession from "express-session";
 import cookieParser from "cookie-parser";
@@ -6,7 +7,9 @@ import dotenv from "dotenv";
 import passport from "passport";
 import hpp from "hpp";
 import helmet from "helmet";
+import cors from "cors";
 
+import passportConfig from "./passport/index.js";
 import { api } from "./routes/route-hub.js";
 import { sequelize } from "./models/index.js";
 
@@ -22,16 +25,18 @@ const prod: boolean = process.env.NODE_ENV === "production";
 /* Port */
 app.set("port", prod ? process.env.PORT : 5000);
 
+/* PassportConfig */
+passportConfig();
+
 /* Sequelize */
 sequelize
   .sync({ force: true })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
-  .catch((err: Error) => {
+  .catch((err) => {
     console.error(err);
   });
-
 /* Morgan, Hpp, Helmet */
 if (prod) {
   app.use(hpp());
@@ -41,7 +46,14 @@ if (prod) {
   app.use(morgan("dev"));
 }
 
+/* Cors Option */
+let corsOptions = {
+  origin: process.env.CLIENT_HOST,
+  credentials: true,
+};
+
 /* Middlewares */
+app.use(cors<Request>(corsOptions));
 app.use("/", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -63,10 +75,23 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+/* User info */
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 /* Router */
 app.use("/api", api);
 
-/* Listen */
-app.listen(app.get("port"), () => {
-  console.log(`Listening on port ${app.get("port")}`);
-});
+/* ErrorHandler */
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error(err);
+  res.locals.message = err.message;
+  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
+  res.status(err.status || 500);
+  res.render("error");
+};
+app.use(errorHandler);
+
+export default app;

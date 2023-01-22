@@ -2,9 +2,9 @@ import React from "react";
 
 const TILsPage = (): JSX.Element => {
   return (
-    <div className="bookmarkpage-container">
+    <div className="mainpage-container">
       {/* Header */}
-      <h3 className="bookmark-header">TILs</h3>
+      <h3 className="main-header">TILs</h3>
 
       {/* Content */}
       <div className="card tils-card">

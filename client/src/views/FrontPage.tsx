@@ -1,4 +1,5 @@
 import React from "react";
+import Scrollback from "../utils/Scrollback";
 
 const FrontPage = (): JSX.Element => {
   return (
@@ -22,6 +23,7 @@ const FrontPage = (): JSX.Element => {
         className="background-img"
         src={`${process.env.PUBLIC_URL}/images/Frontpage-background.png`}
       ></img>
+      <Scrollback />
     </div>
   );
 };

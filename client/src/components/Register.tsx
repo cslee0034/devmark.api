@@ -1,23 +1,15 @@
 import axios, { AxiosResponse } from "axios";
-import React, { useState } from "react";
-import Modal from "../utils/Modal";
+import React, { useContext } from "react";
+import { UserContext } from "../App";
 
+/* Post Interface */
 interface Post {
+  Error: any;
   email: string;
   password: string;
   confirmPassword: string;
   nickname: string;
 }
-
-interface Modal {
-  header: string;
-  message: string;
-  toggle: any;
-}
-
-/* Modal Message Content*/
-let messageContent = "";
-let headerContent = "";
 
 /* Email Check Reg*/
 function email_check(email: string) {
@@ -28,27 +20,54 @@ function email_check(email: string) {
 
 const Register = (): JSX.Element => {
   /* Modal View Toggle */
-  const [viewModal, setViewModal] = useState("");
+  const { setModalContent } = useContext(UserContext);
 
   /* Register Scripts */
   const registerClickHandeler = (e: any) => {
     e.preventDefault();
+
     /* Email Check */
     if (!email_check(e.target.Email.value)) {
-      headerContent = "Email ERROR";
-      messageContent = "check your email again";
-      setViewModal("view");
+      setModalContent({
+        header: "Email ERROR",
+        message: "check your email again",
+        toggle: "view",
+      });
       return;
     }
 
     /* Password Check */
-    if (
-      e.target.Password.value !== "" &&
-      e.target.Password.value !== e.target.ConfirmPassword.value
-    ) {
-      headerContent = "Password ERROR";
-      messageContent = "password do not match";
-      setViewModal("view");
+    if (e.target.Password.value == "") {
+      setModalContent({
+        header: "Password ERROR",
+        message: "enter password please",
+        toggle: "view",
+      });
+      return;
+    } else if (e.target.Password.value !== e.target.ConfirmPassword.value) {
+      setModalContent({
+        header: "Password ERROR",
+        message: "password do not match",
+        toggle: "view",
+      });
+      return;
+    }
+
+    /* Nickname Check */
+    if (e.target.Nickname.value == "") {
+      setModalContent({
+        header: "Nickname ERROR",
+        message: "enter your nickname please",
+        toggle: "view",
+      });
+      return;
+    }
+    if (e.target.Nickname.value.length > 15) {
+      setModalContent({
+        header: "Nickname ERROR",
+        message: "the maximum number of characters for a nickname is 15",
+        toggle: "view",
+      });
       return;
     }
 
@@ -60,13 +79,21 @@ const Register = (): JSX.Element => {
   const signup = async (e: any) => {
     try {
       await axios
-        .post<Post>("api/user/registration", {
+        .post<Post>("/api/user/registration", {
           email: e.target.Email.value,
           nick: e.target.Nickname.value,
           password: e.target.Password.value,
         })
         .then((res) => {
-          console.log(res);
+          if (res.data.Error) {
+            setModalContent({
+              header: "Register ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          } else {
+            window.location.replace("/auth");
+          }
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -81,13 +108,6 @@ const Register = (): JSX.Element => {
 
   return (
     <div className="login-wrapper mb-4">
-      {viewModal === "view" ? (
-        <Modal
-          message={messageContent}
-          toggle={setViewModal}
-          header={headerContent}
-        />
-      ) : null}
       {/* Login Container */}
       <div className="login-container">
         {/* Header */}
@@ -126,15 +146,6 @@ const Register = (): JSX.Element => {
             Register
           </button>
         </form>
-
-        {/* Divider */}
-        <hr className="sidebar-divider my-0 mb-4" />
-
-        {/* OAuth1 */}
-        <button className="login-button mb-3">OAuth1</button>
-
-        {/* OAuth2 */}
-        <button className="login-button mb-4">OAuth2</button>
 
         {/* Divider */}
         <hr className="sidebar-divider my-0 mb-2" />

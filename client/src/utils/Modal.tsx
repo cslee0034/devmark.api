@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { UserContext } from "../App";
 
 interface P {
   header: string;
@@ -7,15 +8,21 @@ interface P {
 }
 
 const Modal: FC<P> = (props: P): JSX.Element => {
+  const { setModalContent } = useContext(UserContext);
+  
   return (
-    <div className="modal-background">
+    <div className="modal-container-background">
       <div className="modal-container">
         <div className="modal-head-container">
           <div className="modal-header">{props.header}</div>
 
           <button
             className="modal-button"
-            onClick={() => props.toggle((prev: string) => "")}
+            onClick={() => setModalContent({
+              header: "",
+              message: "",
+              toggle: ""
+            })}
           >
             X
           </button>
