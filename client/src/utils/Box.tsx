@@ -1,19 +1,20 @@
-import React from "react";
-import Box from "../utils/Box";
-import Scrollback from "../utils/Scrollback";
-import Search from "../utils/Search";
+import React, { useContext} from "react";
+import { ModalContext} from "../App";
 
-const BookmarkPage = (): JSX.Element => {
+const Box = (): JSX.Element => {
+
+  const { setModalContent } = useContext(ModalContext);
+
+  const AddBox = () => {
+    setModalContent({
+      header: "Edit_Box",
+      toggle: "view",
+    });
+  }
+
+
   return (
-    <div className="mainpage-container">
-      {/* Header */}
-      <h3 className="main-header">
-        <div className="main-header-right">Bookmark</div>
-        <div className="main-header-left">
-          <Search search="" />
-        </div>
-      </h3>
-
+    <>
       {/* Content */}
       <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
         <div className="col">
@@ -53,7 +54,7 @@ const BookmarkPage = (): JSX.Element => {
           </div>
         </div>
         <div className="col">
-          <div className="card h-100">
+          <div className="add-card card h-100" onClick={AddBox}>
             <img
               src={`${process.env.PUBLIC_URL}/images/add-item.png`}
               className="card-img-add"
@@ -65,10 +66,8 @@ const BookmarkPage = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <Box/>
-      <Scrollback />
-    </div>
+    </>
   );
 };
 
-export default BookmarkPage;
+export default Box;

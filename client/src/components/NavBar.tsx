@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "../App";
+import { SidebarContext, UserContext } from "../App";
 import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 
@@ -18,7 +17,7 @@ interface Post {
 }
 
 const NavBar: FC<P> = (props: P): JSX.Element => {
-  const { setSidebar } = useContext(UserContext);
+  const { setSidebar } = useContext(SidebarContext);
   const { setLoginContent } = useContext(UserContext);
 
   const signout = async () => {

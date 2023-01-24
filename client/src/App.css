@@ -235,8 +235,10 @@
   opacity: 0.2;
 }
 
-.card-body{
-  background-color: rgba(0, 0, 0, 0.04);;
+.card-body {
+  background-color: rgba(0, 0, 0, 0.04);
+
+  display: flex;
 }
 
 /* TILs Page */
@@ -348,6 +350,7 @@
   transform: translateX(-53%);
   width: 441px;
   height: 300px;
+  z-index: 999;
 
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
@@ -380,9 +383,14 @@
   margin-right: 10%;
 }
 
+.edit-box {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 /* Search */
 
-.search-flex{
+.search-flex {
   margin-right: 30px;
   display: flex;
 }

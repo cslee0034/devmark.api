@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
 class User extends sequelize_1.Model {
+    // ...
     static initiate(sequelize) {
         User.init({
             id: {
@@ -69,16 +70,6 @@ class User extends sequelize_1.Model {
         });
     }
     static associate() {
-        User.belongsToMany(User, {
-            foreignKey: "followingId",
-            as: "Followers",
-            through: "Follow",
-        });
-        User.belongsToMany(User, {
-            foreignKey: "followerId",
-            as: "Followings",
-            through: "Follow",
-        });
     }
 }
 exports.default = User;

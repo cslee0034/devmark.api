@@ -18,17 +18,20 @@ import "./App.css";
 import RedirectPage from "./views/RedirectPage";
 
 export const UserContext = createContext({
+  loginContent: {},
   setLoginContent: (loggedIn: any): any => {},
+});
+
+export const SidebarContext = createContext({
   setSidebar: (sidebar: any): any => {},
+});
+
+export const ModalContext = createContext({
   setModalContent: (ModalContent: any): any => {},
 });
 
 interface Navbar {
   loggedIn: boolean;
-}
-
-interface Get {
-  id: any;
 }
 
 interface Modal {
@@ -51,10 +54,13 @@ const App = (): JSX.Element => {
     toggle: "",
   });
 
-  const value = useMemo(
-    () => ({ setLoginContent, setSidebar, setModalContent }),
-    [setLoginContent, setSidebar, setModalContent]
+  /* Remember Login, Sideber, Modal Value */
+  const loginMemo = useMemo(
+    () => ({ loginContent, setLoginContent }),
+    [loginContent, setLoginContent]
   );
+  const sidebarMemo = useMemo(() => ({ setSidebar }), [setSidebar]);
+  const modalMemo = useMemo(() => ({ setModalContent }), [setModalContent]);
 
   /* Storage Login */
   const StorageLogin = async () => {
@@ -92,70 +98,74 @@ const App = (): JSX.Element => {
   }, []);
 
   return (
-    <UserContext.Provider value={value}>
-      <BrowserRouter>
-        <div id="page-top">
-          {/* Page Wrapper */}
-          <div id="wrapper">
-            {/* Sidebar */}
-            {sidebar ? (
-              <div id="sidebar">
-                <Slidebar />
-              </div>
-            ) : null}
-            {/* End of Sidebar */}
+    <UserContext.Provider value={loginMemo}>
+      <SidebarContext.Provider value={sidebarMemo}>
+        <ModalContext.Provider value={modalMemo}>
+          <BrowserRouter>
+            <div id="page-top">
+              {/* Page Wrapper */}
+              <div id="wrapper">
+                {/* Sidebar */}
+                {sidebar ? (
+                  <div id="sidebar">
+                    <Slidebar />
+                  </div>
+                ) : null}
+                {/* End of Sidebar */}
 
-            {/* Content Wrapper */}
-            <div id="content-wrapper">
-              {/* Modal */}
-              {ModalContent.toggle === "view" ? (
-                <Modal
-                  header={ModalContent.header}
-                  message={ModalContent.message}
-                  toggle={ModalContent.toggle}
-                />
-              ) : null}
-              {/* End of Modal */}
-              {/* Main Content */}
-              <div id="content">
-                {/* Navbar Content */}
-                <div id="navbar">
-                  <Navbar
-                    loggedIn={loginContent.loggedIn}
-                    userNick={loginContent.userNick}
-                  />
+                {/* Content Wrapper */}
+                <div id="content-wrapper">
+                  {/* Modal */}
+                  {ModalContent.toggle === "view" ? (
+                    <Modal
+                      header={ModalContent.header}
+                      message={ModalContent.message}
+                      toggle={ModalContent.toggle}
+                    />
+                  ) : null}
+                  {/* End of Modal */}
+                  {/* Main Content */}
+                  <div id="content">
+                    {/* Navbar Content */}
+                    <div id="navbar">
+                      <Navbar
+                        loggedIn={loginContent.loggedIn}
+                        userNick={loginContent.userNick}
+                      />
+                    </div>
+                    {/* End of Navber Content */}
+
+                    {/* Begin Page Content */}
+                    <div id="main-page">
+                      <Routes>
+                        <Route path="/" element={<FrontPage />} />
+                        <Route path="/bookmark" element={<BookmarkPage />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/alarm" element={<AlarmPage />} />
+                        <Route path="/tils" element={<TILsPage />} />
+                        <Route path="/feed" element={<FeedPage />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/redirect" element={<RedirectPage />} />
+                      </Routes>
+                    </div>
+                    {/* End of Page Content */}
+                  </div>
+
+                  {/* End of Main Content */}
                 </div>
-                {/* End of Navber Content */}
-
-                {/* Begin Page Content */}
-                <div id="main-page">
-                  <Routes>
-                    <Route path="/" element={<FrontPage />} />
-                    <Route path="/bookmark" element={<BookmarkPage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/alarm" element={<AlarmPage />} />
-                    <Route path="/tils" element={<TILsPage />} />
-                    <Route path="/feed" element={<FeedPage />} />
-                    <Route path="/auth" element={<AuthPage />} />
-                    <Route path="/redirect" element={<RedirectPage />} />
-                  </Routes>
-                </div>
-                {/* End of Page Content */}
+                {/* End of Content Wrapper */}
               </div>
+              {/* Footer */}
+              <div>
+                <Footer />
+              </div>
+              {/* End of Footer */}
 
-              {/* End of Main Content */}
+              {/* End of Page Wrapper */}
             </div>
-            {/* End of Content Wrapper */}
-          </div>
-          {/* Footer */}
-          <div>
-            <Footer />
-          </div>
-          {/* End of Footer */}
-
-          {/* End of Page Wrapper */}
-        </div>
-      </BrowserRouter>
+          </BrowserRouter>
+        </ModalContext.Provider>
+      </SidebarContext.Provider>
     </UserContext.Provider>
   );
 };

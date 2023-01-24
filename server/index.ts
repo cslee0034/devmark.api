@@ -55,6 +55,7 @@ let corsOptions = {
 /* Middlewares */
 app.use(cors<Request>(corsOptions));
 app.use("/", express.static("public"));
+app.use("/img", express.static("uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
