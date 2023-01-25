@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBox = exports.imgUpload = void 0;
+exports.renderBox = exports.createBox = exports.imgUpload = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
-const box_js_1 = __importDefault(require("../models/box.js"));
+const Box_js_1 = __importDefault(require("../models/Box.js"));
+// tsc 변환시 대문자로 바뀌는 문제가 있었음
 const imgUpload = (0, multer_1.default)({
     storage: multer_1.default.diskStorage({
         destination(req, file, cb) {
@@ -33,10 +34,10 @@ const imgUpload = (0, multer_1.default)({
 exports.imgUpload = imgUpload;
 const createBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield box_js_1.default.create({
+        const box = yield Box_js_1.default.create({
             box: req.body.box,
             img: req.body.url,
-            UserId: req.body.userId
+            UserId: req.user.id,
         });
         res.redirect("/");
     }
@@ -46,3 +47,21 @@ const createBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.createBox = createBox;
+/* Render */
+const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const UserId = req.user.id;
+        const userBox = yield Box_js_1.default.findAll({ where: { UserId } });
+        if (!userBox) {
+            return res.end();
+        }
+        else {
+            res.json(userBox);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+exports.renderBox = renderBox;

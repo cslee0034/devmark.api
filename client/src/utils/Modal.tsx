@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { ModalContext, UserContext } from "../App";
 
 interface Post {
@@ -18,16 +18,14 @@ interface P {
 const Modal: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
-  const [imgUrl, setImgUrl] = useState<string>();
-  const userInfo = useContext<any>(UserContext);
 
-  const editBox = async (e: any) => {
+  const EditBox = async (e: any) => {
     e.preventDefault();
 
     /* FormData */
     const formData = new FormData();
     if (file !== undefined) {
-      formData.append("file", file);
+      formData.append("img", file);
     }
     const config = {
       headers: {
@@ -39,14 +37,17 @@ const Modal: FC<P> = (props: P): JSX.Element => {
     await uploadImg(e, formData, config);
 
     /* Create Box */
-    await createBox(e);
+    await createBox(e, imageURL);
+
+    window.location.replace("/bookmark");
   };
 
   /* Image Upload */
+  let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
       await axios.post<Post>("/api/box/img", formData, config).then((res) => {
-        setImgUrl(res.data.url);
+        imageURL = res.data.url;
         if (res.data.Error) {
           setModalContent({
             header: "Edit ERROR",
@@ -67,13 +68,12 @@ const Modal: FC<P> = (props: P): JSX.Element => {
   };
 
   /* Create Box */
-  const createBox = async (e: any) => {
+  const createBox = async (e: any, imgURL: string) => {
     try {
       await axios
         .post<Post>("/api/box/", {
           box: e.target.Box.value,
-          url: imgUrl,
-          userId: userInfo.loginContent.userId,
+          url: imgURL,
         })
         .then((res) => {
           if (res.data.Error) {
@@ -106,7 +106,7 @@ const Modal: FC<P> = (props: P): JSX.Element => {
   function modalMain() {
     if (props.header === "Edit_Box") {
       return (
-        <form className="edit-box" onSubmit={editBox}>
+        <form className="edit-box" onSubmit={EditBox}>
           <input
             type="file"
             className="img-upload mb-3"

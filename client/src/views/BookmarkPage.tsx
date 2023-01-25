@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "../utils/Box";
+import Box from "../components/Box";
 import Scrollback from "../utils/Scrollback";
 import Search from "../utils/Search";
 
@@ -15,6 +15,7 @@ const BookmarkPage = (): JSX.Element => {
       </h3>
 
       {/* Content */}
+      {/* 
       <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
         <div className="col">
           <div className="card h-100">
@@ -65,7 +66,8 @@ const BookmarkPage = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <Box/>
+      */}
+      <Box />
       <Scrollback />
     </div>
   );

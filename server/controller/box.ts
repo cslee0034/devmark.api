@@ -1,7 +1,8 @@
-import express, { RequestHandler } from "express";
+import { RequestHandler } from "express";
 import multer from "multer";
 import path from "path";
-import Box from "../models/box.js";
+import Box from "../models/Box.js";
+// tsc 변환시 대문자로 바뀌는 문제가 있었음
 
 const imgUpload = multer({
   storage: multer.diskStorage({
@@ -23,7 +24,7 @@ const createBox: RequestHandler = async (req, res, next) => {
     const box = await Box.create({
       box: req.body.box,
       img: req.body.url,
-      UserId: req.body.userId
+      UserId: req.user!.id,
     });
     res.redirect("/");
   } catch (error) {
@@ -32,4 +33,20 @@ const createBox: RequestHandler = async (req, res, next) => {
   }
 };
 
-export { imgUpload, createBox };
+/* Render */
+const renderBox: RequestHandler = async (req, res, next) => {
+  try {
+    const UserId = req.user!.id;
+    const userBox = await Box.findAll({ where: { UserId } });
+    if (!userBox) {
+      return res.end();
+    } else {
+      res.json(userBox);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export { imgUpload, createBox, renderBox };
