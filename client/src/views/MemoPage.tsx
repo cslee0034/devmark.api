@@ -1,13 +1,13 @@
 import React from "react";
 
-const TILsPage = (): JSX.Element => {
+const MemoPage = (): JSX.Element => {
   return (
     <div className="mainpage-container">
       {/* Header */}
-      <h3 className="main-header">TILs</h3>
+      <h3 className="main-header">Memo</h3>
 
       {/* Content */}
-      <div className="card tils-card">
+      <div className="card memo-card">
         <div className="card-header">2023-01</div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">05</li>
@@ -41,4 +41,4 @@ const TILsPage = (): JSX.Element => {
   );
 };
 
-export default TILsPage;
+export default MemoPage;

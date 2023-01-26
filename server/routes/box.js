@@ -30,5 +30,8 @@ exports.box.post("/img", middleware_js_1.isLoggedIn, box_js_1.imgUpload.single("
 });
 /* Post /bookmark/api/box */
 exports.box.post("/", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.createBox);
+/* Post /bookmark/api/box/update */
+exports.box.post("/update", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.updateBox, box_js_1.imgDelete);
+exports.box.delete("/delete", middleware_js_1.isLoggedIn, box_js_1.deleteBox, box_js_1.imgDelete);
 /* Get /bookmark/api/box/page */
 exports.box.get("/page", middleware_js_1.isLoggedIn, box_js_1.renderBox);

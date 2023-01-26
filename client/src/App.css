@@ -56,13 +56,13 @@
   color: #d9b70d;
 }
 
-.sidebar-tils {
+.sidebar-memo {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.sidebar-tils-container:hover {
+.sidebar-memo-container:hover {
   color: #d9b70d;
 }
 
@@ -225,6 +225,7 @@
   height: 220px;
 
   object-fit: cover;
+  cursor: pointer;
 }
 
 .card-img-add {
@@ -239,6 +240,54 @@
   background-color: rgba(0, 0, 0, 0.04);
 
   display: flex;
+}
+
+.bookmark-card {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 10px;
+}
+
+.bookmark-card-header {
+  width: 100%;
+  height: 35px;
+  display: flex;
+
+  background-color: #99b4bf;
+  color: white;
+  justify-content: space-around;
+}
+
+.bookmark-card-header-left {
+  margin-left: 10px;
+}
+
+.bookmark-card-header-right {
+  margin-right: 10px;
+}
+
+.bookmark-placeholder{
+  width: 140px;
+}
+
+.bookmark-card-header {
+  display: flex;
+}
+
+.bookmark-menu {
+  background-color: #99b4bf;
+  color: white;
+  border: none;
+  vertical-align: middle;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  margin-left: 2px;
+}
+
+.bookmark-menu:hover {
+  color: #d9b70d;
 }
 
 /* TILs Page */
@@ -446,7 +495,7 @@
   .sidebar-Alarm-explain {
     display: none;
   }
-  .sidebar-tils-explain {
+  .sidebar-memo-explain {
     display: none;
   }
   .sidebar-feed-explain {

@@ -1,6 +1,13 @@
 import express from "express";
 import { isLoggedIn } from "../middleware/middleware.js";
-import { createBox, imgUpload, renderBox } from "../controller/box.js";
+import {
+  createBox,
+  deleteBox,
+  imgDelete,
+  imgUpload,
+  renderBox,
+  updateBox,
+} from "../controller/box.js";
 import fs from "fs";
 
 export const box = express.Router();
@@ -30,6 +37,11 @@ box.post(
 
 /* Post /bookmark/api/box */
 box.post("/", isLoggedIn, imgUpload.none(), createBox);
+
+/* Post /bookmark/api/box/update */
+box.post("/update", isLoggedIn, imgUpload.none(), updateBox, imgDelete);
+
+box.delete("/delete", isLoggedIn, deleteBox, imgDelete);
 
 /* Get /bookmark/api/box/page */
 box.get("/page", isLoggedIn, renderBox);

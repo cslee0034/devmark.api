@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderBox = exports.createBox = exports.imgUpload = void 0;
+exports.deleteBox = exports.updateBox = exports.imgDelete = exports.renderBox = exports.createBox = exports.imgUpload = void 0;
+const fs_1 = __importDefault(require("fs"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const Box_js_1 = __importDefault(require("../models/Box.js"));
@@ -65,3 +66,49 @@ const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.renderBox = renderBox;
+const imgDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.body.d_url) {
+        let url = req.body.d_url;
+        /* 파일 경로 재지정 */
+        url = url.replace("/img/", "./uploads/");
+        try {
+            fs_1.default.unlinkSync(url);
+        }
+        catch (error) {
+            console.error(error);
+            next(error);
+        }
+    }
+    next();
+});
+exports.imgDelete = imgDelete;
+const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const box = yield Box_js_1.default.update({
+            box: req.body.box,
+            img: req.body.url,
+            // UserId: req.user!.id,
+        }, {
+            where: { id: req.body.id },
+        });
+        res.redirect("/");
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+    next();
+});
+exports.updateBox = updateBox;
+const deleteBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const d_id = req.body.id;
+        const box = yield Box_js_1.default.destroy({ where: { id: d_id } });
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+    next();
+});
+exports.deleteBox = deleteBox;

@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import fs from "fs";
 import multer from "multer";
 import path from "path";
 import Box from "../models/Box.js";
@@ -49,4 +50,50 @@ const renderBox: RequestHandler = async (req, res, next) => {
   }
 };
 
-export { imgUpload, createBox, renderBox };
+const imgDelete: RequestHandler = async (req, res, next) => {
+  if (req.body.d_url) {
+    let url = req.body.d_url;
+    /* 파일 경로 재지정 */
+    url = url.replace("/img/", "./uploads/");
+    try {
+      fs.unlinkSync(url);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+  next();
+};
+
+const updateBox: RequestHandler = async (req, res, next) => {
+  try {
+    const box = await Box.update(
+      {
+        box: req.body.box,
+        img: req.body.url,
+        // UserId: req.user!.id,
+      },
+      {
+        where: { id: req.body.id },
+      }
+    );
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+  next();
+};
+
+const deleteBox: RequestHandler = async (req, res, next) => {
+  try {
+    const d_id = req.body.id;
+    const box = await Box.destroy({ where: { id: d_id } });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+  next();
+};
+
+export { imgUpload, createBox, renderBox, imgDelete, updateBox, deleteBox };

@@ -9,13 +9,16 @@ import Footer from "./components/Footer";
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
-import TILsPage from "./views/TILsPage";
 import FeedPage from "./views/FeedPage";
 import AuthPage from "./views/AuthPage";
 import Modal from "./utils/Modal";
 import AlarmPage from "./views/Alarm";
 import "./App.css";
 import RedirectPage from "./views/RedirectPage";
+import CModal from "./utils/CModal";
+import MemoPage from "./views/MemoPage";
+import UModal from "./utils/UModal";
+import DModal from "./utils/DModal";
 
 export const UserContext = createContext({
   loginContent: {},
@@ -38,23 +41,32 @@ interface Modal {
   header: string;
   message: string;
   toggle: any;
+  url: string;
 }
 
 const App = (): JSX.Element => {
+  /* Axios withCredentials */
   axios.defaults.withCredentials = true;
+
+  /* Login Content */
   const [loginContent, setLoginContent] = useState({
     loggedIn: false,
     userId: "",
     userNick: "",
   });
+  /* Sidebar Content */
   const [sidebar, setSidebar] = useState(true);
+
+  /* Modal Content */
   const [ModalContent, setModalContent] = useState({
     header: "",
     message: "",
     toggle: "",
+    url: "",
+    id: "",
   });
 
-  /* Remember Login, Sideber, Modal Value */
+  /* Remember Login, Sideber, Modal Memo */
   const loginMemo = useMemo(
     () => ({ loginContent, setLoginContent }),
     [loginContent, setLoginContent]
@@ -97,6 +109,52 @@ const App = (): JSX.Element => {
     }
   }, []);
 
+  /* CRUD Modal */
+  const renderModal = () => {
+    if (ModalContent.toggle === "") {
+      return;
+    }
+    if (ModalContent.toggle === "view") {
+      return (
+        <Modal
+          header={ModalContent.header}
+          message={ModalContent.message}
+          toggle={ModalContent.toggle}
+        />
+      );
+    }
+    if (ModalContent.toggle === "create") {
+      return (
+        <CModal
+          header={ModalContent.header}
+          message={ModalContent.message}
+          toggle={ModalContent.toggle}
+        />
+      );
+    }
+    if (ModalContent.toggle === "update") {
+      return (
+        <UModal
+          header={ModalContent.header}
+          toggle={ModalContent.toggle}
+          url={ModalContent.url}
+          id={ModalContent.id}
+        />
+      );
+    }
+    if (ModalContent.toggle === "delete") {
+      return (
+        <DModal
+          header={ModalContent.header}
+          message={ModalContent.message}
+          toggle={ModalContent.toggle}
+          url={ModalContent.url}
+          id={ModalContent.id}
+        />
+      );
+    }
+  };
+
   return (
     <UserContext.Provider value={loginMemo}>
       <SidebarContext.Provider value={sidebarMemo}>
@@ -116,14 +174,9 @@ const App = (): JSX.Element => {
                 {/* Content Wrapper */}
                 <div id="content-wrapper">
                   {/* Modal */}
-                  {ModalContent.toggle === "view" ? (
-                    <Modal
-                      header={ModalContent.header}
-                      message={ModalContent.message}
-                      toggle={ModalContent.toggle}
-                    />
-                  ) : null}
+                  {renderModal()}
                   {/* End of Modal */}
+
                   {/* Main Content */}
                   <div id="content">
                     {/* Navbar Content */}
@@ -140,9 +193,13 @@ const App = (): JSX.Element => {
                       <Routes>
                         <Route path="/" element={<FrontPage />} />
                         <Route path="/bookmark" element={<BookmarkPage />} />
+                        <Route
+                          path="/bookmark/:id"
+                          element={<BookmarkPage />}
+                        />
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/alarm" element={<AlarmPage />} />
-                        <Route path="/tils" element={<TILsPage />} />
+                        <Route path="/Memo" element={<MemoPage />} />
                         <Route path="/feed" element={<FeedPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />

@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ModalContext } from "../App";
+import Search from "../utils/Search";
 
 interface Get {
   Error: any;
@@ -13,14 +15,31 @@ interface Get {
 
 const Box = (): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
-
   const [boxs, setBoxs] = useState<string[][]>([]);
 
   /* Modal */
   const addBox = () => {
     setModalContent({
       header: "Edit_Box",
-      toggle: "view",
+      toggle: "create",
+    });
+  };
+
+  const updateBox = (url: string, id: string) => {
+    setModalContent({
+      header: "Modify_Box",
+      toggle: "update",
+      url: url,
+      id: id,
+    });
+  };
+
+  const deleteBox = (url: string, id: string) => {
+    setModalContent({
+      header: "Delete_Box",
+      toggle: "delete",
+      url: url,
+      id: id,
     });
   };
 
@@ -49,7 +68,7 @@ const Box = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchBoxs = async () => {
       try {
         await getBox();
       } catch (e) {
@@ -57,24 +76,61 @@ const Box = (): JSX.Element => {
       }
     };
 
-    fetchUsers();
+    fetchBoxs();
   }, []);
 
   return (
     <>
+      {/* Header */}
+      <h3 className="main-header">
+        <div className="main-header-right">Bookmark</div>
+        <div className="main-header-left">
+          <Search search="" />
+        </div>
+      </h3>
       {boxs ? (
         <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
           {boxs.map((box, index) => (
-            <div className="col">
-              <div className="add-card card h-100" key={index}>
-                <img
-                  src={`http://localhost:5000${box[1]}`}
-                  className="card-img-top"
-                  alt="..."
-                />
-                <div className="card-body">
+            <div className="col" key={index}>
+              <div className="dropup add-card card h-100">
+                <Link to={`/bookmark/${box[0]}`}>
+                  <img
+                    src={`http://localhost:5000${box[1]}`}
+                    className="card-img-top"
+                    alt="..."
+                  />
+                </Link>
+
+                <button
+                  className="btn data-toggle card-body"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   <h5 className="card-title">#{box[0]}</h5>
-                </div>
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        updateBox(box[1], box[2]);
+                      }}
+                    >
+                      Modify
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        deleteBox(box[1], box[2]);
+                      }}
+                    >
+                      Delete
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           ))}

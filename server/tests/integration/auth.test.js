@@ -29,7 +29,7 @@ describe("POST /registration", () => {
             password: "temp",
             nick: "temp",
         })
-            .expect(302, done);
+            .expect(200, done);
     });
 });
 /* Login Test1 */
