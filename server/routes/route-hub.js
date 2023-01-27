@@ -10,6 +10,8 @@ exports.api = express_1.default.Router();
 const info_js_1 = require("./info.js");
 const user_js_1 = require("./user.js");
 const box_js_1 = require("./box.js");
+const content_js_1 = require("./content.js");
 exports.api.use("/info", info_js_1.info);
 exports.api.use("/user", user_js_1.user);
 exports.api.use("/box", box_js_1.box);
+exports.api.use("/content", content_js_1.content);

@@ -67,6 +67,7 @@ const Box = (): JSX.Element => {
     }
   };
 
+  /* Fetching Data */
   useEffect(() => {
     const fetchBoxs = async () => {
       try {
@@ -93,12 +94,20 @@ const Box = (): JSX.Element => {
           {boxs.map((box, index) => (
             <div className="col" key={index}>
               <div className="dropup add-card card h-100">
-                <Link to={`/bookmark/${box[0]}`}>
-                  <img
-                    src={`http://localhost:5000${box[1]}`}
-                    className="card-img-top"
-                    alt="..."
-                  />
+                <Link to={`/bookmark/${box[2]}`}>
+                  {box[1] === "/img/undefined" ? (
+                    <img
+                      src={`http://localhost:5000/img/default.png`}
+                      className="card-img-top"
+                      alt="..."
+                    />
+                  ) : (
+                    <img
+                      src={`http://localhost:5000${box[1]}`}
+                      className="card-img-top"
+                      alt="..."
+                    />
+                  )}
                 </Link>
 
                 <button

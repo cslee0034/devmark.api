@@ -13,15 +13,92 @@ interface P {
   header: string;
   message: string;
   toggle: any;
+  id: string;
 }
 
 const CModal: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
 
+  /* Bookmark Create */
+  const BookmarkCreate = async (e: any) => {
+    e.preventDefault();
+
+    /* Bookmark Name Check */
+    if (!e.target.BookmarkName.value) {
+      setModalContent({
+        header: "Bookmark Name",
+        message: "You must enter bookmark name",
+        toggle: "view",
+      });
+      return;
+    }
+    if (e.target.BookmarkName.value.length > 15) {
+      setModalContent({
+        header: "Bookmark Name",
+        message: "the maximum number of characters for a bookmark is 15",
+        toggle: "view",
+      });
+      return;
+    }
+
+    /* Bookmark URL Check */
+    if (!e.target.BookmarkURL.value) {
+      setModalContent({
+        header: "Bookmark URL",
+        message: "You must enter bookmark URL",
+        toggle: "view",
+      });
+      return;
+    }
+
+    /* Create Bookmark */
+    createBookmark(e, props.id);
+
+    /* Reload */
+    window.location.reload();
+  };
+
+  /* Create Bookmark */
+  const createBookmark = async (e: any, boxId: string) => {
+    try {
+      await axios
+        .post<Post>("/api/content", {
+          bookmarkName: e.target.BookmarkName.value,
+          bookmarkURL: e.target.BookmarkURL.value,
+        })
+        .then((res) => {
+          if (res.data.Error) {
+            setModalContent({
+              header: "Edit ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          }
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
   /* Box Edit */
   const BoxCreate = async (e: any) => {
     e.preventDefault();
+
+    if (e.target.Box.value.length > 15) {
+      setModalContent({
+        header: "Box Name",
+        message: "the maximum number of characters for a bookmark box is 15",
+        toggle: "view",
+      });
+      return;
+    }
 
     /* FormData */
     const formData = new FormData();
@@ -40,7 +117,8 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     /* Create Box */
     await createBox(e, imageURL);
 
-    window.location.replace("/bookmark");
+    /* Reload */
+    window.location.reload();
   };
 
   /* Image Upload */
@@ -127,8 +205,26 @@ const CModal: FC<P> = (props: P): JSX.Element => {
           </button>
         </form>
       );
-    } else {
-      return <div className="modal-main">{props.message}</div>;
+    } else if (props.header === "Edit_Bookmark") {
+      return (
+        <form className="edit-box" onSubmit={BookmarkCreate}>
+          <input
+            type="text"
+            className="form-control"
+            id="BookmarkName"
+            placeholder="Bookmark Name"
+          />
+          <input
+            type="text"
+            className="form-control"
+            id="BookmarkURL"
+            placeholder="URL"
+          />
+          <button type="submit" className="login-button">
+            Edit
+          </button>
+        </form>
+      );
     }
   };
 

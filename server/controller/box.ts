@@ -51,6 +51,10 @@ const renderBox: RequestHandler = async (req, res, next) => {
 };
 
 const imgDelete: RequestHandler = async (req, res, next) => {
+  if (req.body.d_url === "/img/default") {
+    /* default 이미지라면 지우지 않는다 */
+    next();
+  }
   if (req.body.d_url) {
     let url = req.body.d_url;
     /* 파일 경로 재지정 */
@@ -71,7 +75,6 @@ const updateBox: RequestHandler = async (req, res, next) => {
       {
         box: req.body.box,
         img: req.body.url,
-        // UserId: req.user!.id,
       },
       {
         where: { id: req.body.id },

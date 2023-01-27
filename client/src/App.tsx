@@ -129,6 +129,7 @@ const App = (): JSX.Element => {
           header={ModalContent.header}
           message={ModalContent.message}
           toggle={ModalContent.toggle}
+          id={ModalContent.id}
         />
       );
     }

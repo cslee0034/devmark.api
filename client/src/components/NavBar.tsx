@@ -71,7 +71,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
         {/* Dropdown UserName */}
         {props.loggedIn ? (
-          <div className="btn-group username-content">
+          <div className="dropstart btn-group username-content">
             <button
               type="button"
               className="btn data-toggle username-item"
@@ -88,11 +88,6 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               <li>
                 <Link to="/profile" className="dropdown-item">
                   Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile" className="dropdown-item">
-                  Setting
                 </Link>
               </li>
               <li>

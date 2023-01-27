@@ -41,6 +41,7 @@ box.post("/", isLoggedIn, imgUpload.none(), createBox);
 /* Post /bookmark/api/box/update */
 box.post("/update", isLoggedIn, imgUpload.none(), updateBox, imgDelete);
 
+/* Delete /bookmark/api/box/delete */
 box.delete("/delete", isLoggedIn, deleteBox, imgDelete);
 
 /* Get /bookmark/api/box/page */

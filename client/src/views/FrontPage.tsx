@@ -10,6 +10,7 @@ const FrontPage = (): JSX.Element => {
         </h1>
         <h4>
           <br />
+          <br />
           Dev-Mark helps you organize your bookmarks
           <br />
           <br />

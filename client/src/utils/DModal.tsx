@@ -24,8 +24,18 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     /* Delete Box */
     deleteBox(props.url, props.id);
 
-    /* Redirect */
-    window.location.replace("/bookmark");
+    /* Reload */
+    window.location.reload();
+  };
+
+  const contentDelete = (e: any) => {
+    e.preventDefault();
+
+    /* Delete Box */
+    deleteContent(props.id);
+
+    /* Reload */
+    window.location.reload();
   };
 
   /* Delete Box */
@@ -57,33 +67,73 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       }
     }
   };
-  return (
-    <div className="modal-container-background">
-      <div className="modal-container">
-        <div className="modal-head-container">
-          <div className="modal-header">{props.header}</div>
 
-          <button
-            className="modal-button"
-            onClick={() =>
-              setModalContent({
-                header: "",
-                message: "",
-                toggle: "",
-              })
-            }
-          >
-            X
-          </button>
+  /* Delete Content */
+  const deleteContent = async (contentId: string) => {
+    try {
+      await axios
+        .delete<Delete>("/api/content/delete", {
+          data: {
+            id: contentId,
+          },
+        })
+        .then((res) => {
+          if (res.data.Error) {
+            setModalContent({
+              header: "Edit ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          }
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const DeleteButton = () => {
+    if(props.header === "Delete_Box") {
+      return <button onClick={boxDelete}>Yes</button>
+    }
+    if(props.header === "Delete_Content") {
+      return <button onClick={contentDelete}>Yes</button>
+    }
+  }
+  return (
+    <>
+      <div className="modal-container-background">
+        <div className="modal-container">
+          <div className="modal-head-container">
+            <div className="modal-header">{props.header}</div>
+
+            <button
+              className="modal-button"
+              onClick={() =>
+                setModalContent({
+                  header: "",
+                  message: "",
+                  toggle: "",
+                })
+              }
+            >
+              X
+            </button>
+          </div>
+          <hr className="sidebar-divider my-0 mt-3 mb-5" />
+          <div className="modal-main">
+            Are you sure to delete? &nbsp;
+            {DeleteButton()}
+          </div>
+          ;
         </div>
-        <hr className="sidebar-divider my-0 mt-3 mb-5" />
-        <div className="modal-main">
-          Are you sure to delete? &nbsp;
-          <button onClick={boxDelete}>Yes</button>
-        </div>
-        ;
       </div>
-    </div>
+    </>
   );
 };
 

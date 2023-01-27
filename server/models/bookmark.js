@@ -37,6 +37,10 @@ class Bookmark extends sequelize_1.Model {
                 primaryKey: true,
                 autoIncrement: true,
             },
+            contentName: {
+                type: sequelize_1.default.STRING(15),
+                allowNull: false,
+            },
             URL: {
                 // URL 최대길이: 2083
                 type: sequelize_1.default.STRING(2083),

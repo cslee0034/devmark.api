@@ -5,31 +5,31 @@ const AboutPage = (): JSX.Element => {
   return (
     <div className="frontpage-container">
       <div className="front-page-text mt-1">
-        <h1>
+        <h2>
           <mark>Bookmark</mark>
-        </h1>
-        <h3>use Bookmark to organize your bookmarks</h3>
+        </h2>
+        <h4>use Bookmark to organize your bookmarks</h4>
 
         <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
-        <h1>
+        <h2>
           <mark>Alarm</mark>
-        </h1>
-        <h3>use Alarm to manage your day</h3>
+        </h2>
+        <h4>use Alarm to manage your day</h4>
 
         <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
-        <h1>
+        <h2>
           <mark>TILs</mark>
-        </h1>
-        <h3>use TILs to record your daily leaning</h3>
+        </h2>
+        <h4>use TILs to record your daily leaning</h4>
 
         <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
-        <h1>
+        <h2>
           <mark>Feed</mark>
-        </h1>
-        <h3>use Feed to share your experience</h3>
+        </h2>
+        <h4>use Feed to share your experience</h4>
       </div>
       <img
         className="background-img"

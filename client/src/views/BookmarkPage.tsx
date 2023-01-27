@@ -10,7 +10,7 @@ const BookmarkPage = (): JSX.Element => {
 
   const mainContent = () => {
     if (id) {
-      return <BoxContent />;
+      return <BoxContent boxId={id}/>;
     }
     return <Box />;
   };

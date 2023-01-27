@@ -89,9 +89,10 @@ describe("POST /login", () => {
 /* Logout Test */
 describe("GET /logout", () => {
   it("unloggedin", (done) => {
-    request(app).post("/api/user/logout")
-    .expect(403, { Error: "Login required" })
-    .end(done);
+    request(app)
+      .post("/api/user/logout")
+      .expect(403, { Error: "Login required" })
+      .end(done);
     // proxy로 분리되어 있기 때문에 redirect url 만들어주지 않고
     // 모달창으로 에러 메시지 전달
     // status = 403, { Error: "Login required" } 반환하고 종료
@@ -109,12 +110,75 @@ describe("GET /logout", () => {
   });
 
   it("logout", (done) => {
-    agent.post("/api/user/logout")
-    .expect(302)
-    // 302코드 전달 이후 end()
-    .end(done);
+    agent
+      .post("/api/user/logout")
+      .expect(302)
+      // 302코드 전달 이후 end()
+      .end(done);
   });
 });
+
+/* Box Create */
+describe("POST /login", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  it("POST /box", (done) => {
+    agent
+      .post("/api/box")
+      .send({
+        box: "temp_box",
+        img: "/img/default",
+        UserId: 1,
+      })
+      .expect(302, done);
+  });
+});
+
+/* Box */
+/*
+describe("POST /login", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  it("POST /box", (done) => {
+    agent
+      .post("/api/box")
+      .send({
+        box: "temp_box",
+        img: "/img/default",
+        UserId: 1,
+      })
+      .expect(302, done);
+  });
+
+  it("Delete /box/delete", (done) => {
+    agent
+      .delete("/api/box/delete")
+      .send({
+        img: "/img/default",
+        id: 1,
+      })
+      .expect(302, done);
+  });
+});
+*/
 
 afterAll(async () => {
   await sequelize.sync({ force: true });

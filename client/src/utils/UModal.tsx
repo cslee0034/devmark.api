@@ -24,7 +24,6 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   /* Box Edit */
   const BoxUpdate = async (e: any) => {
     e.preventDefault();
-    console.log(props.url);
 
     /* FormData */
     const formData = new FormData();
@@ -45,9 +44,18 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       await updateBox(e, props.url, props.id, "");
     }
 
-    // /* Create Box */
+    /* Reload */
+    window.location.reload();
+  };
 
-    window.location.replace("/bookmark");
+  /* Content Update */
+  const ContentUpdate = async (e: any) => {
+    e.preventDefault();
+
+    await updateContent(e, props.id);
+
+    /* Reload */
+    window.location.reload();
   };
 
   /* Image Upload */
@@ -110,6 +118,35 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  /* Update Content */
+  const updateContent = async (e: any, contentId: string) => {
+    try {
+      await axios
+        .post<Post>("/api/content/update", {
+          bookmarkName: e.target.BookmarkName.value,
+          bookmarkURL: e.target.BookmarkURL.value,
+          id: contentId,
+        })
+        .then((res) => {
+          if (res.data.Error) {
+            setModalContent({
+              header: "Edit ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          }
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
   /* Handle Image File */
   const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget;
@@ -141,8 +178,26 @@ const UModal: FC<P> = (props: P): JSX.Element => {
           </button>
         </form>
       );
-    } else {
-      return <div className="modal-main"></div>;
+    } else if (props.header === "Update_Content") {
+      return (
+        <form className="edit-box" onSubmit={ContentUpdate}>
+          <input
+            type="text"
+            className="form-control"
+            id="BookmarkName"
+            placeholder="Bookmark Name"
+          />
+          <input
+            type="text"
+            className="form-control"
+            id="BookmarkURL"
+            placeholder="URL"
+          />
+          <button type="submit" className="login-button">
+            Edit
+          </button>
+        </form>
+      );
     }
   };
 

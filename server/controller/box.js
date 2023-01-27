@@ -67,6 +67,10 @@ const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 });
 exports.renderBox = renderBox;
 const imgDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.body.d_url === "/img/default") {
+        /* default 이미지라면 지우지 않는다 */
+        next();
+    }
     if (req.body.d_url) {
         let url = req.body.d_url;
         /* 파일 경로 재지정 */
@@ -87,7 +91,6 @@ const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const box = yield Box_js_1.default.update({
             box: req.body.box,
             img: req.body.url,
-            // UserId: req.user!.id,
         }, {
             where: { id: req.body.id },
         });
