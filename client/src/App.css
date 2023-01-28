@@ -471,6 +471,19 @@
   color: #d9b70d;
 }
 
+/* Memo */
+.edit-form {
+  margin: 8vw 10vw 8vw 10vw;
+}
+
+#Text {
+  min-height: 15rem;
+}
+
+.datapicker{
+  margin-bottom: 20px;
+}
+
 /* Back to top */
 
 .back-to-top {
