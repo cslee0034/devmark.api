@@ -23,10 +23,6 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare deletedAt: CreationOptional<Date>;
   // ...
 
-  /* Association options */
-  declare Followers?: NonAttribute<User[]>;
-  declare Followings?: NonAttribute<User[]>;
-  declare addFollowing: BelongsToManyAddAssociationMixin<User, number>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
@@ -76,16 +72,6 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   }
 
   static associate() {
-    User.belongsToMany(User, {
-      foreignKey: "followingId",
-      as: "Followers",
-      through: "Follow",
-    });
-    User.belongsToMany(User, {
-      foreignKey: "followerId",
-      as: "Followings",
-      through: "Follow",
-    });
   }
 }
 

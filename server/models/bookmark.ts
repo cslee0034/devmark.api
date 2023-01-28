@@ -13,6 +13,7 @@ class Bookmark extends Model<
   InferCreationAttributes<Bookmark>
 > {
   declare id: CreationOptional<number>;
+  declare contentName: string;
   declare URL: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -27,11 +28,16 @@ class Bookmark extends Model<
           primaryKey: true,
           autoIncrement: true,
         },
+        contentName: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+        },
         URL: {
           // URL 최대길이: 2083
           type: Sequelize.STRING(2083),
           allowNull: false,
         },
+
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
       },

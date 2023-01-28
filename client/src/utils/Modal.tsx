@@ -1,5 +1,6 @@
 import React, { FC, useContext } from "react";
-import { UserContext } from "../App";
+import { ModalContext } from "../App";
+
 
 interface P {
   header: string;
@@ -8,8 +9,8 @@ interface P {
 }
 
 const Modal: FC<P> = (props: P): JSX.Element => {
-  const { setModalContent } = useContext(UserContext);
-  
+  const { setModalContent } = useContext(ModalContext);
+
   return (
     <div className="modal-container-background">
       <div className="modal-container">
@@ -18,11 +19,13 @@ const Modal: FC<P> = (props: P): JSX.Element => {
 
           <button
             className="modal-button"
-            onClick={() => setModalContent({
-              header: "",
-              message: "",
-              toggle: ""
-            })}
+            onClick={() =>
+              setModalContent({
+                header: "",
+                message: "",
+                toggle: "",
+              })
+            }
           >
             X
           </button>
@@ -30,7 +33,7 @@ const Modal: FC<P> = (props: P): JSX.Element => {
 
         <hr className="sidebar-divider my-0 mt-3 mb-5" />
 
-        <div className="modal-main">{props.message}</div>
+        <div className="modal-main">{props.message}</div>;
       </div>
     </div>
   );

@@ -49,13 +49,13 @@ const Slidebar = (): JSX.Element => {
         </Link>
       </li>
 
-      {/* Slidebar - TILs */}
-      <li className="nav-item my-1 sidebar-tils-container">
-        <Link to='/tils' className="nav-link sidebar-tils">
+      {/* Slidebar - Memo */}
+      <li className="nav-item my-1 sidebar-memo-container">
+        <Link to='/memo' className="nav-link sidebar-memo">
           <div>
             <FontAwesomeIcon icon={faEdit} />
           </div>
-          <div className="sidebar-tils-explain">&nbsp; TILs</div>
+          <div className="sidebar-memo-explain">&nbsp; Memo</div>
         </Link>
       </li>
 

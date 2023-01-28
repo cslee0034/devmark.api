@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
 const bookmark_js_1 = __importDefault(require("./bookmark.js"));
+const user_js_1 = __importDefault(require("./user.js"));
 class Alarm extends sequelize_1.Model {
     static initiate(sequelize) {
         Alarm.init({
@@ -40,6 +41,10 @@ class Alarm extends sequelize_1.Model {
                 type: sequelize_1.default.DATE,
                 allowNull: false,
                 unique: true,
+            },
+            alarmName: {
+                type: sequelize_1.default.STRING(15),
+                allowNull: false,
             },
             createdAt: sequelize_1.default.DATE,
             updatedAt: sequelize_1.default.DATE,
@@ -55,6 +60,7 @@ class Alarm extends sequelize_1.Model {
         });
     }
     static associate() {
+        Alarm.belongsTo(user_js_1.default);
         Alarm.belongsToMany(bookmark_js_1.default, { through: "BookmarkAlarm" });
     }
 }

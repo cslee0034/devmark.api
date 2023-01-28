@@ -27,7 +27,7 @@ app.set("port", prod ? process.env.PORT : 5000);
 (0, index_js_1.default)();
 /* Sequelize */
 index_js_2.sequelize
-    .sync({ force: true })
+    .sync({ force: false })
     .then(() => {
     console.log("데이터베이스 연결 성공");
 })
@@ -51,6 +51,7 @@ let corsOptions = {
 /* Middlewares */
 app.use((0, cors_1.default)(corsOptions));
 app.use("/", express_1.default.static("public"));
+app.use("/img", express_1.default.static("uploads"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(process.env.COOKIE_SECRET));

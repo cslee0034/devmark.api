@@ -11,7 +11,7 @@
 /* Sidebar */
 
 #sidebar {
-  width: 16rem;
+  width: 25vw;
   min-height: 40rem;
 
   justify-content: center;
@@ -56,13 +56,13 @@
   color: #d9b70d;
 }
 
-.sidebar-tils {
+.sidebar-memo {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.sidebar-tils-container:hover {
+.sidebar-memo-container:hover {
   color: #d9b70d;
 }
 
@@ -127,15 +127,18 @@
   color: #d9b70d;
 }
 
+.user-container {
+  align-items: center;
+}
+
 .username-item {
   display: flex;
   flex-wrap: wrap;
 
   border: white;
-  margin-right: 5rem;
 }
 
-.username-content:hover {
+.username-item:hover {
   cursor: pointer;
   color: #d9b70d;
 }
@@ -161,8 +164,12 @@
 }
 
 .frontpage-container {
-  width: 100%;
+  width: 75vw;
   position: relative;
+}
+
+.front-page-text {
+  height: 50vw;
 }
 
 .background-img {
@@ -216,15 +223,11 @@
   margin-right: 15px;
 }
 
-.card-each {
-  height: 290px;
-  width: 240px;
-}
-
 .card-img-top {
   height: 220px;
 
   object-fit: cover;
+  cursor: pointer;
 }
 
 .card-img-add {
@@ -235,8 +238,64 @@
   opacity: 0.2;
 }
 
-.card-body{
-  background-color: rgba(0, 0, 0, 0.04);;
+.card-body {
+  background-color: rgba(0, 0, 0, 0.04);
+
+  display: flex;
+}
+
+.bookmark-card {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 10px;
+}
+
+.bookmark-card-header {
+  width: 100%;
+  height: 35px;
+  display: flex;
+
+  background-color: #99b4bf;
+  color: white;
+}
+
+.bookmark-card-header-left {
+  margin-left: 10px;
+  width: 50%;
+}
+
+.bookmark-card-header-right {
+  margin-right: 10px;
+  display: flex;
+  width: 50%;
+
+  justify-content: center;
+}
+
+.bookmark-placeholder {
+  width: 140px;
+}
+
+.bookmark-card-header {
+  display: flex;
+}
+
+.bookmark-menu {
+  background-color: #99b4bf;
+  color: white;
+  border: none;
+  vertical-align: middle;
+  align-items: center;
+  height: 100%;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  margin-left: 2px;
+}
+
+.bookmark-menu:hover {
+  color: #d9b70d;
 }
 
 /* TILs Page */
@@ -348,6 +407,7 @@
   transform: translateX(-53%);
   width: 441px;
   height: 300px;
+  z-index: 999;
 
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
@@ -380,9 +440,14 @@
   margin-right: 10%;
 }
 
+.edit-box {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 /* Search */
 
-.search-flex{
+.search-flex {
   margin-right: 30px;
   display: flex;
 }
@@ -404,6 +469,19 @@
 .btn-search:active {
   border-color: #d9b70d;
   color: #d9b70d;
+}
+
+/* Memo */
+.edit-form {
+  margin: 8vw 10vw 8vw 10vw;
+}
+
+#Text {
+  min-height: 15rem;
+}
+
+.datapicker{
+  margin-bottom: 20px;
 }
 
 /* Back to top */
@@ -438,13 +516,16 @@
   .sidebar-Alarm-explain {
     display: none;
   }
-  .sidebar-tils-explain {
+  .sidebar-memo-explain {
     display: none;
   }
   .sidebar-feed-explain {
     display: none;
   }
   .sidebar-about-explain {
+    display: none;
+  }
+  .username-nick {
     display: none;
   }
 }

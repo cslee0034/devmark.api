@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { UserContext } from "../App";
+import { ModalContext } from "../App";
 
 /* Post Interface */
 interface Post {
@@ -17,7 +16,7 @@ interface Get {
 }
 
 const Login = (): JSX.Element => {
-  const { setModalContent } = useContext(UserContext);
+  const { setModalContent } = useContext(ModalContext);
 
   const loginClickHandeler = async (e: any) => {
     e.preventDefault();
@@ -25,7 +24,6 @@ const Login = (): JSX.Element => {
     await signin(e);
     /* Login */
     await loginAPI(e);
-    window.location.replace("/");
   };
 
   /* Signin Function */
@@ -72,6 +70,8 @@ const Login = (): JSX.Element => {
           const UserNick = String(res.data.nick);
           window.sessionStorage.setItem("userId", UserId);
           window.sessionStorage.setItem("userNick", UserNick);
+
+          window.location.replace("/");
         }
       });
     } catch (error) {

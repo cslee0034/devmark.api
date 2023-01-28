@@ -50,11 +50,11 @@ class Box extends sequelize_1.Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Box',
-            tableName: 'boxs',
+            modelName: "Box",
+            tableName: "boxs",
             paranoid: false,
-            charset: 'utf8mb4',
-            collate: 'utf8mb4_general_ci',
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate() {

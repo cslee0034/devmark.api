@@ -30,7 +30,7 @@ passportConfig();
 
 /* Sequelize */
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
@@ -55,6 +55,7 @@ let corsOptions = {
 /* Middlewares */
 app.use(cors<Request>(corsOptions));
 app.use("/", express.static("public"));
+app.use("/img", express.static("uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));

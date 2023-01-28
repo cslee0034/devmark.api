@@ -3,8 +3,10 @@ import Sequelize, {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
+  ForeignKey,
 } from "sequelize";
 import Bookmark from "./bookmark.js";
+import User from "./user.js";
 
 class Alarm extends Model<
   InferAttributes<Alarm>,
@@ -12,8 +14,11 @@ class Alarm extends Model<
 > {
   declare id: CreationOptional<number>;
   declare time: Date;
+  declare alarmName: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  declare UserId: ForeignKey<User["id"]>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     Alarm.init(
@@ -27,6 +32,10 @@ class Alarm extends Model<
           type: Sequelize.DATE,
           allowNull: false,
           unique: true,
+        },
+        alarmName: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
@@ -45,6 +54,7 @@ class Alarm extends Model<
   }
 
   static associate() {
+    Alarm.belongsTo(User);
     Alarm.belongsToMany(Bookmark, { through: "BookmarkAlarm" });
   }
 }

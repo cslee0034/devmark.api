@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { UserContext } from "../App";
+import { ModalContext } from "../App";
 
 /* Post Interface */
 interface Post {
@@ -20,7 +20,7 @@ function email_check(email: string) {
 
 const Register = (): JSX.Element => {
   /* Modal View Toggle */
-  const { setModalContent } = useContext(UserContext);
+  const { setModalContent } = useContext(ModalContext);
 
   /* Register Scripts */
   const registerClickHandeler = (e: any) => {

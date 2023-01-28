@@ -29,7 +29,7 @@ describe("POST /registration", () => {
             password: "temp",
             nick: "temp",
         })
-            .expect(302, done);
+            .expect(200, done);
     });
 });
 /* Login Test1 */
@@ -94,7 +94,8 @@ describe("POST /login", () => {
 /* Logout Test */
 describe("GET /logout", () => {
     it("unloggedin", (done) => {
-        (0, supertest_1.default)(index_js_2.default).post("/api/user/logout")
+        (0, supertest_1.default)(index_js_2.default)
+            .post("/api/user/logout")
             .expect(403, { Error: "Login required" })
             .end(done);
         // proxy로 분리되어 있기 때문에 redirect url 만들어주지 않고
@@ -112,12 +113,72 @@ describe("GET /logout", () => {
             .end(done);
     });
     it("logout", (done) => {
-        agent.post("/api/user/logout")
+        agent
+            .post("/api/user/logout")
             .expect(302)
             // 302코드 전달 이후 end()
             .end(done);
     });
 });
+/* Box Create */
+describe("POST /login", () => {
+    const agent = supertest_1.default.agent(index_js_2.default);
+    beforeEach((done) => {
+        agent
+            .post("/api/user/login")
+            .send({
+            email: "temp@example.com",
+            password: "temp",
+        })
+            .end(done);
+    });
+    it("POST /box", (done) => {
+        agent
+            .post("/api/box")
+            .send({
+            box: "temp_box",
+            img: "/img/default",
+            UserId: 1,
+        })
+            .expect(302, done);
+    });
+});
+/* Box */
+/*
+describe("POST /login", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  it("POST /box", (done) => {
+    agent
+      .post("/api/box")
+      .send({
+        box: "temp_box",
+        img: "/img/default",
+        UserId: 1,
+      })
+      .expect(302, done);
+  });
+
+  it("Delete /box/delete", (done) => {
+    agent
+      .delete("/api/box/delete")
+      .send({
+        img: "/img/default",
+        id: 1,
+      })
+      .expect(302, done);
+  });
+});
+*/
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield index_js_1.sequelize.sync({ force: true });
 }));
