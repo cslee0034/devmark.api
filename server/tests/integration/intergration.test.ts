@@ -17,8 +17,8 @@ describe("POST /registration", () => {
         password: "temp",
         nick: "temp",
       })
-      .expect(200, done);
-    // ststus 200을 반환하고 종료
+      .expect(201, done);
+    // ststus 201을 반환하고 종료
   });
 });
 
@@ -122,34 +122,8 @@ describe("GET /logout", () => {
   });
 });
 
-/* Box Create */
-// describe("POST /login", () => {
-//   const agent = request.agent(app);
-//   beforeEach((done) => {
-//     agent
-//       .post("/api/user/login")
-//       .send({
-//         email: "temp@example.com",
-//         password: "temp",
-//       })
-//       .end(done);
-//   });
-
-//   it("POST /box", (done) => {
-//     agent
-//       .post("/api/box")
-//       .send({
-//         box: "temp_box",
-//         img: "/img/default",
-//         UserId: 1,
-//       })
-//       .expect(302, done);
-//   });
-// });
-
-/* Box */
-/*
-describe("POST /login", () => {
+/* Box CRUD */
+describe("Box CRUD", () => {
   const agent = request.agent(app);
   beforeEach((done) => {
     agent
@@ -161,6 +135,7 @@ describe("POST /login", () => {
       .end(done);
   });
 
+  // Box create
   it("POST /box", (done) => {
     agent
       .post("/api/box")
@@ -169,20 +144,40 @@ describe("POST /login", () => {
         img: "/img/default",
         UserId: 1,
       })
-      .expect(302, done);
+      .expect(201, done);
   });
 
-  it("Delete /box/delete", (done) => {
+  // Box read
+  it("Get /box", (done) => {
     agent
-      .delete("/api/box/delete")
+      .get("/api/box")
+      .send({})
+      .expect(200, done);
+  });
+
+  // Box update
+  it("Patch /box", (done) => {
+    agent
+      .patch("/api/box")
+      .send({
+        box: "temp_box",
+        img: "/img/default",
+        id: 1
+      })
+      .expect(200, done);
+  });
+
+  // Box delete
+  it("Delete /api/box", (done) => {
+    agent
+      .delete("/api/box")
       .send({
         img: "/img/default",
         id: 1,
       })
-      .expect(302, done);
+      .expect(200, done);
   });
 });
-*/
 
 afterAll(async () => {
   await sequelize.sync({ force: true });

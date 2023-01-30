@@ -27,7 +27,8 @@ const createBox: RequestHandler = async (req, res, next) => {
       img: req.body.url,
       UserId: req.user!.id,
     });
-    res.status(200).end();
+    res.status(201).end();
+    // 아이템 생성 성공 Status 201
   } catch (error) {
     console.error(error);
     next(error);
@@ -44,6 +45,7 @@ const renderBox: RequestHandler = async (req, res, next) => {
     } else {
       res.status(200);
       res.json(renderBox);
+      // 아이템 가져오기 성공 Status 200
     }
   } catch (error) {
     console.error(error);
@@ -83,7 +85,8 @@ const updateBox: RequestHandler = async (req, res, next) => {
         where: { id: req.body.id },
       }
     );
-    res.redirect("/");
+    res.status(200);
+    // 수정 성공 Status
   } catch (error) {
     console.error(error);
     next(error);

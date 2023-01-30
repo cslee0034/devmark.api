@@ -3,14 +3,14 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 
 const AuthPage = (): JSX.Element => {
-  const [page, setPage] = useState(true);
+  const [loginPage, setPage] = useState<boolean>(true);
 
   const togglePage = () => {
-    setPage((page) => !page);
+    setPage((loginPage) => !loginPage);
   };
 
   function View() {
-    if (page === true) {
+    if (loginPage === true) {
       return (
         <>
           <Login />

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 const Scrollback = (): JSX.Element => {
   const [showButton, setShowButton] = useState(false);
 
-  const moveBackToTop = () => {
+  const moveBackToTop: React.MouseEventHandler<HTMLButtonElement> = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

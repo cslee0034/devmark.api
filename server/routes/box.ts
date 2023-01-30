@@ -41,7 +41,7 @@ box.post("/", isLoggedIn, imgUpload.none(), createBox);
 /* Get /api/box */
 box.get("/", isLoggedIn, renderBox);
 
-/* Patch /api/box/update */
+/* Patch /api/box */
 box.patch("/", isLoggedIn, imgUpload.none(), updateBox, imgDelete);
 
 /* Delete /api/box */

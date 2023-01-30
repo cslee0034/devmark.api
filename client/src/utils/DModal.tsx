@@ -18,7 +18,7 @@ interface P {
 const DModal: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
 
-  const boxDelete = (e: any) => {
+  const boxDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     /* Delete Box */
@@ -28,7 +28,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  const contentDelete = (e: any) => {
+  const contentDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     /* Delete Box */
@@ -98,13 +98,13 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   };
 
   const DeleteButton = () => {
-    if(props.header === "Delete_Box") {
-      return <button onClick={boxDelete}>Yes</button>
+    if (props.header === "Delete_Box") {
+      return <button onClick={boxDelete}>Yes</button>;
     }
-    if(props.header === "Delete_Content") {
-      return <button onClick={contentDelete}>Yes</button>
+    if (props.header === "Delete_Content") {
+      return <button onClick={contentDelete}>Yes</button>;
     }
-  }
+  };
   return (
     <>
       <div className="modal-container-background">

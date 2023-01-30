@@ -57,12 +57,12 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   const getBox = async () => {
     try {
       await axios.get<Get>(`/api/content?boxId=${props.boxId}`).then((res) => {
-        const newBookmark = [];
+        const newBookmark: Array<string[]> = [];
         for (let i = 0; i < res.data.length; i++) {
-          const bookmarkName = res.data[i].contentName;
-          const encodedName = encodeURIComponent(bookmarkName);
-          const bookmarkURL = res.data[i].URL;
-          const bookmarkId = res.data[i].id;
+          const bookmarkName: string = res.data[i].contentName;
+          const encodedName: string = encodeURIComponent(bookmarkName);
+          const bookmarkURL: string = res.data[i].URL;
+          const bookmarkId: string = res.data[i].id;
           newBookmark.push([
             bookmarkName,
             encodedName,

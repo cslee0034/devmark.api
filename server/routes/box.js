@@ -32,7 +32,7 @@ exports.box.post("/img", middleware_js_1.isLoggedIn, box_js_1.imgUpload.single("
 exports.box.post("/", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.createBox);
 /* Get /api/box */
 exports.box.get("/", middleware_js_1.isLoggedIn, box_js_1.renderBox);
-/* Patch /api/box/update */
+/* Patch /api/box */
 exports.box.patch("/", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.updateBox, box_js_1.imgDelete);
 /* Delete /api/box */
 exports.box.delete("/", middleware_js_1.isLoggedIn, box_js_1.deleteBox, box_js_1.imgDelete);

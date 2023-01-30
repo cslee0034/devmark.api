@@ -8,7 +8,8 @@ const createMemo: RequestHandler = async (req, res, next) => {
       memoContent: req.body.memoContent,
       BookmarkId: req.body.bookmarkId,
     });
-    res.status(200).end();
+    res.status(201).end();
+    // 생성 성공 Status 201
   } catch (error) {
     console.error(error);
     next(error);
@@ -62,6 +63,7 @@ const deleteMemo: RequestHandler = async (req, res, next) => {
     next(error);
   }
   res.status(200).end();
+  // 삭제 성공 Status 200
 };
 
 // export { createMemo, /*renderContent,*/ deleteMemo, /*updateContent*/ };

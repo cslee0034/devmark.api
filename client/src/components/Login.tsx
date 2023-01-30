@@ -18,7 +18,7 @@ interface Get {
 const Login = (): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
 
-  const loginClickHandeler = async (e: any) => {
+  const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Signin */
     await signin(e);

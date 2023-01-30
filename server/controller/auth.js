@@ -30,7 +30,8 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             nick,
             password: hashPassword,
         });
-        return res.status(200).end();
+        return res.status(201).end();
+        // 생성 성공 Status 201 
     }
     catch (error) {
         console.error(error);
@@ -47,6 +48,7 @@ const login = (req, res, next) => {
         }
         if (!user) {
             return res.status(401).json({ Error: info.message });
+            // 로그인 실패 Status 401
         }
         return req.login(user, (loginError) => {
             if (loginError) {
@@ -54,6 +56,7 @@ const login = (req, res, next) => {
                 return next(loginError);
             }
             return res.status(200).end();
+            // 로그인 성공 200 OK
         });
     })(req, res, next);
 };
@@ -62,6 +65,7 @@ exports.login = login;
 const logout = (req, res) => {
     req.logout(() => {
         res.status(200).end();
+        // 로그아웃 성공 200 OK
     });
 };
 exports.logout = logout;

@@ -21,7 +21,8 @@ const createMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             memoContent: req.body.memoContent,
             BookmarkId: req.body.bookmarkId,
         });
-        res.status(200).end();
+        res.status(201).end();
+        // 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -75,4 +76,5 @@ const deleteMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(error);
     }
     res.status(200).end();
+    // 삭제 성공 Status 200
 });

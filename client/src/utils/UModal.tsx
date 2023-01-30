@@ -32,7 +32,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   const [file, setFile] = useState<File>();
 
   /* Box Edit */
-  const BoxUpdate = async (e: any) => {
+  const BoxUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* FormData */

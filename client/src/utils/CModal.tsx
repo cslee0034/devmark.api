@@ -21,11 +21,11 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   const [file, setFile] = useState<File>();
 
   /* Bookmark Create */
-  const BookmarkCreate = async (e: any) => {
+  const BookmarkCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Bookmark Name Check */
-    if (!e.target.BookmarkName.value) {
+    if ((e.target as HTMLFormElement).BookmarkName.value) {
       setModalContent({
         header: "Bookmark Name",
         message: "You must enter bookmark name",
@@ -33,7 +33,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       });
       return;
     }
-    if (e.target.BookmarkName.value.length > 15) {
+    if ((e.target as HTMLFormElement).value.length > 15) {
       setModalContent({
         header: "Bookmark Name",
         message: "the maximum number of characters for a bookmark is 15",
@@ -43,7 +43,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     }
 
     /* Bookmark URL Check */
-    if (!e.target.BookmarkURL.value) {
+    if ((e.target as HTMLFormElement).BookmarkURL.value) {
       setModalContent({
         header: "Bookmark URL",
         message: "You must enter bookmark URL",
@@ -60,12 +60,15 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   };
 
   /* Create Bookmark */
-  const createBookmark = async (e: any, boxId: string) => {
+  const createBookmark = async (
+    e: React.FormEvent<HTMLFormElement>,
+    boxId: string
+  ) => {
     try {
       await axios
         .post<Post>("/api/content", {
-          bookmarkName: e.target.BookmarkName.value,
-          bookmarkURL: e.target.BookmarkURL.value,
+          bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
+          bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
           boxId: props.id,
         })
         .then((res) => {
@@ -89,10 +92,10 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   };
 
   /* Box Edit */
-  const BoxCreate = async (e: any) => {
+  const BoxCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (e.target.Box.value.length > 15) {
+    if ((e.target as HTMLFormElement).Box.value.length > 15) {
       setModalContent({
         header: "Box Name",
         message: "the maximum number of characters for a bookmark box is 15",

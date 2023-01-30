@@ -47,11 +47,11 @@ const Box = (): JSX.Element => {
   const getBox = async () => {
     try {
       await axios.get<Get>("/api/box").then((res) => {
-        const newBox = [];
+        const newBox: Array<string[]> = [];
         for (let i = 0; i < res.data.length; i++) {
-          const boxName = res.data[i].box;
-          const boxUrl = res.data[i].img;
-          const boxId = res.data[i].id;
+          const boxName: string = res.data[i].box;
+          const boxUrl: string = res.data[i].img;
+          const boxId: string = res.data[i].id;
           newBox.push([boxName, boxUrl, boxId]);
           setBoxs(newBox);
         }

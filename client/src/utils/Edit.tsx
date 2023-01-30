@@ -5,7 +5,6 @@ import React, { FC, useContext, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios, { AxiosResponse } from "axios";
 import { ModalContext } from "../App";
-import { off } from "process";
 
 interface Post {
   Error: any;
@@ -21,7 +20,7 @@ const Edit: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
 
   /* Memo Create */
-  const MemoCreate = async (e: any) => {
+  const MemoCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* createMemo Axios */
@@ -57,12 +56,12 @@ const Edit: FC<P> = (props: P): JSX.Element => {
   };
 
   /* DatePicker */
-  const [startDate, setStartDate] = useState(
+  const [startDate, setStartDate] = useState<Date>(
     setHours(setMinutes(new Date(), 30), 16)
   );
 
   /* DatePicker Handel Submit */
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 

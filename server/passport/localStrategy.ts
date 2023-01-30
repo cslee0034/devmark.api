@@ -18,7 +18,7 @@ export default () => {
             if (result) {
               done(null, exUser);
             } else {
-              done(null, false, { message: "password do not match" });
+              done(null, false, { message: "password do not match"});
             }
           } else {
             done(null, false, { message: "user is not registered" });

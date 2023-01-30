@@ -23,11 +23,13 @@ const Register = (): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
 
   /* Register Scripts */
-  const registerClickHandeler = (e: any) => {
+  const registerClickHandeler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Email Check */
-    if (!email_check(e.target.Email.value)) {
+    if (!email_check((e.target as HTMLFormElement).Email.value)) {
+      // e.target이 속성 값을 갖는 것이 보장되어 있지 않다.
+      // 따라서 value 속성이 있는 HTMLFormElement인지 확인하기 위해 적절하게 타이핑.
       setModalContent({
         header: "Email ERROR",
         message: "check your email again",
@@ -37,14 +39,17 @@ const Register = (): JSX.Element => {
     }
 
     /* Password Check */
-    if (e.target.Password.value == "") {
+    if ((e.target as HTMLFormElement).Password.value == "") {
       setModalContent({
         header: "Password ERROR",
         message: "enter password please",
         toggle: "view",
       });
       return;
-    } else if (e.target.Password.value !== e.target.ConfirmPassword.value) {
+    } else if (
+      (e.target as HTMLFormElement).value !==
+      (e.target as HTMLFormElement).ConfirmPassword.value
+    ) {
       setModalContent({
         header: "Password ERROR",
         message: "password do not match",
@@ -54,7 +59,7 @@ const Register = (): JSX.Element => {
     }
 
     /* Nickname Check */
-    if (e.target.Nickname.value == "") {
+    if ((e.target as HTMLFormElement).Nickname.value == "") {
       setModalContent({
         header: "Nickname ERROR",
         message: "enter your nickname please",
@@ -62,7 +67,7 @@ const Register = (): JSX.Element => {
       });
       return;
     }
-    if (e.target.Nickname.value.length > 15) {
+    if ((e.target as HTMLFormElement).Nickname.value.length > 15) {
       setModalContent({
         header: "Nickname ERROR",
         message: "the maximum number of characters for a nickname is 15",

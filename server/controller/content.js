@@ -21,7 +21,8 @@ const createContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             URL: req.body.bookmarkURL,
             BoxId: req.body.boxId,
         });
-        res.status(200).end();
+        res.status(201).end();
+        // 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -42,6 +43,7 @@ const renderContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             else {
                 res.status(200);
                 res.json(renderBookmark);
+                // 아이템 가져오기 성공 Status 200
             }
         }
         else {
@@ -63,6 +65,7 @@ const updateContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             where: { id: req.body.id },
         });
         res.status(200).end();
+        // 업데이트 성공 Status 200
     }
     catch (error) {
         console.error(error);
@@ -81,5 +84,6 @@ const deleteContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(error);
     }
     res.status(200).end();
+    // 삭제 성공 status 200
 });
 exports.deleteContent = deleteContent;
