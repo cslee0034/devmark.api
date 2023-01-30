@@ -28,7 +28,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Bookmark */}
       <li className="nav-item my-1 sidebar-bookmark-container">
-        <Link to='/bookmark' className="nav-link sidebar-bookmark">
+        <Link to='/bookmarks' className="nav-link sidebar-bookmark">
           <div>
             <FontAwesomeIcon icon={faBookmark} />
           </div>
@@ -41,7 +41,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Alarm */}
       <li className="nav-item my-1 sidebar-Alarm-container">
-        <Link to='/Alarm' className="nav-link sidebar-Alarm">
+        <Link to='/alarms' className="nav-link sidebar-Alarm">
           <div>
             <FontAwesomeIcon icon={faClock} />
           </div>
@@ -51,7 +51,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Memo */}
       <li className="nav-item my-1 sidebar-memo-container">
-        <Link to='/memo' className="nav-link sidebar-memo">
+        <Link to='/memos' className="nav-link sidebar-memo">
           <div>
             <FontAwesomeIcon icon={faEdit} />
           </div>

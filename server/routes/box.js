@@ -28,11 +28,11 @@ exports.box.post("/img", middleware_js_1.isLoggedIn, box_js_1.imgUpload.single("
     // 파일 주소는 uploads인데 요청 주소는 img가 된다.
     // 이것을 처리해주는 것이 express.static
 });
-/* Post /bookmark/api/box */
+/* Post /api/box */
 exports.box.post("/", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.createBox);
-/* Post /bookmark/api/box/update */
-exports.box.post("/update", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.updateBox, box_js_1.imgDelete);
-/* Delete /bookmark/api/box/delete */
-exports.box.delete("/delete", middleware_js_1.isLoggedIn, box_js_1.deleteBox, box_js_1.imgDelete);
-/* Get /bookmark/api/box/page */
-exports.box.get("/page", middleware_js_1.isLoggedIn, box_js_1.renderBox);
+/* Get /api/box */
+exports.box.get("/", middleware_js_1.isLoggedIn, box_js_1.renderBox);
+/* Patch /api/box/update */
+exports.box.patch("/", middleware_js_1.isLoggedIn, box_js_1.imgUpload.none(), box_js_1.updateBox, box_js_1.imgDelete);
+/* Delete /api/box */
+exports.box.delete("/", middleware_js_1.isLoggedIn, box_js_1.deleteBox, box_js_1.imgDelete);

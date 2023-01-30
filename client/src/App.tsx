@@ -9,7 +9,6 @@ import Footer from "./components/Footer";
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
-import FeedPage from "./views/FeedPage";
 import AuthPage from "./views/AuthPage";
 import Modal from "./utils/Modal";
 import AlarmPage from "./views/Alarm";
@@ -165,7 +164,7 @@ const App = (): JSX.Element => {
               {/* Page Wrapper */}
               <div id="wrapper">
                 {/* Sidebar */}
-                {sidebar ? (
+                {sidebar && loginContent.loggedIn ? (
                   <div id="sidebar">
                     <Slidebar />
                   </div>
@@ -193,15 +192,15 @@ const App = (): JSX.Element => {
                     <div id="main-page">
                       <Routes>
                         <Route path="/" element={<FrontPage />} />
-                        <Route path="/bookmark" element={<BookmarkPage />} />
+                        <Route path="/bookmarks" element={<BookmarkPage />} />
                         <Route
-                          path="/bookmark/:id"
+                          path="/bookmarks/:id"
                           element={<BookmarkPage />}
                         />
                         <Route path="/about" element={<AboutPage />} />
-                        <Route path="/alarm" element={<AlarmPage />} />
-                        <Route path="/Memo" element={<MemoPage />} />
-                        <Route path="/feed" element={<FeedPage />} />
+                        <Route path="/alarms" element={<AlarmPage />} />
+                        <Route path="/memos" element={<MemoPage />} />
+                        <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
                       </Routes>

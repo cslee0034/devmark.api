@@ -30,7 +30,7 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             nick,
             password: hashPassword,
         });
-        return res.redirect("/");
+        return res.status(200).end();
     }
     catch (error) {
         console.error(error);
@@ -46,14 +46,14 @@ const login = (req, res, next) => {
             return next(authError);
         }
         if (!user) {
-            return res.json({ Error: info.message });
+            return res.status(401).json({ Error: info.message });
         }
         return req.login(user, (loginError) => {
             if (loginError) {
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.redirect("/");
+            return res.status(200).end();
         });
     })(req, res, next);
 };
@@ -61,7 +61,7 @@ exports.login = login;
 /* logout */
 const logout = (req, res) => {
     req.logout(() => {
-        res.status(302).end();
+        res.status(200).end();
     });
 };
 exports.logout = logout;

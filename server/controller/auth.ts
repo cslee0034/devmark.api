@@ -17,7 +17,7 @@ const registration: RequestHandler = async (req, res, next) => {
       nick,
       password: hashPassword,
     });
-    return res.redirect("/");
+    return res.status(200).end();
   } catch (error) {
     console.error(error);
     return next(error);
@@ -32,14 +32,14 @@ const login: RequestHandler = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.json({ Error: info.message });
+      return res.status(401).json({ Error: info.message });
     }
     return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      return res.status(200).end();
     });
   })(req, res, next);
 };
@@ -47,7 +47,7 @@ const login: RequestHandler = (req, res, next) => {
 /* logout */
 const logout: RequestHandler = (req, res) => {
   req.logout(() => {
-    res.status(302).end()
+    res.status(200).end();
   });
 };
 

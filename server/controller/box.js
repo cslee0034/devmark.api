@@ -35,12 +35,12 @@ const imgUpload = (0, multer_1.default)({
 exports.imgUpload = imgUpload;
 const createBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield Box_js_1.default.create({
+        const newBox = yield Box_js_1.default.create({
             box: req.body.box,
             img: req.body.url,
             UserId: req.user.id,
         });
-        res.redirect("/");
+        res.status(200).end();
     }
     catch (error) {
         console.error(error);
@@ -52,12 +52,13 @@ exports.createBox = createBox;
 const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const UserId = req.user.id;
-        const userBox = yield Box_js_1.default.findAll({ where: { UserId } });
-        if (!userBox) {
+        const renderBox = yield Box_js_1.default.findAll({ where: { UserId } });
+        if (!renderBox) {
             return res.end();
         }
         else {
-            res.json(userBox);
+            res.status(200);
+            res.json(renderBox);
         }
     }
     catch (error) {
@@ -83,12 +84,14 @@ const imgDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             next(error);
         }
     }
-    next();
+    // 가장 마지막에 이미지를 지우기 때문에
+    // status 200을 보내고 종료
+    res.status(200).end();
 });
 exports.imgDelete = imgDelete;
 const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield Box_js_1.default.update({
+        const updateBox = yield Box_js_1.default.update({
             box: req.body.box,
             img: req.body.url,
         }, {
@@ -106,7 +109,7 @@ exports.updateBox = updateBox;
 const deleteBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const d_id = req.body.id;
-        const box = yield Box_js_1.default.destroy({ where: { id: d_id } });
+        const deleteBox = yield Box_js_1.default.destroy({ where: { id: d_id } });
     }
     catch (error) {
         console.error(error);

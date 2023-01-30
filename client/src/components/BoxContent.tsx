@@ -56,18 +56,22 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   /* Get Box */
   const getBox = async () => {
     try {
-      await axios
-        .get<Get>(`/api/content/page?boxId=${props.boxId}`)
-        .then((res) => {
-          const newBookmark = [];
-          for (let i = 0; i < res.data.length; i++) {
-            const bookmarkName = res.data[i].contentName;
-            const bookmarkURL = res.data[i].URL;
-            const bookmarkId = res.data[i].id;
-            newBookmark.push([bookmarkName, bookmarkURL, bookmarkId]);
-            setBoookmarks(newBookmark);
-          }
-        });
+      await axios.get<Get>(`/api/content?boxId=${props.boxId}`).then((res) => {
+        const newBookmark = [];
+        for (let i = 0; i < res.data.length; i++) {
+          const bookmarkName = res.data[i].contentName;
+          const encodedName = encodeURIComponent(bookmarkName);
+          const bookmarkURL = res.data[i].URL;
+          const bookmarkId = res.data[i].id;
+          newBookmark.push([
+            bookmarkName,
+            encodedName,
+            bookmarkURL,
+            bookmarkId,
+          ]);
+          setBoookmarks(newBookmark);
+        }
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -108,7 +112,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
             <div className="card bookmark-card" key={index}>
               <div className="bookmark-card-header">
                 <div className="bookmark-card-header-left">
-                  <a href={bookmark[1]} target="_blank">
+                  <a href={bookmark[2]} target="_blank">
                     <button className="bookmark-menu">{bookmark[0]}</button>
                   </a>
                 </div>
@@ -131,8 +135,11 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                         </a>
                       </li>
                       <li>
-                        <a className="dropdown-item" href="#">
-                          Memo &nbsp;
+                        <a
+                          className="dropdown-item"
+                          href={`/memos/newmemo?category=${bookmark[1]}&bookmarkId=${bookmark[3]}`}
+                        >
+                          New &nbsp;
                           <FontAwesomeIcon icon={faPlus} />
                         </a>
                       </li>
@@ -146,7 +153,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                     <FontAwesomeIcon
                       icon={faWrench}
                       onClick={() => {
-                        updateContent(bookmark[2]);
+                        updateContent(bookmark[3]);
                       }}
                     />
                   </button>
@@ -154,7 +161,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                     <FontAwesomeIcon
                       icon={faBan}
                       onClick={() => {
-                        deleteContent(bookmark[2]);
+                        deleteContent(bookmark[3]);
                       }}
                     />
                   </button>

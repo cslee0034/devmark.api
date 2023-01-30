@@ -1,14 +1,14 @@
 import { RequestHandler } from "express";
-import bookmark from "../models/bookmark";
+import bookmark from "../models/bookmark.js";
 
 const createContent: RequestHandler = async (req, res, next) => {
   try {
-    const box = await bookmark.create({
+    const newBookmark = await bookmark.create({
       contentName: req.body.bookmarkName,
       URL: req.body.bookmarkURL,
       BoxId: req.body.boxId,
     });
-    res.redirect("/");
+    res.status(200).end();
   } catch (error) {
     console.error(error);
     next(error);
@@ -19,11 +19,14 @@ const renderContent: RequestHandler = async (req, res, next) => {
   try {
     if (req.query!.boxId) {
       const boxId = parseInt(req.query!.boxId as unknown as string);
-      const Bookmarks = await bookmark.findAll({ where: { BoxId: boxId } });
-      if (!Bookmarks) {
+      const renderBookmark = await bookmark.findAll({
+        where: { BoxId: boxId },
+      });
+      if (!renderBookmark) {
         return res.end();
       } else {
-        res.json(Bookmarks);
+        res.status(200);
+        res.json(renderBookmark);
       }
     } else {
       return;
@@ -35,9 +38,8 @@ const renderContent: RequestHandler = async (req, res, next) => {
 };
 
 const updateContent: RequestHandler = async (req, res, next) => {
-  console.log("hihihi", req.body);
   try {
-    const Bookmark = await bookmark.update(
+    const updateBookmark = await bookmark.update(
       {
         contentName: req.body.bookmarkName,
         URL: req.body.bookmarkURL,
@@ -46,7 +48,7 @@ const updateContent: RequestHandler = async (req, res, next) => {
         where: { id: req.body.id },
       }
     );
-    res.redirect("/");
+    res.status(200).end();
   } catch (error) {
     console.error(error);
     next(error);
@@ -57,12 +59,12 @@ const updateContent: RequestHandler = async (req, res, next) => {
 const deleteContent: RequestHandler = async (req, res, next) => {
   try {
     const d_id = req.body.id;
-    const box = await bookmark.destroy({ where: { id: d_id } });
+    const deleteBookmark = await bookmark.destroy({ where: { id: d_id } });
   } catch (error) {
     console.error(error);
     next(error);
   }
-  next();
+  res.status(200).end();
 };
 
 export { createContent, renderContent, deleteContent, updateContent };

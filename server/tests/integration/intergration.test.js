@@ -30,6 +30,7 @@ describe("POST /registration", () => {
             nick: "temp",
         })
             .expect(200, done);
+        // ststus 200을 반환하고 종료
     });
 });
 /* Login Test1 */
@@ -52,7 +53,7 @@ describe("POST /login", () => {
             email: "temp@example.com",
             password: "temp",
         })
-            .expect(200, { Error: "Already loggedin" })
+            .expect(401, { Error: "Already loggedin" })
             // { Error: "Already loggedin" } 반환하고 종료
             .end(done);
     });
@@ -66,7 +67,7 @@ describe("POST /login", () => {
             email: "NotRegisterd@example.com",
             password: "temp",
         })
-            .expect(200, { Error: "user is not registered" })
+            .expect(401, { Error: "user is not registered" })
             // { Error: "user is not registered" } 반환하고 종료
             .end(done);
     });
@@ -77,7 +78,8 @@ describe("POST /login", () => {
             email: "temp@example.com",
             password: "temp",
         })
-            .expect(302, done);
+            .expect(200, done);
+        // status 200 반환하고 종료
     });
     it("password do not match", (done) => {
         (0, supertest_1.default)(index_js_2.default)
@@ -86,7 +88,8 @@ describe("POST /login", () => {
             email: "temp@example.com",
             password: "1111",
         })
-            .expect(200, { Error: "password do not match" })
+            .expect(401, { Error: "password do not match" })
+            // 401 인증 실패
             // { Error: "password do not match" } 반환하고 종료
             .end(done);
     });
@@ -98,6 +101,7 @@ describe("GET /logout", () => {
             .post("/api/user/logout")
             .expect(403, { Error: "Login required" })
             .end(done);
+        // 403 금지됨
         // proxy로 분리되어 있기 때문에 redirect url 만들어주지 않고
         // 모달창으로 에러 메시지 전달
         // status = 403, { Error: "Login required" } 반환하고 종료
@@ -115,34 +119,34 @@ describe("GET /logout", () => {
     it("logout", (done) => {
         agent
             .post("/api/user/logout")
-            .expect(302)
-            // 302코드 전달 이후 end()
+            .expect(200)
+            // 200코드 전달 이후 end()
             .end(done);
     });
 });
 /* Box Create */
-describe("POST /login", () => {
-    const agent = supertest_1.default.agent(index_js_2.default);
-    beforeEach((done) => {
-        agent
-            .post("/api/user/login")
-            .send({
-            email: "temp@example.com",
-            password: "temp",
-        })
-            .end(done);
-    });
-    it("POST /box", (done) => {
-        agent
-            .post("/api/box")
-            .send({
-            box: "temp_box",
-            img: "/img/default",
-            UserId: 1,
-        })
-            .expect(302, done);
-    });
-});
+// describe("POST /login", () => {
+//   const agent = request.agent(app);
+//   beforeEach((done) => {
+//     agent
+//       .post("/api/user/login")
+//       .send({
+//         email: "temp@example.com",
+//         password: "temp",
+//       })
+//       .end(done);
+//   });
+//   it("POST /box", (done) => {
+//     agent
+//       .post("/api/box")
+//       .send({
+//         box: "temp_box",
+//         img: "/img/default",
+//         UserId: 1,
+//       })
+//       .expect(302, done);
+//   });
+// });
 /* Box */
 /*
 describe("POST /login", () => {

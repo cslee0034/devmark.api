@@ -17,6 +17,16 @@ interface P {
   id: string;
 }
 
+interface Patch {
+  Error: any;
+  box: string;
+  url: string;
+  id: string;
+  d_url: string;
+  bookmarkName: string;
+  bookmarkURL: string;
+}
+
 const UModal: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
@@ -92,7 +102,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   ) => {
     try {
       await axios
-        .post<Post>("/api/box/update", {
+        .patch<Patch>("/api/box", {
           box: e.target.Box.value,
           url: imgURL,
           id: boxId,
@@ -122,7 +132,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   const updateContent = async (e: any, contentId: string) => {
     try {
       await axios
-        .post<Post>("/api/content/update", {
+        .patch<Patch>("/api/content", {
           bookmarkName: e.target.BookmarkName.value,
           bookmarkURL: e.target.BookmarkURL.value,
           id: contentId,

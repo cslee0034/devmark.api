@@ -37,14 +37,14 @@ class Alarm extends sequelize_1.Model {
                 primaryKey: true,
                 autoIncrement: true,
             },
+            alarmName: {
+                type: sequelize_1.default.STRING(15),
+                allowNull: false,
+            },
             time: {
                 type: sequelize_1.default.DATE,
                 allowNull: false,
                 unique: true,
-            },
-            alarmName: {
-                type: sequelize_1.default.STRING(15),
-                allowNull: false,
             },
             createdAt: sequelize_1.default.DATE,
             updatedAt: sequelize_1.default.DATE,
@@ -55,8 +55,8 @@ class Alarm extends sequelize_1.Model {
             modelName: "Alarm",
             tableName: "alarms",
             paranoid: false,
-            charset: "utf8",
-            collate: "utf8_general_ci",
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate() {

@@ -22,12 +22,12 @@ const imgUpload = multer({
 
 const createBox: RequestHandler = async (req, res, next) => {
   try {
-    const box = await Box.create({
+    const newBox = await Box.create({
       box: req.body.box,
       img: req.body.url,
       UserId: req.user!.id,
     });
-    res.redirect("/");
+    res.status(200).end();
   } catch (error) {
     console.error(error);
     next(error);
@@ -38,11 +38,12 @@ const createBox: RequestHandler = async (req, res, next) => {
 const renderBox: RequestHandler = async (req, res, next) => {
   try {
     const UserId = req.user!.id;
-    const userBox = await Box.findAll({ where: { UserId } });
-    if (!userBox) {
+    const renderBox = await Box.findAll({ where: { UserId } });
+    if (!renderBox) {
       return res.end();
     } else {
-      res.json(userBox);
+      res.status(200);
+      res.json(renderBox);
     }
   } catch (error) {
     console.error(error);
@@ -66,12 +67,14 @@ const imgDelete: RequestHandler = async (req, res, next) => {
       next(error);
     }
   }
-  next();
+  // 가장 마지막에 이미지를 지우기 때문에
+  // status 200을 보내고 종료
+  res.status(200).end();
 };
 
 const updateBox: RequestHandler = async (req, res, next) => {
   try {
-    const box = await Box.update(
+    const updateBox = await Box.update(
       {
         box: req.body.box,
         img: req.body.url,
@@ -91,7 +94,7 @@ const updateBox: RequestHandler = async (req, res, next) => {
 const deleteBox: RequestHandler = async (req, res, next) => {
   try {
     const d_id = req.body.id;
-    const box = await Box.destroy({ where: { id: d_id } });
+    const deleteBox = await Box.destroy({ where: { id: d_id } });
   } catch (error) {
     console.error(error);
     next(error);

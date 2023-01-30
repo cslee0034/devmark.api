@@ -6,37 +6,33 @@ import Sequelize, {
   ForeignKey,
 } from "sequelize";
 import Bookmark from "./bookmark.js";
-import User from "./user.js";
 
-class Alarm extends Model<
-  InferAttributes<Alarm>,
-  InferCreationAttributes<Alarm>
-> {
+class Memo extends Model<InferAttributes<Memo>, InferCreationAttributes<Memo>> {
   declare id: CreationOptional<number>;
-  declare time: Date;
-  declare alarmName: string;
+  declare memoName: string;
+  declare memoContent: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare UserId: ForeignKey<User["id"]>;
+  declare BookmarkId: ForeignKey<Bookmark["id"]>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
-    Alarm.init(
+    Memo.init(
       {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
         },
-        alarmName: {
+        memoName: {
           type: Sequelize.STRING(15),
           allowNull: false,
         },
-        time: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          unique: true,
+        memoContent: {
+          type: Sequelize.TEXT,
+          allowNull: true,
         },
+
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
       },
@@ -44,8 +40,8 @@ class Alarm extends Model<
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: "Alarm",
-        tableName: "alarms",
+        modelName: "Memo",
+        tableName: "memos",
         paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
@@ -54,9 +50,8 @@ class Alarm extends Model<
   }
 
   static associate() {
-    Alarm.belongsTo(User);
-    Alarm.belongsToMany(Bookmark, { through: "BookmarkAlarm" });
+    Memo.belongsTo(Bookmark);
   }
 }
 
-export default Alarm;
+export default Memo;

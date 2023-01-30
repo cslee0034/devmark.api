@@ -1,4 +1,5 @@
 import React from "react";
+import Scrollback from "../utils/Scrollback";
 
 const AlarmPage = (): JSX.Element => {
   return (
@@ -37,7 +38,9 @@ const AlarmPage = (): JSX.Element => {
           </button>
         </div>
       </div>
+      <Scrollback />
     </div>
+    
   );
 };
 

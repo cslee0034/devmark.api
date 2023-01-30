@@ -42,7 +42,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
       await axios
-        .delete<Delete>("/api/box/delete", {
+        .delete<Delete>("/api/box", {
           data: {
             d_url: imgUrl,
             id: boxId,
@@ -72,7 +72,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   const deleteContent = async (contentId: string) => {
     try {
       await axios
-        .delete<Delete>("/api/content/delete", {
+        .delete<Delete>("/api/content", {
           data: {
             id: contentId,
           },

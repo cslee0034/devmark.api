@@ -48,7 +48,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
         type="button"
         className="btn sidebar-toggle"
         // onclickEvent Toggle
-        onClick={() => setSidebar((prev: any) => !prev)}
+        onClick={() => setSidebar((prev: boolean) => !prev)}
       >
         <FontAwesomeIcon icon={faBars} />
       </button>

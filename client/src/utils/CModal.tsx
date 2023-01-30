@@ -66,6 +66,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
         .post<Post>("/api/content", {
           bookmarkName: e.target.BookmarkName.value,
           bookmarkURL: e.target.BookmarkURL.value,
+          boxId: props.id,
         })
         .then((res) => {
           if (res.data.Error) {

@@ -7,25 +7,25 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 exports.default = {
     development: {
-        username: 'root',
+        username: "root",
         password: process.env.DB_PASSWORD,
-        database: 'dev-mark',
-        host: '127.0.0.1',
-        dialect: 'mysql',
+        database: "dev-mark",
+        host: "127.0.0.1",
+        dialect: "mysql",
     },
     test: {
         username: "root",
         password: process.env.DB_PASSWORD,
-        database: 'dev-mark_test',
+        database: "dev-mark_test",
         host: "127.0.0.1",
-        dialect: "mysql"
+        dialect: "mysql",
     },
     production: {
-        username: 'root',
+        username: "root",
         password: process.env.DB_PASSWORD,
-        database: 'dev-mark',
-        host: '127.0.0.1',
-        dialect: 'mysql',
+        database: "dev-mark",
+        host: "127.0.0.1",
+        dialect: "mysql",
         logging: false,
     },
 };

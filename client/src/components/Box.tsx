@@ -46,7 +46,7 @@ const Box = (): JSX.Element => {
   /* Get Box */
   const getBox = async () => {
     try {
-      await axios.get<Get>("/api/box/page").then((res) => {
+      await axios.get<Get>("/api/box").then((res) => {
         const newBox = [];
         for (let i = 0; i < res.data.length; i++) {
           const boxName = res.data[i].box;
@@ -89,12 +89,13 @@ const Box = (): JSX.Element => {
           <Search search="" />
         </div>
       </h3>
+      {/* Main */}
       {boxs ? (
         <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
           {boxs.map((box, index) => (
             <div className="col" key={index}>
               <div className="dropup add-card card h-100">
-                <Link to={`/bookmark/${box[2]}`}>
+                <Link to={`/bookmarks/${box[2]}`}>
                   {box[1] === "/img/undefined" ? (
                     <img
                       src={`http://localhost:5000/img/default.png`}
