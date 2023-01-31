@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { ModalContext } from "../App";
+import { ModalContext, UserContext } from "../App";
 
 /* Post Interface */
 interface Post {
@@ -17,6 +17,7 @@ interface Get {
 
 const Login = (): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
+  const { loginContent } = useContext(UserContext);
 
   const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -25,7 +25,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     e.preventDefault();
 
     /* Bookmark Name Check */
-    if ((e.target as HTMLFormElement).BookmarkName.value) {
+    if (!(e.target as HTMLFormElement).BookmarkName.value) {
       setModalContent({
         header: "Bookmark Name",
         message: "You must enter bookmark name",
@@ -33,7 +33,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       });
       return;
     }
-    if ((e.target as HTMLFormElement).value.length > 15) {
+    if ((e.target as HTMLFormElement).BookmarkName.value.length > 15) {
       setModalContent({
         header: "Bookmark Name",
         message: "the maximum number of characters for a bookmark is 15",
@@ -43,7 +43,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     }
 
     /* Bookmark URL Check */
-    if ((e.target as HTMLFormElement).BookmarkURL.value) {
+    if (!(e.target as HTMLFormElement).BookmarkURL.value) {
       setModalContent({
         header: "Bookmark URL",
         message: "You must enter bookmark URL",

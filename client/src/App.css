@@ -163,7 +163,12 @@
   text-align: center;
 }
 
-.frontpage-container {
+.container-not-logged-in {
+  width: 100vw;
+  position: relative;
+}
+
+.container-logged-in {
   width: 75vw;
   position: relative;
 }
@@ -480,8 +485,18 @@
   min-height: 15rem;
 }
 
-.datapicker{
+.datapicker {
   margin-bottom: 20px;
+}
+
+.memo-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.memo-card {
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 /* Back to top */

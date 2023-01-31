@@ -9,6 +9,5 @@ exports.info = express_1.default.Router();
 exports.info.get("/", (req, res) => {
     const userInfo = res.locals.user;
     userInfo.password = "";
-    res.status(200).send(userInfo);
-    console.log(res.status);
+    res.send(userInfo);
 });

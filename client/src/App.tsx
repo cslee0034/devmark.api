@@ -20,7 +20,11 @@ import UModal from "./utils/UModal";
 import DModal from "./utils/DModal";
 
 export const UserContext = createContext({
-  loginContent: {},
+  loginContent: {
+    loggedIn: false,
+    userId: "",
+    userNick: "",
+  },
   setLoginContent: (loggedIn: any): any => {},
 });
 
