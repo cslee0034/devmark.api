@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import bookmark from "../models/bookmark.js";
+import Memo from "../models/memo.js";
 
 const createContent: RequestHandler = async (req, res, next) => {
   try {
@@ -22,6 +23,12 @@ const renderContent: RequestHandler = async (req, res, next) => {
       const boxId = parseInt(req.query!.boxId as unknown as string);
       const renderBookmark = await bookmark.findAll({
         where: { BoxId: boxId },
+        include: [
+          {
+            model: Memo,
+            attributes: ["id", "memoName"],
+          },
+        ],
       });
       if (!renderBookmark) {
         return res.end();
@@ -31,6 +38,7 @@ const renderContent: RequestHandler = async (req, res, next) => {
         // 아이템 가져오기 성공 Status 200
       }
     } else {
+      // 쿼리에 boxId가 있다면 끝내기
       return;
     }
   } catch (error) {

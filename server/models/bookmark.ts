@@ -5,8 +5,16 @@ import Sequelize, {
   InferCreationAttributes,
   ForeignKey,
 } from "sequelize";
+import {
+  HasManyAddAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+} from "sequelize/types/associations";
 import Box from "./Box.js";
 import Alarm from "./alarm.js";
+import Memo from "./memo.js";
 
 class Bookmark extends Model<
   InferAttributes<Bookmark>,
@@ -19,6 +27,12 @@ class Bookmark extends Model<
   declare updatedAt: CreationOptional<Date>;
 
   declare BoxId: ForeignKey<Box["id"]>;
+
+  declare getMemos: HasManyGetAssociationsMixin<Memo>;
+  declare addMemos: HasManyAddAssociationMixin<Memo, number>;
+  declare hasMemos: HasManyHasAssociationMixin<Memo, number>;
+  declare countMemos: HasManyCountAssociationsMixin;
+  declare createMemos: HasManyCreateAssociationMixin<Memo>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     Bookmark.init(
@@ -55,8 +69,12 @@ class Bookmark extends Model<
   }
 
   static associate() {
-    Bookmark.belongsTo(Box);
+    Bookmark.belongsTo(Box, { targetKey: "id" });
     Bookmark.belongsToMany(Alarm, { through: "BookmarkAlarm" });
+    Bookmark.hasMany(Memo, {
+      sourceKey: "id",
+      foreignKey: "BookmarkId",
+    });
   }
 }
 

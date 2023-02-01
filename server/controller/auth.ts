@@ -18,7 +18,7 @@ const registration: RequestHandler = async (req, res, next) => {
       password: hashPassword,
     });
     return res.status(201).end();
-    // 생성 성공 Status 201 
+    // 생성 성공 Status 201
   } catch (error) {
     console.error(error);
     return next(error);
@@ -33,7 +33,7 @@ const login: RequestHandler = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.status(401).json({ Error: info.message });
+      return res.status(401).send({ Error: info.message });
       // 로그인 실패 Status 401
     }
     return req.login(user, (loginError) => {

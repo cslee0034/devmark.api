@@ -4,7 +4,8 @@ import app from "../../index.js";
 
 /* Fake ORM */
 beforeAll(async () => {
-  await sequelize.sync();
+  await sequelize.sync({ force: true });
+  // 기본은 false
 });
 
 /* Registration Test */
@@ -149,10 +150,7 @@ describe("Box CRUD", () => {
 
   // Box read
   it("Get /box", (done) => {
-    agent
-      .get("/api/box")
-      .send({})
-      .expect(200, done);
+    agent.get("/api/box").send({}).expect(200, done);
   });
 
   // Box update
@@ -162,7 +160,7 @@ describe("Box CRUD", () => {
       .send({
         box: "temp_box",
         img: "/img/default",
-        id: 1
+        id: 1,
       })
       .expect(200, done);
   });

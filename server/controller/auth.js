@@ -31,7 +31,7 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             password: hashPassword,
         });
         return res.status(201).end();
-        // 생성 성공 Status 201 
+        // 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -47,7 +47,7 @@ const login = (req, res, next) => {
             return next(authError);
         }
         if (!user) {
-            return res.status(401).json({ Error: info.message });
+            return res.status(401).send({ Error: info.message });
             // 로그인 실패 Status 401
         }
         return req.login(user, (loginError) => {

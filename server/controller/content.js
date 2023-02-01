@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateContent = exports.deleteContent = exports.renderContent = exports.createContent = void 0;
 const bookmark_js_1 = __importDefault(require("../models/bookmark.js"));
+const memo_js_1 = __importDefault(require("../models/memo.js"));
 const createContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newBookmark = yield bookmark_js_1.default.create({
@@ -36,6 +37,12 @@ const renderContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             const boxId = parseInt(req.query.boxId);
             const renderBookmark = yield bookmark_js_1.default.findAll({
                 where: { BoxId: boxId },
+                include: [
+                    {
+                        model: memo_js_1.default,
+                        attributes: ["id", "memoName"],
+                    },
+                ],
             });
             if (!renderBookmark) {
                 return res.end();
@@ -47,6 +54,7 @@ const renderContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             }
         }
         else {
+            // 쿼리에 boxId가 있다면 끝내기
             return;
         }
     }

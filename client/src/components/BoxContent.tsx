@@ -8,6 +8,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ModalContext } from "../App";
 import Search from "../utils/Search";
+import { Link } from "react-router-dom";
 
 interface Get {
   Error: any;
@@ -25,7 +26,7 @@ interface P {
 
 const BoxContent: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
-  const [bookmarks, setBoookmarks] = useState<string[][]>([]);
+  const [bookmarks, setBoookmarks] = useState<any[][]>([]);
 
   /* Add Bookmark */
   const addBookmark = () => {
@@ -54,20 +55,30 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   };
 
   /* Get Box */
-  const getBox = async () => {
+  const getBookmark = async () => {
     try {
       await axios.get<Get>(`/api/content?boxId=${props.boxId}`).then((res) => {
-        const newBookmark: Array<string[]> = [];
+        const newBookmark: Array<any[]> = [];
         for (let i = 0; i < res.data.length; i++) {
           const bookmarkName: string = res.data[i].contentName;
           const encodedName: string = encodeURIComponent(bookmarkName);
           const bookmarkURL: string = res.data[i].URL;
           const bookmarkId: string = res.data[i].id;
+
+          const newMemo = [];
+          for (let j = 0; j < res.data[i].Memos.length; j++) {
+            const memoId: string = res.data[i].Memos[j].id;
+            const memoName: string = res.data[i].Memos[j].memoName;
+
+            newMemo.push([memoId, memoName]);
+          }
+
           newBookmark.push([
             bookmarkName,
             encodedName,
             bookmarkURL,
             bookmarkId,
+            newMemo,
           ]);
           setBoookmarks(newBookmark);
         }
@@ -85,14 +96,14 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
 
   /* Fetching Data */
   useEffect(() => {
-    const fetchBookmarks = async () => {
+    const fetchBookmark = async () => {
       try {
-        await getBox();
+        await getBookmark();
       } catch (e) {
         console.error(e);
       }
     };
-    fetchBookmarks();
+    fetchBookmark();
   }, []);
 
   return (
@@ -128,12 +139,25 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
 
+                    {/* Memo 있다면 표시 */}
                     <ul className="dropdown-menu bookmark-dropdown">
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          hi
-                        </a>
-                      </li>
+                      {bookmark[4] ? (
+                        <div>
+                          {bookmark[4].map(
+                            (memo: Array<string>, index: number) => (
+                              <li key={index}>
+                                <Link
+                                  to={`/memo/${memo[0]}`}
+                                  className="dropdown-item"
+                                >
+                                  {memo[1]}
+                                </Link>
+                              </li>
+                            )
+                          )}
+                        </div>
+                      ) : null}
+
                       <li>
                         <a
                           className="dropdown-item"

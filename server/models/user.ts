@@ -3,9 +3,15 @@ import Sequelize, {
   InferAttributes,
   InferCreationAttributes,
   Model,
-  BelongsToManyAddAssociationMixin,
-  NonAttribute,
 } from "sequelize";
+import {
+  HasManyAddAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+} from "sequelize/types/associations";
+import Box from "./Box";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -23,6 +29,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare deletedAt: CreationOptional<Date>;
   // ...
 
+  declare getBoxs: HasManyGetAssociationsMixin<Box>;
+  declare addBoxs: HasManyAddAssociationMixin<Box, number>;
+  declare hasBoxs: HasManyHasAssociationMixin<Box, number>;
+  declare countBoxs: HasManyCountAssociationsMixin;
+  declare createBoxs: HasManyCreateAssociationMixin<Box>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
@@ -72,6 +83,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   }
 
   static associate() {
+    User.hasMany(Box, {
+      sourceKey: "id",
+      foreignKey: "UserId"
+    });
   }
 }
 

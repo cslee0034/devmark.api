@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import Memo from "../components/Memo";
+import MemoMain from "../components/MemoMain";
+import MemoView from "../components/MemoView";
 import Edit from "../utils/Edit";
 import Scrollback from "../utils/Scrollback";
 
@@ -20,10 +21,17 @@ const MemoPage = (): JSX.Element => {
           <Edit category={category} bookmarkId={bookmarkId} />
         </>
       );
+    }
+    if (memo_id) {
+      return (
+        <>
+          <MemoView memoId={memo_id} />
+        </>
+      );
     } else {
       return (
         <>
-          <Memo />
+          <MemoMain memoId="" />
         </>
       );
     }

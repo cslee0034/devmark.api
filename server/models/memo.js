@@ -58,7 +58,9 @@ class Memo extends sequelize_1.Model {
         });
     }
     static associate() {
-        Memo.belongsTo(bookmark_js_1.default);
+        Memo.belongsTo(bookmark_js_1.default, {
+            targetKey: "id",
+        });
     }
 }
 exports.default = Memo;

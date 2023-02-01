@@ -7,12 +7,14 @@ interface Post {
   Error: any;
   email: string;
   password: string;
+  json: any;
 }
 
 interface Get {
   Error: any;
   id: number;
   nick: string;
+  Boxes: any;
 }
 
 const Login = (): JSX.Element => {
@@ -22,9 +24,11 @@ const Login = (): JSX.Element => {
   const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Signin */
-    await signin(e);
+    const errored = await signin(e);
     /* Login */
-    await loginAPI(e);
+    if (!errored) {
+      await loginAPI(e);
+    }
   };
 
   /* Signin Function */
@@ -44,7 +48,7 @@ const Login = (): JSX.Element => {
             });
           }
         });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -52,6 +56,15 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Login ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+      return true;
+      // 오류 난다면 errored = true 리턴
     }
   };
 
@@ -59,18 +72,28 @@ const Login = (): JSX.Element => {
   const loginAPI = async (e: any) => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
+        let Boxes = "";
+        for (let i = 0; i < res.data.Boxes.length; i++) {
+          Boxes += res.data.Boxes[i].id;
+          Boxes += " ";
+        }
+
         /* Remember == true일때 localStorage에 저장 */
         if (e.target.Remember.checked) {
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
+          window.localStorage.setItem("userBoxes", Boxes);
+
+          window.location.replace("/");
         } else {
           /* Remember == false일때 sessionStorage에 저장 */
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
           window.sessionStorage.setItem("userId", UserId);
           window.sessionStorage.setItem("userNick", UserNick);
+          window.sessionStorage.setItem("userBoxes", Boxes);
 
           window.location.replace("/");
         }

@@ -47,7 +47,7 @@ const Register = (): JSX.Element => {
       });
       return;
     } else if (
-      (e.target as HTMLFormElement).value !==
+      (e.target as HTMLFormElement).Password.value !==
       (e.target as HTMLFormElement).ConfirmPassword.value
     ) {
       setModalContent({

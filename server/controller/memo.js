@@ -12,7 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createMemo = void 0;
+exports.renderMemoEach = exports.renderMemo = exports.createMemo = void 0;
+const sequelize_1 = require("sequelize");
+const index_js_1 = require("../models/index.js");
 const memo_js_1 = __importDefault(require("../models/memo.js"));
 const createMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -30,24 +32,45 @@ const createMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.createMemo = createMemo;
-// const renderContent: RequestHandler = async (req, res, next) => {
-//   try {
-//     if (req.query!.boxId) {
-//       const boxId = parseInt(req.query!.boxId as unknown as string);
-//       const memos = await memo.findAll({ where: { BoxId: boxId } });
-//       if (!Bookmarks) {
-//         return res.end();
-//       } else {
-//         res.json(Bookmarks);
-//       }
-//     } else {
-//       return;
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     next(error);
-//   }
-// };
+const renderMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const UserId = req.user.id;
+        const query = `SELECT b.contentName, m.memoName, m.id FROM bookmarks b, memos m, boxs x WHERE b.id = m.BookmarkId AND b.BoxId = x.id AND x.UserId = ${UserId} ORDER BY b.contentName ASC`;
+        const memos = yield index_js_1.sequelize.query(query, {
+            type: sequelize_1.QueryTypes.SELECT,
+            raw: true,
+        });
+        if (!memos) {
+            return res.end();
+        }
+        else {
+            res.status(200).json(memos);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+exports.renderMemo = renderMemo;
+const renderMemoEach = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(req.query.memoId);
+        const id = parseInt(req.query.memoId);
+        const memos = yield memo_js_1.default.findOne({ where: { id } });
+        if (!memos) {
+            return res.end();
+        }
+        else {
+            res.status(200).json(memos);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+exports.renderMemoEach = renderMemoEach;
 // const updateContent: RequestHandler = async (req, res, next) => {
 //   try {
 //     const Bookmark = await bookmark.update(

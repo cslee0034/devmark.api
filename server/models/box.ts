@@ -5,6 +5,14 @@ import Sequelize, {
   Model,
   ForeignKey,
 } from "sequelize";
+import {
+  HasManyAddAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+} from "sequelize/types/associations";
+import Bookmark from "./bookmark.js";
 import User from "./user.js";
 
 class Box extends Model<InferAttributes<Box>, InferCreationAttributes<Box>> {
@@ -15,6 +23,12 @@ class Box extends Model<InferAttributes<Box>, InferCreationAttributes<Box>> {
   declare updatedAt: CreationOptional<Date>;
 
   declare UserId: ForeignKey<User["id"]>;
+
+  declare getBookmarks: HasManyGetAssociationsMixin<Bookmark>;
+  declare addBookmarks: HasManyAddAssociationMixin<Bookmark, number>;
+  declare hasBookmarks: HasManyHasAssociationMixin<Bookmark, number>;
+  declare countBookmarks: HasManyCountAssociationsMixin;
+  declare createBookmarks: HasManyCreateAssociationMixin<Bookmark>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     Box.init(
@@ -49,7 +63,11 @@ class Box extends Model<InferAttributes<Box>, InferCreationAttributes<Box>> {
   }
 
   static associate() {
-    Box.belongsTo(User);
+    Box.belongsTo(User, { targetKey: "id" });
+    Box.hasMany(Bookmark, {
+      sourceKey: "id",
+      foreignKey: "BoxId",
+    });
   }
 }
 

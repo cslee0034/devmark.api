@@ -50,7 +50,9 @@ class Memo extends Model<InferAttributes<Memo>, InferCreationAttributes<Memo>> {
   }
 
   static associate() {
-    Memo.belongsTo(Bookmark);
+    Memo.belongsTo(Bookmark, {
+      targetKey: "id",
+    });
   }
 }
 

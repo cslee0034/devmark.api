@@ -17,7 +17,8 @@ const index_js_1 = require("../../models/index.js");
 const index_js_2 = __importDefault(require("../../index.js"));
 /* Fake ORM */
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield index_js_1.sequelize.sync();
+    yield index_js_1.sequelize.sync({ force: true });
+    // 기본은 false
 }));
 /* Registration Test */
 describe("POST /registration", () => {
@@ -149,10 +150,7 @@ describe("Box CRUD", () => {
     });
     // Box read
     it("Get /box", (done) => {
-        agent
-            .get("/api/box")
-            .send({})
-            .expect(200, done);
+        agent.get("/api/box").send({}).expect(200, done);
     });
     // Box update
     it("Patch /box", (done) => {
@@ -161,7 +159,7 @@ describe("Box CRUD", () => {
             .send({
             box: "temp_box",
             img: "/img/default",
-            id: 1
+            id: 1,
         })
             .expect(200, done);
     });
