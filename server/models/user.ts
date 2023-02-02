@@ -11,7 +11,7 @@ import {
   HasManyGetAssociationsMixin,
   HasManyHasAssociationMixin,
 } from "sequelize/types/associations";
-import Box from "./Box";
+import Box from "./box.js";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -85,7 +85,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   static associate() {
     User.hasMany(Box, {
       sourceKey: "id",
-      foreignKey: "UserId"
+      foreignKey: "UserId",
     });
   }
 }
