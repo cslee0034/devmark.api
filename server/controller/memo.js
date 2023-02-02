@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderMemoEach = exports.renderMemo = exports.createMemo = void 0;
+exports.deleteMemo = exports.renderMemoEach = exports.renderMemo = exports.createMemo = void 0;
 const sequelize_1 = require("sequelize");
 const index_js_1 = require("../models/index.js");
 const memo_js_1 = __importDefault(require("../models/memo.js"));
@@ -101,3 +101,4 @@ const deleteMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     res.status(200).end();
     // 삭제 성공 Status 200
 });
+exports.deleteMemo = deleteMemo;

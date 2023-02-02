@@ -12,7 +12,7 @@ import {
   HasManyGetAssociationsMixin,
   HasManyHasAssociationMixin,
 } from "sequelize/types/associations";
-import Box from "./Box.js";
+import Box from "./box.js";
 import Alarm from "./alarm.js";
 import Memo from "./memo.js";
 

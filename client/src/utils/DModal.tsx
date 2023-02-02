@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext } from "react";
 import { ModalContext } from "../App";
 
+// Interfaces
 interface Delete {
   Error: any;
   boxId: string;
@@ -15,9 +16,16 @@ interface P {
   id: string;
 }
 
+// React Start from here
 const DModal: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
 
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Delete Box */
   const boxDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
@@ -28,6 +36,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
+  /* <Event Handler> - Delete Bookmark */
   const contentDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
@@ -38,7 +47,10 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Delete Box */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Box Axios Delete /api/box */
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
       await axios
@@ -68,7 +80,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* Delete Content */
+  /* <Axios Request> - Bookmark Axios delete /api/content */
   const deleteContent = async (contentId: string) => {
     try {
       await axios
@@ -97,6 +109,9 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
+  // Render
+
   const DeleteButton = () => {
     if (props.header === "Delete_Box") {
       return <button onClick={boxDelete}>Yes</button>;
@@ -105,6 +120,10 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       return <button onClick={contentDelete}>Yes</button>;
     }
   };
+
+  //--------------------------------------------------------
+  // return
+
   return (
     <>
       <div className="modal-container-background">

@@ -3,7 +3,7 @@ import local from "./localStrategy.js";
 import kakao from "./kakaoStrategy.js";
 import github from "./githubStrategy.js";
 import User from "../models/user.js";
-import Box from "../models/Box.js";
+import Box from "../models/box.js";
 
 export default () => {
   passport.serializeUser((user, done) => {

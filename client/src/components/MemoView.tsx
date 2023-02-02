@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { ModalContext } from "../App";
 
+// Interfaces
 interface Get {
   Error: any;
   box: string;
@@ -20,32 +21,55 @@ interface P {
   memoId: string;
 }
 
+interface Delete {
+  Error: any;
+  memoId: string;
+}
+
+// React Start from here
 const MemoView: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   /* Modal Context */
   const { setModalContent } = useContext(ModalContext);
 
   /* Memo Each State */
   const [viewMemos, setViewMemos] = useState<any>([]);
 
-  /* Delete Memo */
-  const deleteMemo = (id: string) => {
-    setModalContent({
-      header: "Delete_Content",
-      toggle: "delete",
-      id: id,
-    });
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Delete Memo */
+  const memoDelete = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    /* Delete Confirm */
+    if (!window.confirm("Are you sure to delete?")) {
+      return;
+    }
+    /* Delete Box */
+    deleteMemo(props.memoId);
+    /* Reload */
+    window.location.replace("/memos");
   };
 
-  /* Update Memo */
-  const updateMemo = (bookmarkId: string) => {
-    setModalContent({
-      header: "Update_Content",
-      toggle: "update",
-      id: bookmarkId,
-    });
+  /* <Event Handler> - Update Memo */
+  const memoUpdate = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    /* Delete Confirm */
+    if (!window.confirm("Are you sure to delete?")) {
+      return;
+    }
+    /* Delete Box */
+    deleteMemo(props.memoId);
+    /* Reload */
+    window.location.replace("/memos");
   };
 
-  /* Memo Axios Get /api/memo  -- Get each */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Memo Axios Get /api/memo  -- Get each */
   const getMemoEach = async () => {
     try {
       await axios
@@ -66,7 +90,38 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  /* <Axios Request> - Memo Axios Delete /api/memo */
+  const deleteMemo = async (memoId: string) => {
+    try {
+      await axios
+        .delete<Delete>("/api/memo", {
+          data: {
+            id: memoId,
+          },
+        })
+        .then((res) => {
+          if (res.data.Error) {
+            setModalContent({
+              header: "Edit ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          }
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  //--------------------------------------------------------
   /* Fetching Data */
+
   useEffect(() => {
     const fetchMemos = async () => {
       try {
@@ -78,6 +133,9 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
 
     fetchMemos();
   }, []);
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <>
@@ -94,12 +152,17 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
             </div>
           </div>
         </div>
-        <button type="button" className="login-button mt-2">
+        <button
+          type="button"
+          className="login-button mt-2"
+          onClick={memoUpdate}
+        >
           Modify
         </button>
         <button
           type="button"
           className="login-button login-button-delete mt-2 mb-4"
+          onClick={memoDelete}
         >
           Delete
         </button>

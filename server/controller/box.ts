@@ -2,8 +2,7 @@ import { RequestHandler } from "express";
 import fs from "fs";
 import multer from "multer";
 import path from "path";
-import Box from "../models/Box.js";
-// tsc 변환시 대문자로 바뀌는 문제가 있었음
+import Box from "../models/box.js";
 
 const imgUpload = multer({
   storage: multer.diskStorage({

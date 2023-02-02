@@ -16,8 +16,7 @@ exports.deleteBox = exports.updateBox = exports.imgDelete = exports.renderBox = 
 const fs_1 = __importDefault(require("fs"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
-const Box_js_1 = __importDefault(require("../models/Box.js"));
-// tsc 변환시 대문자로 바뀌는 문제가 있었음
+const box_js_1 = __importDefault(require("../models/box.js"));
 const imgUpload = (0, multer_1.default)({
     storage: multer_1.default.diskStorage({
         destination(req, file, cb) {
@@ -35,7 +34,7 @@ const imgUpload = (0, multer_1.default)({
 exports.imgUpload = imgUpload;
 const createBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newBox = yield Box_js_1.default.create({
+        const newBox = yield box_js_1.default.create({
             box: req.body.box,
             img: req.body.url,
             UserId: req.user.id,
@@ -53,7 +52,7 @@ exports.createBox = createBox;
 const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const UserId = req.user.id;
-        const renderBox = yield Box_js_1.default.findAll({ where: { UserId } });
+        const renderBox = yield box_js_1.default.findAll({ where: { UserId } });
         if (!renderBox) {
             return res.end();
         }
@@ -93,7 +92,7 @@ const imgDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 exports.imgDelete = imgDelete;
 const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updateBox = yield Box_js_1.default.update({
+        const updateBox = yield box_js_1.default.update({
             box: req.body.box,
             img: req.body.url,
         }, {
@@ -112,7 +111,7 @@ exports.updateBox = updateBox;
 const deleteBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const d_id = req.body.id;
-        const deleteBox = yield Box_js_1.default.destroy({ where: { id: d_id } });
+        const deleteBox = yield box_js_1.default.destroy({ where: { id: d_id } });
     }
     catch (error) {
         console.error(error);

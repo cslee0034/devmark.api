@@ -19,6 +19,8 @@ import MemoPage from "./views/MemoPage";
 import UModal from "./utils/UModal";
 import DModal from "./utils/DModal";
 
+// Contexts
+
 export const UserContext = createContext({
   loginContent: {
     loggedIn: false,
@@ -36,6 +38,7 @@ export const ModalContext = createContext({
   setModalContent: (ModalContent: any): any => {},
 });
 
+// Interfaces
 interface Navbar {
   loggedIn: boolean;
 }
@@ -47,9 +50,16 @@ interface Modal {
   url: string;
 }
 
+// React Start from here
 const App = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Config
+
   /* Axios withCredentials */
   axios.defaults.withCredentials = true;
+
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
 
   /* Login Content */
   const [loginContent, setLoginContent] = useState({
@@ -68,6 +78,9 @@ const App = (): JSX.Element => {
     url: "",
     id: "",
   });
+
+  //--------------------------------------------------------
+  // useMemos
 
   /* Remember Login, Sideber, Modal Memo */
   const loginMemo = useMemo(
@@ -102,7 +115,9 @@ const App = (): JSX.Element => {
     }
   };
 
-  /* 매 렌더링 마다 Login 수행 */
+  //--------------------------------------------------------
+  /* Check If Loggedin Or Not */
+
   useEffect(() => {
     if (
       window.localStorage.getItem("userId") ||
@@ -111,6 +126,9 @@ const App = (): JSX.Element => {
       StorageLogin();
     }
   }, []);
+
+  //--------------------------------------------------------
+  // Modal render
 
   /* CRUD Modal */
   const renderModal = () => {
@@ -158,6 +176,9 @@ const App = (): JSX.Element => {
       );
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <UserContext.Provider value={loginMemo}>

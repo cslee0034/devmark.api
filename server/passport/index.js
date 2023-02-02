@@ -8,7 +8,7 @@ const localStrategy_js_1 = __importDefault(require("./localStrategy.js"));
 const kakaoStrategy_js_1 = __importDefault(require("./kakaoStrategy.js"));
 const githubStrategy_js_1 = __importDefault(require("./githubStrategy.js"));
 const user_js_1 = __importDefault(require("../models/user.js"));
-const Box_js_1 = __importDefault(require("../models/Box.js"));
+const box_js_1 = __importDefault(require("../models/box.js"));
 exports.default = () => {
     passport_1.default.serializeUser((user, done) => {
         done(null, user.id);
@@ -18,7 +18,7 @@ exports.default = () => {
             where: { id },
             include: [
                 {
-                    model: Box_js_1.default,
+                    model: box_js_1.default,
                     attributes: ["id"],
                     as: "Boxes",
                 },

@@ -174,6 +174,109 @@ describe("Box CRUD", () => {
             .expect(200, done);
     });
 });
+/* Memo CRUD */
+describe("Bookmark CRUD", () => {
+    const agent = supertest_1.default.agent(index_js_2.default);
+    beforeEach((done) => {
+        agent
+            .post("/api/user/login")
+            .send({
+            email: "temp@example.com",
+            password: "temp",
+        })
+            .end(done);
+    });
+    // Bookmark create
+    it("POST /content", (done) => {
+        agent
+            .post("/api/content")
+            .send({
+            bookmarkName: "temp_content",
+            bookmarkURL: "temp_URL",
+            // boxId: 1,
+        })
+            .expect(201, done);
+    });
+    // Bookmark read
+    it("Get /content", (done) => {
+        agent.get("/api/content?boxId=1").send({}).expect(200, done);
+        // 쿼리로 BoxId 전달
+    });
+    // Bookmark update
+    it("Patch /content", (done) => {
+        agent
+            .patch("/api/content")
+            .send({
+            contentName: "temp_box2",
+            URL: "temp_URL2",
+            id: 1,
+        })
+            .expect(200, done);
+    });
+    // Bookmark delete
+    it("Delete /api/content", (done) => {
+        agent
+            .delete("/api/content")
+            .send({
+            id: 1,
+        })
+            .expect(200, done);
+    });
+});
+/* Memo CRUD */
+describe("Memo CRUD", () => {
+    const agent = supertest_1.default.agent(index_js_2.default);
+    beforeEach((done) => {
+        agent
+            .post("/api/user/login")
+            .send({
+            email: "temp@example.com",
+            password: "temp",
+        })
+            .end(done);
+    });
+    // Memo create
+    it("POST /memo", (done) => {
+        agent
+            .post("/api/memo")
+            .send({
+            memoName: "temp_content",
+            memoContent: "temp_URL",
+            BookmarkId: 1,
+        })
+            .expect(201, done);
+    });
+    // Memo read - all
+    it("Get /memo", (done) => {
+        agent.get("/api/memo").send({}).expect(200, done);
+        // 메모 전체 가져오기
+    });
+    // Memo read - each
+    it("Get /memo/each", (done) => {
+        agent.get("/api/memo/each?memoId=1").send({}).expect(200, done);
+        // 메모 일부 가져오기
+    });
+    // // memo update
+    // it("Patch /memo", (done) => {
+    //   agent
+    //     .patch("/api/memo")
+    //     .send({
+    //       contentName: "temp_box2",
+    //       URL: "temp_URL2",
+    //       id: 1,
+    //     })
+    //     .expect(200, done);
+    // });
+    // memo delete
+    it("Delete /api/memo", (done) => {
+        agent
+            .delete("/api/memo")
+            .send({
+            id: 1,
+        })
+            .expect(200, done);
+    });
+});
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield index_js_1.sequelize.sync({ force: true });
 }));

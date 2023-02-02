@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ModalContext } from "../App";
 import Search from "../utils/Search";
 
+// Interfaces
 interface Get {
   Error: any;
   box: string;
@@ -22,7 +23,11 @@ interface P {
   memoId: string;
 }
 
+// React Start from here
 const MemoMain: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   /* Modal Context */
   const { setModalContent } = useContext(ModalContext);
 
@@ -30,7 +35,10 @@ const MemoMain: FC<P> = (props: P): JSX.Element => {
   const [memos, setMemos] = useState<any>([]);
   const [memoheaders, setMemoheaders] = useState<any>([]);
 
-  /* Memo Axios Get /api/memo -- Get All */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Memo Axios Get /api/box -- Get All */
   const getMemos = async () => {
     try {
       await axios.get<Get>("/api/memo").then((res) => {
@@ -75,7 +83,9 @@ const MemoMain: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
   /* Fetching Data */
+
   useEffect(() => {
     const fetchMemos = async () => {
       try {
@@ -88,6 +98,9 @@ const MemoMain: FC<P> = (props: P): JSX.Element => {
     fetchMemos();
   }, []);
 
+  //--------------------------------------------------------
+  // return
+  
   return (
     <>
       {/* Header */}

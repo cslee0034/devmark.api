@@ -1,5 +1,5 @@
 import express from "express";
-import { createMemo, renderMemo, renderMemoEach } from "../controller/memo.js";
+import { createMemo, deleteMemo, renderMemo, renderMemoEach } from "../controller/memo.js";
 import { isLoggedIn } from "../middleware/middleware.js";
 export const memo = express.Router();
 
@@ -16,4 +16,4 @@ memo.get("/each", isLoggedIn, renderMemoEach);
 // // memo.patch("/", isLoggedIn, updateMemo);
 
 // /* Delete /api/memo */
-// memo.delete("/", isLoggedIn, deleteMemo);
+memo.delete("/", isLoggedIn, deleteMemo);

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
 import { ModalContext } from "../App";
 
-/* Post Interface */
+// Interfaces
 interface Post {
   Error: any;
   email: string;
@@ -18,11 +18,18 @@ function email_check(email: string) {
   return reg.test(email);
 }
 
+// React Start from here
 const Register = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   /* Modal View Toggle */
   const { setModalContent } = useContext(ModalContext);
 
-  /* Register Scripts */
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Register Scripts */
   const registerClickHandeler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -40,6 +47,7 @@ const Register = (): JSX.Element => {
 
     /* Password Check */
     if ((e.target as HTMLFormElement).Password.value == "") {
+      // password가 비어있는 경우
       setModalContent({
         header: "Password ERROR",
         message: "enter password please",
@@ -47,6 +55,7 @@ const Register = (): JSX.Element => {
       });
       return;
     } else if (
+      // password가 confirmpassword와 일치하지 않는 경우
       (e.target as HTMLFormElement).Password.value !==
       (e.target as HTMLFormElement).ConfirmPassword.value
     ) {
@@ -60,6 +69,7 @@ const Register = (): JSX.Element => {
 
     /* Nickname Check */
     if ((e.target as HTMLFormElement).Nickname.value == "") {
+      // nickname이 없는 경우
       setModalContent({
         header: "Nickname ERROR",
         message: "enter your nickname please",
@@ -68,6 +78,7 @@ const Register = (): JSX.Element => {
       return;
     }
     if ((e.target as HTMLFormElement).Nickname.value.length > 15) {
+      // nickname의 길이가 15 이상인 경우
       setModalContent({
         header: "Nickname ERROR",
         message: "the maximum number of characters for a nickname is 15",
@@ -80,7 +91,10 @@ const Register = (): JSX.Element => {
     signup(e);
   };
 
-  /* Signup Function */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Register Axios Post /api/user/registration */
   const signup = async (e: any) => {
     try {
       await axios
@@ -110,6 +124,9 @@ const Register = (): JSX.Element => {
       }
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <div className="login-wrapper mb-4">

@@ -86,4 +86,4 @@ const deleteMemo: RequestHandler = async (req, res, next) => {
 };
 
 // export { createMemo, /*renderContent,*/ deleteMemo, /*updateContent*/ };
-export { createMemo, renderMemo, renderMemoEach };
+export { createMemo, renderMemo, renderMemoEach, deleteMemo };

@@ -7,6 +7,7 @@ import { SidebarContext, UserContext } from "../App";
 import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 
+// Interfaces
 interface P {
   loggedIn: boolean;
   userNick: string;
@@ -16,10 +17,18 @@ interface Post {
   id: number;
 }
 
+// React Start from here
 const NavBar: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   const { setSidebar } = useContext(SidebarContext);
   const { setLoginContent } = useContext(UserContext);
 
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Logout Axios Post /api/user/logout */
   const signout = async () => {
     try {
       await axios.post<Post>("/api/user/logout").then((res) => {
@@ -40,6 +49,9 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
+  // return
+  
   return (
     // Navbar
     <nav className="navbar-content navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">

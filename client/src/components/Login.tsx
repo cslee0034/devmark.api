@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
 import { ModalContext, UserContext } from "../App";
 
-/* Post Interface */
+// Interfaces
 interface Post {
   Error: any;
   email: string;
@@ -17,10 +17,18 @@ interface Get {
   Boxes: any;
 }
 
+// React Start from here
 const Login = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   const { setModalContent } = useContext(ModalContext);
   const { loginContent } = useContext(UserContext);
 
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - loginClickHandeler */
   const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Signin */
@@ -31,7 +39,10 @@ const Login = (): JSX.Element => {
     }
   };
 
-  /* Signin Function */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Login Axios Post /api/user/login */
   const signin = async (e: any) => {
     try {
       await axios
@@ -65,10 +76,11 @@ const Login = (): JSX.Element => {
       }
       return true;
       // 오류 난다면 errored = true 리턴
+      // loginClickHandeler에서 다음 동작을 방지한다
     }
   };
 
-  /* LoginAPI */
+  /* <Axios Request> - Login Axios Get /api/info */
   const loginAPI = async (e: any) => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
@@ -109,6 +121,9 @@ const Login = (): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
+  // return
+  
   return (
     <div className="login-wrapper mb-4">
       {/* Login Container */}

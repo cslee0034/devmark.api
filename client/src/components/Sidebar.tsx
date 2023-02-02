@@ -9,18 +9,26 @@ import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 
 const Slidebar = (): JSX.Element => {
+  // React Start from here
+
+  //--------------------------------------------------------
+  // return
+
   return (
     // Slidebar
     <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion mb-3">
       {/* Slidebar - Brand */}
 
-      <Link to='/'
+      <Link
+        to="/"
         className="sidebar-brand d-flex align-items-center justify-content-center"
       >
         <div className="sidebar-brand-icon ">
           <FontAwesomeIcon icon={faBookBookmark} size="2x" />
         </div>
-        <div className="sidebar-brand-text mx-3 sidebar-brand-explain">Dev-Mark</div>
+        <div className="sidebar-brand-text mx-3 sidebar-brand-explain">
+          Dev-Mark
+        </div>
       </Link>
 
       {/* Divider */}
@@ -28,7 +36,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Bookmark */}
       <li className="nav-item my-1 sidebar-bookmark-container">
-        <Link to='/bookmarks' className="nav-link sidebar-bookmark">
+        <Link to="/bookmarks" className="nav-link sidebar-bookmark">
           <div>
             <FontAwesomeIcon icon={faBookmark} />
           </div>
@@ -41,7 +49,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Alarm */}
       <li className="nav-item my-1 sidebar-Alarm-container">
-        <Link to='/alarms' className="nav-link sidebar-Alarm">
+        <Link to="/alarms" className="nav-link sidebar-Alarm">
           <div>
             <FontAwesomeIcon icon={faClock} />
           </div>
@@ -51,7 +59,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Memo */}
       <li className="nav-item my-1 sidebar-memo-container">
-        <Link to='/memos' className="nav-link sidebar-memo">
+        <Link to="/memos" className="nav-link sidebar-memo">
           <div>
             <FontAwesomeIcon icon={faEdit} />
           </div>
@@ -61,9 +69,9 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Feed */}
       <li className="nav-item my-1 sidebar-feed-container">
-        <Link to='/feed' className="nav-link sidebar-feed">
+        <Link to="/feed" className="nav-link sidebar-feed">
           <div>
-          <FontAwesomeIcon icon={faComment} />
+            <FontAwesomeIcon icon={faComment} />
           </div>
           <div className="sidebar-feed-explain">&nbsp; Feed</div>
         </Link>
@@ -74,7 +82,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - About */}
       <li className="nav-item my-1 sidebar-about-container">
-        <Link to='/about' className="nav-link sidebar-about">
+        <Link to="/about" className="nav-link sidebar-about">
           <div>
             <FontAwesomeIcon icon={faCircleQuestion} />
           </div>

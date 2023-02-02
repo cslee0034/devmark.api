@@ -3,7 +3,7 @@ import configObj from "../config/config.js";
 import User from "./user.js";
 import Alarm from "./alarm.js";
 import Bookmark from "./bookmark.js";
-import Box from "./Box.js";
+import Box from "./box.js";
 import Memo from "./memo.js";
 
 const env = (process.env.NODE_ENV as "production" | "test") || "development";

@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios, { AxiosResponse } from "axios";
 import { ModalContext } from "../App";
 
+// Interfaces
 interface Post {
   Error: any;
   box: string;
@@ -16,10 +17,16 @@ interface P {
   bookmarkId: string;
 }
 
+// React Start from here
 const Edit: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
 
-  /* Memo Create */
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Memo Create*/
   const MemoCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -27,6 +34,10 @@ const Edit: FC<P> = (props: P): JSX.Element => {
     createMemo(e);
   };
 
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Memo Axios Post /api/memo */
   const createMemo = async (e: any) => {
     try {
       await axios
@@ -55,6 +66,9 @@ const Edit: FC<P> = (props: P): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
+  // DataPicker
+
   /* DatePicker */
   const [startDate, setStartDate] = useState<Date>(
     setHours(setMinutes(new Date(), 30), 16)
@@ -69,6 +83,9 @@ const Edit: FC<P> = (props: P): JSX.Element => {
   const dateHandleChange = (date: any) => {
     setStartDate(date);
   };
+
+  //--------------------------------------------------------
+  // Render
 
   /* Select Form Whether Memo or Alarm */
   const formControl = () => {
@@ -148,6 +165,9 @@ const Edit: FC<P> = (props: P): JSX.Element => {
       </form>;
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return <>{formControl()}</>;
 };

@@ -17,4 +17,4 @@ exports.memo.get("/each", middleware_js_1.isLoggedIn, memo_js_1.renderMemoEach);
 // /* Patch /api/memo */
 // // memo.patch("/", isLoggedIn, updateMemo);
 // /* Delete /api/memo */
-// memo.delete("/", isLoggedIn, deleteMemo);
+exports.memo.delete("/", middleware_js_1.isLoggedIn, memo_js_1.deleteMemo);

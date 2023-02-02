@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useState } from "react";
 import { ModalContext } from "../App";
 
+// Interfaces
 interface Post {
   Error: any;
   file: any;
@@ -16,16 +17,23 @@ interface P {
   id: string;
 }
 
+// React Start from here
 const CModal: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
 
-  /* Bookmark Create */
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Bookmark Create */
   const BookmarkCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Bookmark Name Check */
     if (!(e.target as HTMLFormElement).BookmarkName.value) {
+      // 북마크 이름이 없는 경우
       setModalContent({
         header: "Bookmark Name",
         message: "You must enter bookmark name",
@@ -34,6 +42,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       return;
     }
     if ((e.target as HTMLFormElement).BookmarkName.value.length > 15) {
+      // 북마크 이름이 15글자 이상인 경우
       setModalContent({
         header: "Bookmark Name",
         message: "the maximum number of characters for a bookmark is 15",
@@ -44,6 +53,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
 
     /* Bookmark URL Check */
     if (!(e.target as HTMLFormElement).BookmarkURL.value) {
+      // 북마크 url이 없는 경우
       setModalContent({
         header: "Bookmark URL",
         message: "You must enter bookmark URL",
@@ -59,39 +69,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Create Bookmark */
-  const createBookmark = async (
-    e: React.FormEvent<HTMLFormElement>,
-    boxId: string
-  ) => {
-    try {
-      await axios
-        .post<Post>("/api/content", {
-          bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
-          bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
-          boxId: props.id,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-    }
-  };
-
-  /* Box Edit */
+  /* <Event Handler> - Box Edit */
   const BoxCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -125,7 +103,49 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Image Upload */
+  /* <Event Handler> - Handle Image File */
+  const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.currentTarget;
+    const files = (target.files as FileList)[0];
+    setFile(files);
+  };
+
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Bookmark Axios Post /api/content*/
+  const createBookmark = async (
+    e: React.FormEvent<HTMLFormElement>,
+    BoxId: string
+  ) => {
+    try {
+      await axios
+        .post<Post>("/api/content", {
+          bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
+          bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
+          boxId: BoxId,
+        })
+        .then((res) => {
+          if (res.data.Error) {
+            setModalContent({
+              header: "Edit ERROR",
+              message: res.data.Error,
+              toggle: "view",
+            });
+          }
+        });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  /* <Axios Request> - Image Axios Post /api/box/img */
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
@@ -150,7 +170,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* Create Box */
+  /* <Axios Request> - Box Axios Post /api/box */
   const createBox = async (e: any, imgURL: string) => {
     try {
       await axios
@@ -178,16 +198,10 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* Handle Image File */
-  const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.currentTarget;
-    const files = (target.files as FileList)[0];
-    setFile(files);
-  };
-
   // -------------------------------------------------------------------------
+  // Render
 
-  /* Handle Main Content */
+  /* Render Main Content */
   const modalMain = () => {
     if (props.header === "Edit_Box") {
       return (
@@ -231,6 +245,9 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       );
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <div className="modal-container-background">
