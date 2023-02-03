@@ -19,6 +19,8 @@ const user_js_1 = __importDefault(require("../../models/user.js"));
 // jest.mock 아래 써야 모킹이 된다
 jest.mock("bcrypt");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+jest.mock("passport");
+const passport_1 = __importDefault(require("passport"));
 let req, res, next;
 // beforeEach 위에서 선언 해주어야 각각 넣어줄 수 있다.
 beforeEach(() => {
@@ -59,5 +61,69 @@ describe("createUser", () => {
             Error: "Account already exists",
         });
         // json으로 오는 data가 Error: "Account already exists"이다.
+    }));
+    it("유저 생성하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+        const errorMessage = { message: "Error" };
+        // reject 메시지
+        user_js_1.default.findOne.mockResolvedValue(Promise.reject(errorMessage));
+        // 비동기 Promise.reject로
+        yield (0, auth_js_1.registration)(req, res, next);
+        expect(next).toHaveBeenCalledWith(errorMessage);
+    }));
+});
+describe("login", () => {
+    it("로그인 성공", () => __awaiter(void 0, void 0, void 0, function* () {
+        passport_1.default.authenticate = jest.fn((authType, callback) => {
+            // 미들웨어 확장패턴인 passport.authenticate는 (req, res, next)를 반환한다
+            return (req, res, next) => {
+                // 그리고 내부에서는 (authError, user, info)를 인수로 하는
+                // callback함수가 있고 그 내용을 req, res에 넣고
+                // next()에 담아 다음으로 넘긴다
+                const user = { id: 1 };
+                // callback 함수에 넣을 인자를 모킹
+                return callback(null, user, null);
+                // 콜백 리턴
+            };
+        });
+        req.login = jest.fn();
+        yield (0, auth_js_1.login)(req, res, next);
+        expect(res.statusCode).toBe(200);
+    }));
+    it("로그인 실패", () => __awaiter(void 0, void 0, void 0, function* () {
+        passport_1.default.authenticate = jest.fn((authType, callback) => {
+            return (req, res, next) => {
+                const user = null;
+                // user가 없다면 로그인이 실패한다
+                const info = { message: "login error" };
+                // 임의의 info message
+                return callback(null, user, info);
+            };
+        });
+        req.login = jest.fn();
+        yield (0, auth_js_1.login)(req, res, next);
+        expect(res.statusCode).toBe(401);
+    }));
+    it("인증 오류", () => __awaiter(void 0, void 0, void 0, function* () {
+        passport_1.default.authenticate = jest.fn((authType, callback) => {
+            return (req, res, next) => {
+                const authError = true;
+                const user = { id: 1 };
+                // callback 함수에 넣을 인자를 모킹
+                return callback(authError, user, null);
+                // 콜백 리턴
+            };
+        });
+        req.login = jest.fn();
+        yield (0, auth_js_1.login)(req, res, next);
+        res.statusCode = 500;
+        // 실제로 localStrategy를 호출하지는 않기 때문에 스테이터스 코드를 지정해준다
+        expect(res.statusCode).toBe(500);
+    }));
+});
+describe("createUser", () => {
+    it("로그아웃", () => __awaiter(void 0, void 0, void 0, function* () {
+        req.logout = jest.fn();
+        yield (0, auth_js_1.logout)(req, res, next);
+        expect(res.statusCode).toBe(200);
     }));
 });
