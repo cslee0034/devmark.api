@@ -11,6 +11,7 @@ beforeAll(async () => {
 /* Registration Test */
 describe("POST /registration", () => {
   it("회원가입", (done) => {
+    // done -> 비동기 함수
     request(app)
       .post("/api/user/registration")
       .send({
@@ -147,7 +148,6 @@ describe("Box CRUD", () => {
       })
       .expect(201, done);
   });
-  
 
   // Box read
   it("Get /box", (done) => {
@@ -263,11 +263,11 @@ describe("Memo CRUD", () => {
     // 메모 전체 가져오기
   });
 
-    // Memo read - each
-    it("Get /memo/each", (done) => {
-      agent.get("/api/memo/each?memoId=1").send({}).expect(200, done);
-      // 메모 일부 가져오기
-    });
+  // Memo read - each
+  it("Get /memo/each", (done) => {
+    agent.get("/api/memo/each?memoId=1").send({}).expect(200, done);
+    // 메모 일부 가져오기
+  });
 
   // // memo update
   // it("Patch /memo", (done) => {

@@ -9,7 +9,7 @@ const registration: RequestHandler = async (req, res, next) => {
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      return res.send({ Error: "Account already exists" });
+      return res.status(409).json({ Error: "Account already exists" });
     }
     const hashPassword = await bcrypt.hash(password, 12);
     await User.create({

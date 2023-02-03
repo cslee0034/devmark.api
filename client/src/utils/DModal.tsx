@@ -69,13 +69,20 @@ const DModal: FC<P> = (props: P): JSX.Element => {
             });
           }
         });
-    } catch (error) {
+    } catch (error:any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
         );
       } else {
         console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
       }
     }
   };
@@ -98,13 +105,20 @@ const DModal: FC<P> = (props: P): JSX.Element => {
             });
           }
         });
-    } catch (error) {
+    } catch (error:any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
         );
       } else {
         console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
       }
     }
   };

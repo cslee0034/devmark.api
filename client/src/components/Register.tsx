@@ -104,23 +104,22 @@ const Register = (): JSX.Element => {
           password: e.target.Password.value,
         })
         .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Register ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          } else {
-            window.location.replace("/auth");
-          }
+          window.location.replace("/auth");
         });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
         );
       } else {
         console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Register ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
       }
     }
   };

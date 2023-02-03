@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { SidebarContext, UserContext } from "../App";
+import { ModalContext, SidebarContext, UserContext } from "../App";
 import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 
@@ -24,6 +24,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const { setSidebar } = useContext(SidebarContext);
   const { setLoginContent } = useContext(UserContext);
+  const { setModalContent } = useContext(ModalContext);
 
   //--------------------------------------------------------
   // Axios Request
@@ -38,7 +39,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
         });
         window.location.replace("/");
       });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -46,12 +47,19 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
   //--------------------------------------------------------
   // return
-  
+
   return (
     // Navbar
     <nav className="navbar-content navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">

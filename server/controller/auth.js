@@ -22,7 +22,7 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     try {
         const exUser = yield user_js_1.default.findOne({ where: { email } });
         if (exUser) {
-            return res.send({ Error: "Account already exists" });
+            return res.status(409).json({ Error: "Account already exists" });
         }
         const hashPassword = yield bcrypt_1.default.hash(password, 12);
         yield user_js_1.default.create({

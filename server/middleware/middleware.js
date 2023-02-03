@@ -8,8 +8,7 @@ const isLoggedIn = (req, res, next) => {
     }
     else {
         // 허가되지 않은 요청 -> status code 403
-        res.status(403);
-        res.json({ Error: "Login required" });
+        res.status(403).json({ Error: "Login required" });
         return;
     }
 };
@@ -20,8 +19,7 @@ const isNotLoggedIn = (req, res, next) => {
         next();
     }
     else {
-        res.status(401);
-        res.json({ Error: "Already loggedin" });
+        res.status(401).json({ Error: "Already loggedin" });
         return;
     }
 };

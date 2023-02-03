@@ -23,6 +23,7 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
 /* Registration Test */
 describe("POST /registration", () => {
     it("회원가입", (done) => {
+        // done -> 비동기 함수
         (0, supertest_1.default)(index_js_2.default)
             .post("/api/user/registration")
             .send({

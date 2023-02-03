@@ -50,15 +50,7 @@ const Login = (): JSX.Element => {
           email: e.target.Email.value,
           password: e.target.Password.value,
         })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Login ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
+        .then((res) => {});
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -110,7 +102,7 @@ const Login = (): JSX.Element => {
           window.location.replace("/");
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -118,12 +110,19 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
   //--------------------------------------------------------
   // return
-  
+
   return (
     <div className="login-wrapper mb-4">
       {/* Login Container */}
