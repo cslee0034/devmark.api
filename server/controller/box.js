@@ -98,10 +98,8 @@ const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         }, {
             where: { id: req.body.id },
         });
-        if (updateBox) {
-            res.status(200);
-            // 수정 성공 Status
-        }
+        res.status(200);
+        // 수정 성공 Status
     }
     catch (error) {
         console.error(error);

@@ -181,7 +181,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                             (memo: Array<string>, index: number) => (
                               <li key={index}>
                                 <Link
-                                  to={`/memo/${memo[0]}`}
+                                  to={`/memos/${memo[0]}?category=${bookmark[0]}`}
                                   // 클릭시 해당 memo로 이동
                                   className="dropdown-item"
                                 >
@@ -196,7 +196,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                       <li>
                         <a
                           className="dropdown-item"
-                          href={`/memos/newmemo?category=${bookmark[1]}&bookmarkId=${bookmark[3]}`}
+                          href={`/memos/newmemo?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
                           // 클릭시 쿼리스트링으로 정보를 가진채 newmemo로 이동
                         >
                           New &nbsp;

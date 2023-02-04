@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// import { Request, Response, NextFunction } from "express";
 const box_js_1 = require("../../controller/box.js");
 const node_mocks_http_1 = __importDefault(require("node-mocks-http"));
 jest.mock("../../models/box.js");
@@ -37,12 +38,12 @@ describe("createBox", () => {
         // (Memo.findOne as jest.Mock).mockResolvedValue(null);
         box_js_2.default.create.mockResolvedValue({});
     });
-    it("박스가 없다면 박스 생성", () => __awaiter(void 0, void 0, void 0, function* () {
+    it("박스 생성", () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, box_js_1.createBox)(req, res, next);
         expect(res.statusCode).toBe(201);
         // res의 statusCode가 201로 return된다.
     }));
-    it("박스 생성하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+    it("박스 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
         req.user = null;
         // req.user가 없을 경우.
         try {
@@ -81,9 +82,9 @@ describe("readBox", () => {
         // 가짜함수로 대체하지 않음 ( 결괏값이 실제 구현 값 )
         // res라는 객체의 end라는 함수에 spy를 붙여서 정보를 캘 수 있다.
         yield (0, box_js_1.renderBox)(req, res, next);
-        expect(spyFn).toHaveBeenCalled();
+        expect(spyFn).toBeCalled();
     }));
-    it("박스 생성하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+    it("박스 읽어오며 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
         req.user = null;
         // req.user가 없을 경우.
         try {
@@ -112,23 +113,53 @@ describe("updateBox", () => {
         // update가 성공하면 next가 불려올 것이다.
     }));
     it("업데이트할 정보가 없는 경우 error", () => __awaiter(void 0, void 0, void 0, function* () {
-        req.body = null;
+        req.body = {};
         // body에 정보가 없는 경우.
         const errorMessage = { message: "Error" };
         // 에러메시지.
         box_js_2.default.update.mockResolvedValue(Promise.reject(errorMessage));
         // 비동기로 에러 메시지가 온다.
-        yield (0, box_js_1.renderBox)(req, res, next);
-        expect(next).toHaveBeenCalledWith(errorMessage);
+        yield (0, box_js_1.updateBox)(req, res, next);
+        expect(next).toBeCalledWith(errorMessage);
+        // 에러메시지가 next로와 함께 불린다.
     }));
-    // it("박스 생성하면서 에러 발생", async () => {
-    //   req.user = null;
-    //   // req.user가 없을 경우.
-    //   try {
-    //     await createBox(req, res, next);
-    //   } catch (error) {
-    //     expect(error).toBeTruthy();
-    //     // 에러가 발생한다.
-    //   }
-    // });
+    it("박스 업데이트 하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+        req.user = null;
+        // req.user가 없을 경우.
+        try {
+            yield (0, box_js_1.updateBox)(req, res, next);
+        }
+        catch (error) {
+            expect(error).toBeTruthy();
+            // 에러가 발생한다.
+        }
+    }));
+});
+describe("deleteBox", () => {
+    beforeEach(() => {
+        req.user = { id: 1 };
+        req.body = {
+            box: "temp_box",
+            url: "temp_box_url",
+            id: 1,
+        };
+    });
+    it("d_id가 있다면 삭제", () => __awaiter(void 0, void 0, void 0, function* () {
+        box_js_2.default.destroy.mockResolvedValue(null);
+        yield (0, box_js_1.deleteBox)(req, res, next);
+        expect(res.statusCode).toBe(200);
+        expect(next).toBeCalled();
+        // update가 성공하면 next가 불려올 것이다.
+    }));
+    it("d_id가 없다면 에러", () => __awaiter(void 0, void 0, void 0, function* () {
+        req.body = {};
+        // body의 id를 삭제한다.
+        const errorMessage = { message: "Error" };
+        // 에러메시지.
+        box_js_2.default.destroy.mockResolvedValue(Promise.reject(errorMessage));
+        // 비동기로 에러 메시지가 온다.
+        yield (0, box_js_1.deleteBox)(req, res, next);
+        expect(next).toBeCalledWith(errorMessage);
+        // 에러메시지가 next로와 함께 불린다.
+    }));
 });

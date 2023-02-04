@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
-import bookmark from "../models/bookmark.js";
+import Bookmark from "../models/bookmark.js";
 import Memo from "../models/memo.js";
 
 const createContent: RequestHandler = async (req, res, next) => {
   try {
-    const newBookmark = await bookmark.create({
+    const newBookmark = await Bookmark.create({
       contentName: req.body.bookmarkName,
       URL: req.body.bookmarkURL,
       BoxId: req.body.boxId,
@@ -21,7 +21,7 @@ const renderContent: RequestHandler = async (req, res, next) => {
   try {
     if (req.query!.boxId) {
       const boxId = parseInt(req.query!.boxId as unknown as string);
-      const renderBookmark = await bookmark.findAll({
+      const renderBookmark = await Bookmark.findAll({
         where: { BoxId: boxId },
         include: [
           {
@@ -49,7 +49,7 @@ const renderContent: RequestHandler = async (req, res, next) => {
 
 const updateContent: RequestHandler = async (req, res, next) => {
   try {
-    const updateBookmark = await bookmark.update(
+    const updateBookmark = await Bookmark.update(
       {
         contentName: req.body.bookmarkName,
         URL: req.body.bookmarkURL,
@@ -70,7 +70,7 @@ const updateContent: RequestHandler = async (req, res, next) => {
 const deleteContent: RequestHandler = async (req, res, next) => {
   try {
     const d_id = req.body.id;
-    const deleteBookmark = await bookmark.destroy({ where: { id: d_id } });
+    const deleteBookmark = await Bookmark.destroy({ where: { id: d_id } });
   } catch (error) {
     console.error(error);
     next(error);

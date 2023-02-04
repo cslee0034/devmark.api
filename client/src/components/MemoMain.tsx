@@ -130,7 +130,10 @@ const MemoMain: FC<P> = (props: P): JSX.Element => {
                     {memos[index].map((memos: any, idx: number) => (
                       // memo 내용 순환
                       <div key={idx}>
-                        <Link to={`/memos/${memos[1]}`} className="memo-link">
+                        <Link
+                          to={`/memos/${memos[1]}?category=${memoHeader}`}
+                          className="memo-link"
+                        >
                           <li className="list-group-item memo-list-name">
                             {memos[0]}
                           </li>

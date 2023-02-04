@@ -11,21 +11,22 @@ const MemoPage = (): JSX.Element => {
   /* 쿼리스트링 해석 */
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const boxId = searchParams.get("box");
   const bookmarkId = searchParams.get("bookmarkId");
 
   /* Render Page or EditMemo */
   const memoPageRender = () => {
-    if (memo_id === "newmemo" && category && bookmarkId) {
+    if (memo_id === "newmemo" && category && boxId && bookmarkId) {
       return (
         <>
-          <Edit category={category} bookmarkId={bookmarkId} />
+          <Edit category={category} bookmarkId={bookmarkId} boxId={boxId} />
         </>
       );
     }
-    if (memo_id) {
+    if (memo_id && category) {
       return (
         <>
-          <MemoView memoId={memo_id} />
+          <MemoView memoId={memo_id} category={category} />
         </>
       );
     } else {

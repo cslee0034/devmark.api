@@ -119,22 +119,12 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     BoxId: string
   ) => {
     try {
-      await axios
-        .post<Post>("/api/content", {
-          bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
-          bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
-          boxId: BoxId,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.post<Post>("/api/content", {
+        bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
+        bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
+        boxId: BoxId,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -144,7 +134,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });
@@ -158,15 +148,8 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     try {
       await axios.post<Post>("/api/box/img", formData, config).then((res) => {
         imageURL = res.data.url;
-        if (res.data.Error) {
-          setModalContent({
-            header: "Edit ERROR",
-            message: res.data.Error,
-            toggle: "view",
-          });
-        }
       });
-    } catch (error:any) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -187,21 +170,11 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Post /api/box */
   const createBox = async (e: any, imgURL: string) => {
     try {
-      await axios
-        .post<Post>("/api/box/", {
-          box: e.target.Box.value,
-          url: imgURL,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.post<Post>("/api/box/", {
+        box: e.target.Box.value,
+        url: imgURL,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -211,7 +184,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });

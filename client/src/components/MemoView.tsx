@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { ModalContext } from "../App";
 
 // Interfaces
@@ -19,6 +20,7 @@ interface Get {
 
 interface P {
   memoId: string;
+  category: string;
 }
 
 interface Delete {
@@ -26,8 +28,13 @@ interface Delete {
   memoId: string;
 }
 
+interface Patch {
+  Error: any;
+}
+
 // React Start from here
 const MemoView: FC<P> = (props: P): JSX.Element => {
+  const { memo_id } = useParams<string>();
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
 
@@ -36,6 +43,7 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
 
   /* Memo Each State */
   const [viewMemos, setViewMemos] = useState<any>([]);
+  const [modify, setModify] = useState<boolean>(false);
 
   //--------------------------------------------------------
   // Event Handler
@@ -53,17 +61,18 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
     window.location.replace("/memos");
   };
 
+  /* <Event Handler> - Toggle Modify */
+  const toggleModify = (e: any) => {
+    setModify(true);
+  };
+
   /* <Event Handler> - Update Memo */
-  const memoUpdate = (e: React.MouseEvent<HTMLElement>) => {
+  const memoUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /* Delete Confirm */
-    if (!window.confirm("Are you sure to delete?")) {
-      return;
-    }
     /* Delete Box */
-    deleteMemo(props.memoId);
+    updateMemo(e, memo_id);
     /* Reload */
-    window.location.replace("/memos");
+    window.location.reload();
   };
 
   //--------------------------------------------------------
@@ -79,7 +88,7 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
           const memoContent = res.data.memoContent;
           setViewMemos([memoName, memoContent]);
         });
-    } catch (error:any) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -100,22 +109,38 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Memo Axios Delete /api/memo */
   const deleteMemo = async (memoId: string) => {
     try {
-      await axios
-        .delete<Delete>("/api/memo", {
-          data: {
-            id: memoId,
-          },
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
+      await axios.delete<Delete>("/api/memo", {
+        data: {
+          id: memoId,
+        },
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
         });
-    } catch (error:any) {
+      }
+    }
+  };
+
+  /* <Axios Request> - Memo Axios Delete /api/memo */
+  const updateMemo = async (e: any, memoId: any) => {
+    try {
+      await axios.patch<Patch>("/api/memo", {
+        memoName: e.target[1].value,
+        memoContent: e.target[2].value,
+        id: memoId,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -153,34 +178,62 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
 
   return (
     <>
-      <div className="memo-view-container-wrapper">
-        <div className="memo-view-container">
-          <div className="memo-view-head-container">
-            <h3 className="memo-view-head">
-              <small className="text-muted">{viewMemos[0]}</small>
-            </h3>
-          </div>
-          <div className="memo-view-main-container">
-            <div className="memo-view-main">
-              <div className="memo-main-content">{viewMemos[1]}</div>
+      {modify ? (
+        <>
+          <form className="edit-form" onSubmit={memoUpdate}>
+            <input
+              className="form-control"
+              type="text"
+              placeholder={`Category: #${props.category}`}
+              aria-label="Disabled input example"
+              disabled
+            ></input>
+            <input
+              className="form-control"
+              id="Title"
+              placeholder="Title"
+              defaultValue={viewMemos[0]}
+            ></input>
+
+            <textarea className="form-control" id="Text" placeholder="Content">
+              {viewMemos[1]}
+            </textarea>
+            <button type="submit" className="login-button mt-2 mb-4">
+              Modify
+            </button>
+          </form>
+        </>
+      ) : (
+        <div className="memo-view-container-wrapper">
+          <div className="memo-view-container">
+            <div className="memo-view-head-container">
+              <h3 className="memo-view-head">
+                <small className="text-muted">{viewMemos[0]}</small>
+              </h3>
+            </div>
+            <div className="memo-view-main-container">
+              <div className="memo-view-main">
+                <div className="memo-main-content">{viewMemos[1]}</div>
+              </div>
             </div>
           </div>
+
+          <button
+            type="button"
+            className="login-button mt-2"
+            onClick={toggleModify}
+          >
+            Modify
+          </button>
+          <button
+            type="button"
+            className="login-button login-button-delete mt-2 mb-4"
+            onClick={memoDelete}
+          >
+            Delete
+          </button>
         </div>
-        <button
-          type="button"
-          className="login-button mt-2"
-          onClick={memoUpdate}
-        >
-          Modify
-        </button>
-        <button
-          type="button"
-          className="login-button login-button-delete mt-2 mb-4"
-          onClick={memoDelete}
-        >
-          Delete
-        </button>
-      </div>
+      )}
     </>
   );
 };

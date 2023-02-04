@@ -15,6 +15,7 @@ interface Post {
 interface P {
   category: string;
   bookmarkId: string;
+  boxId: string;
 }
 
 // React Start from here
@@ -32,6 +33,9 @@ const Edit: FC<P> = (props: P): JSX.Element => {
 
     /* createMemo Axios */
     createMemo(e);
+
+    /* Reload */
+    window.location.replace(`/bookmarks/${props.boxId}`);
   };
 
   //--------------------------------------------------------
@@ -40,22 +44,12 @@ const Edit: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Memo Axios Post /api/memo */
   const createMemo = async (e: any) => {
     try {
-      await axios
-        .post<Post>("/api/memo", {
-          memoName: e.target[1].value,
-          memoContent: e.target[2].value,
-          bookmarkId: props.bookmarkId,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.post<Post>("/api/memo", {
+        memoName: e.target[1].value,
+        memoContent: e.target[2].value,
+        bookmarkId: props.bookmarkId,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -65,7 +59,7 @@ const Edit: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });
@@ -111,20 +105,6 @@ const Edit: FC<P> = (props: P): JSX.Element => {
             id="Title"
             placeholder="Title"
           ></input>
-
-          {/* <DatePicker
-        className="datapicker"
-        selected={startDate}
-        onChange={dateHandleChange}
-        showTimeSelect
-        timeFormat="HH:mm"
-        injectTimes={[
-          setHours(setMinutes(new Date(), 1), 0),
-          setHours(setMinutes(new Date(), 5), 12),
-          setHours(setMinutes(new Date(), 59), 23),
-        ]}
-        dateFormat="MMMM d, yyyy h:mm aa"
-      /> */}
 
           <textarea
             className="form-control"

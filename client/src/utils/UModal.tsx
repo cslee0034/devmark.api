@@ -39,7 +39,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Event Handler
 
-  /* <Event Handler> - Box Edit*/
+  /* <Event Handler> - Box Update*/
   const BoxUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -68,6 +68,36 @@ const UModal: FC<P> = (props: P): JSX.Element => {
 
   /* <Event Handler> - Content Update */
   const ContentUpdate = async (e: any) => {
+    /* Bookmark Name Check */
+    if (!(e.target as HTMLFormElement).BookmarkName.value) {
+      // 북마크 이름이 없는 경우
+      setModalContent({
+        header: "Bookmark Name",
+        message: "You must enter bookmark name",
+        toggle: "view",
+      });
+      return;
+    }
+    if ((e.target as HTMLFormElement).BookmarkName.value.length > 15) {
+      // 북마크 이름이 15글자 이상인 경우
+      setModalContent({
+        header: "Bookmark Name",
+        message: "the maximum number of characters for a bookmark is 15",
+        toggle: "view",
+      });
+      return;
+    }
+
+    /* Bookmark URL Check */
+    if (!(e.target as HTMLFormElement).BookmarkURL.value) {
+      // 북마크 url이 없는 경우
+      setModalContent({
+        header: "Bookmark URL",
+        message: "You must enter bookmark URL",
+        toggle: "view",
+      });
+      return;
+    }
     e.preventDefault();
 
     await updateContent(e, props.id);
@@ -112,52 +142,13 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     deleteImgUrl: string
   ) => {
     try {
-      await axios
-        .patch<Patch>("/api/box", {
-          box: e.target.Box.value,
-          url: imgURL,
-          id: boxId,
-          d_url: deleteImgUrl,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-    }
-  };
-
-  /* <Axios Request> - Bookmark Axios Patch /api/content */
-  const updateContent = async (e: any, contentId: string) => {
-    try {
-      await axios
-        .patch<Patch>("/api/content", {
-          bookmarkName: e.target.BookmarkName.value,
-          bookmarkURL: e.target.BookmarkURL.value,
-          id: contentId,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.patch<Patch>("/api/box", {
+        box: e.target.Box.value,
+        url: imgURL,
+        id: boxId,
+        d_url: deleteImgUrl,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -167,7 +158,33 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  /* <Axios Request> - Bookmark Axios Patch /api/content */
+  const updateContent = async (e: any, contentId: string) => {
+    try {
+      await axios.patch<Patch>("/api/content", {
+        bookmarkName: e.target.BookmarkName.value,
+        bookmarkURL: e.target.BookmarkURL.value,
+        id: contentId,
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });

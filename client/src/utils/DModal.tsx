@@ -53,23 +53,13 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Delete /api/box */
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
-      await axios
-        .delete<Delete>("/api/box", {
-          data: {
-            d_url: imgUrl,
-            id: boxId,
-          },
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.delete<Delete>("/api/box", {
+        data: {
+          d_url: imgUrl,
+          id: boxId,
+        },
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -79,7 +69,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });
@@ -90,22 +80,12 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Bookmark Axios delete /api/content */
   const deleteContent = async (contentId: string) => {
     try {
-      await axios
-        .delete<Delete>("/api/content", {
-          data: {
-            id: contentId,
-          },
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error:any) {
+      await axios.delete<Delete>("/api/content", {
+        data: {
+          id: contentId,
+        },
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -115,7 +95,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       }
       if (error.response.data.Error) {
         setModalContent({
-          header: "ERROR",
+          header: "Edit ERROR",
           message: error.response.data.Error,
           toggle: "view",
         });

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMemo = exports.renderMemoEach = exports.renderMemo = exports.createMemo = void 0;
+exports.deleteMemo = exports.updateMemo = exports.renderMemoEach = exports.renderMemo = exports.createMemo = void 0;
 const sequelize_1 = require("sequelize");
 const index_js_1 = require("../models/index.js");
 const memo_js_1 = __importDefault(require("../models/memo.js"));
@@ -55,7 +55,6 @@ const renderMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.renderMemo = renderMemo;
 const renderMemoEach = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.query.memoId);
         const id = parseInt(req.query.memoId);
         const memos = yield memo_js_1.default.findOne({ where: { id } });
         if (!memos) {
@@ -71,24 +70,23 @@ const renderMemoEach = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.renderMemoEach = renderMemoEach;
-// const updateContent: RequestHandler = async (req, res, next) => {
-//   try {
-//     const Bookmark = await bookmark.update(
-//       {
-//         contentName: req.body.bookmarkName,
-//         URL: req.body.bookmarkURL,
-//       },
-//       {
-//         where: { id: req.body.id },
-//       }
-//     );
-//     res.redirect("/");
-//   } catch (error) {
-//     console.error(error);
-//     next(error);
-//   }
-//   next();
-// };
+const updateMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const Memos = yield memo_js_1.default.update({
+            memoName: req.body.memoName,
+            memoContent: req.body.memoContent,
+        }, {
+            where: { id: req.body.id },
+        });
+        res.status(200).end();
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+    next();
+});
+exports.updateMemo = updateMemo;
 const deleteMemo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const d_id = req.body.id;
