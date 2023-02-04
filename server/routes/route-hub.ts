@@ -8,10 +8,11 @@ import { box } from "./box.js";
 import { content } from "./content.js";
 import { memo } from "./memo.js";
 import { alarm } from "./alarm.js";
+import { feed } from "./feed.js";
 
 api.use("/info", info);
 api.use("/user", user);
 api.use("/box", box);
 api.use("/content", content);
 api.use("/memo", memo);
-api.use("/alarm", alarm);
+api.use("/feed", feed);
