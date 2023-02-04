@@ -18,6 +18,7 @@ import CModal from "./utils/CModal";
 import MemoPage from "./views/MemoPage";
 import UModal from "./utils/UModal";
 import DModal from "./utils/DModal";
+import FeedPage from "./views/FeedPage";
 
 // Contexts
 
@@ -232,6 +233,7 @@ const App = (): JSX.Element => {
                         <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
+                        <Route path="/feed" element={<FeedPage />} />
                       </Routes>
                     </div>
                     {/* End of Page Content */}

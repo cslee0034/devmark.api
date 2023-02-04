@@ -564,6 +564,27 @@
   color: black;
 }
 
+/* Feed Page*/
+
+.card-wrapper {
+  margin: 2vw;
+}
+
+.card-text-like {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text-like-button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.card-text-like-button:hover {
+  color: #d9b70d;
+}
+
 /* Back to top */
 
 .back-to-top {

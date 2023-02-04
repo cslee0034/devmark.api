@@ -138,7 +138,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
 
   return (
     <>
-      <table className="table">
+      <table className="table mb-4">
         <thead>
           <tr>
             <th scope="col">Check</th>
