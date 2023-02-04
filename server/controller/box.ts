@@ -38,12 +38,12 @@ const createBox: RequestHandler = async (req, res, next) => {
 const renderBox: RequestHandler = async (req, res, next) => {
   try {
     const UserId = req.user!.id;
-    const renderBox = await Box.findAll({ where: { UserId } });
-    if (!renderBox) {
+    const renderBoxs = await Box.findAll({ where: { UserId } });
+    if (!renderBoxs) {
       return res.end();
     } else {
       res.status(200);
-      res.json(renderBox);
+      res.json(renderBoxs);
       // 아이템 가져오기 성공 Status 200
     }
   } catch (error) {

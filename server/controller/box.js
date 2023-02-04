@@ -52,13 +52,13 @@ exports.createBox = createBox;
 const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const UserId = req.user.id;
-        const renderBox = yield box_js_1.default.findAll({ where: { UserId } });
-        if (!renderBox) {
+        const renderBoxs = yield box_js_1.default.findAll({ where: { UserId } });
+        if (!renderBoxs) {
             return res.end();
         }
         else {
             res.status(200);
-            res.json(renderBox);
+            res.json(renderBoxs);
             // 아이템 가져오기 성공 Status 200
         }
     }
@@ -98,8 +98,10 @@ const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         }, {
             where: { id: req.body.id },
         });
-        res.status(200);
-        // 수정 성공 Status
+        if (updateBox) {
+            res.status(200);
+            // 수정 성공 Status
+        }
     }
     catch (error) {
         console.error(error);

@@ -60,7 +60,7 @@ describe("createUser", () => {
   it("유저 생성하면서 에러 발생", async () => {
     const errorMessage = { message: "Error" };
     // reject 메시지
-    (User.findOne as jest.Mock).mockResolvedValue(Promise.reject(errorMessage));
+    (User.create as jest.Mock).mockResolvedValue(Promise.reject(errorMessage));
     // 비동기 Promise.reject로
     await registration(req, res, next);
     expect(next).toHaveBeenCalledWith(errorMessage);

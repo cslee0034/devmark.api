@@ -65,7 +65,7 @@ describe("createUser", () => {
     it("유저 생성하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
         const errorMessage = { message: "Error" };
         // reject 메시지
-        user_js_1.default.findOne.mockResolvedValue(Promise.reject(errorMessage));
+        user_js_1.default.create.mockResolvedValue(Promise.reject(errorMessage));
         // 비동기 Promise.reject로
         yield (0, auth_js_1.registration)(req, res, next);
         expect(next).toHaveBeenCalledWith(errorMessage);
