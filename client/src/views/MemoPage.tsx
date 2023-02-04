@@ -19,7 +19,12 @@ const MemoPage = (): JSX.Element => {
     if (memo_id === "newmemo" && category && boxId && bookmarkId) {
       return (
         <>
-          <Edit category={category} bookmarkId={bookmarkId} boxId={boxId} />
+          <Edit
+            type={memo_id}
+            category={category}
+            bookmarkId={bookmarkId}
+            boxId={boxId}
+          />
         </>
       );
     }

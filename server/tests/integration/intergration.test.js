@@ -175,7 +175,7 @@ describe("Box CRUD", () => {
             .expect(200, done);
     });
 });
-/* Memo CRUD */
+/* Bookmark CRUD */
 describe("Bookmark CRUD", () => {
     const agent = supertest_1.default.agent(index_js_2.default);
     beforeEach((done) => {
@@ -257,21 +257,57 @@ describe("Memo CRUD", () => {
         agent.get("/api/memo/each?memoId=1").send({}).expect(200, done);
         // 메모 일부 가져오기
     });
-    // // memo update
-    // it("Patch /memo", (done) => {
-    //   agent
-    //     .patch("/api/memo")
-    //     .send({
-    //       contentName: "temp_box2",
-    //       URL: "temp_URL2",
-    //       id: 1,
-    //     })
-    //     .expect(200, done);
-    // });
+    // memo update
+    it("Patch /memo", (done) => {
+        agent
+            .patch("/api/memo")
+            .send({
+            memoName: "temp_box2",
+            memoContent: "temp_URL2",
+            id: 1,
+        })
+            .expect(200, done);
+    });
     // memo delete
     it("Delete /api/memo", (done) => {
         agent
             .delete("/api/memo")
+            .send({
+            id: 1,
+        })
+            .expect(200, done);
+    });
+});
+/* Bookmark CRUD */
+describe("Alarm CRUD", () => {
+    const agent = supertest_1.default.agent(index_js_2.default);
+    beforeEach((done) => {
+        agent
+            .post("/api/user/login")
+            .send({
+            email: "temp@example.com",
+            password: "temp",
+        })
+            .end(done);
+    });
+    // Alarm create
+    it("POST /alarm", (done) => {
+        agent
+            .post("/api/alarm")
+            .send({
+            alarmName: "temp_content",
+            date: "Sat Feb 04 2023 16:30:53 GMT+0900",
+        })
+            .expect(201, done);
+    });
+    // Alarm read
+    it("Get /alarm", (done) => {
+        agent.get("/api/alarm").send({}).expect(200, done);
+    });
+    // Alarm delete
+    it("Delete /api/alarm", (done) => {
+        agent
+            .delete("/api/alarm")
             .send({
             id: 1,
         })

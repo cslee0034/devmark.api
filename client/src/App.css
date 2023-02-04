@@ -551,6 +551,19 @@
   margin: 1rem 1rem 1rem 1rem;
 }
 
+/* Alarm Page */
+
+.alarm-check {
+  border: none;
+  background-color: white;
+
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.alarm-check:hover {
+  color: black;
+}
+
 /* Back to top */
 
 .back-to-top {

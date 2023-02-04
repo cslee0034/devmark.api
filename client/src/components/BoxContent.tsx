@@ -207,7 +207,13 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                   </div>
 
                   <button className="bookmark-menu">
-                    <FontAwesomeIcon icon={faClock} />
+                    <a
+                      className="dropdown-item"
+                      href={`/alarms/newalarm?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
+                      // 클릭시 쿼리스트링으로 정보를 가진채 newalarm으로 이동
+                    >
+                      <FontAwesomeIcon icon={faClock} />
+                    </a>
                   </button>
                   <button className="bookmark-menu">
                     <FontAwesomeIcon

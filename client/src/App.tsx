@@ -224,6 +224,10 @@ const App = (): JSX.Element => {
                         />
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/alarms" element={<AlarmPage />} />
+                        <Route
+                          path="/alarms/:alarm_id"
+                          element={<AlarmPage />}
+                        />
                         <Route path="/memos" element={<MemoPage />} />
                         <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
