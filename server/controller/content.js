@@ -13,15 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateContent = exports.deleteContent = exports.renderContent = exports.createContent = void 0;
-const bookmark_1 = __importDefault(require("../models/bookmark"));
+const bookmark_js_1 = __importDefault(require("../models/bookmark.js"));
+const memo_js_1 = __importDefault(require("../models/memo.js"));
 const createContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield bookmark_1.default.create({
+        const newBookmark = yield bookmark_js_1.default.create({
             contentName: req.body.bookmarkName,
             URL: req.body.bookmarkURL,
             BoxId: req.body.boxId,
         });
-        res.redirect("/");
+        res.status(201).end();
+        // 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -33,15 +35,26 @@ const renderContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         if (req.query.boxId) {
             const boxId = parseInt(req.query.boxId);
-            const Bookmarks = yield bookmark_1.default.findAll({ where: { BoxId: boxId } });
-            if (!Bookmarks) {
+            const renderBookmark = yield bookmark_js_1.default.findAll({
+                where: { BoxId: boxId },
+                include: [
+                    {
+                        model: memo_js_1.default,
+                        attributes: ["id", "memoName"],
+                    },
+                ],
+            });
+            if (!renderBookmark) {
                 return res.end();
             }
             else {
-                res.json(Bookmarks);
+                res.status(200);
+                res.json(renderBookmark);
+                // 아이템 가져오기 성공 Status 200
             }
         }
         else {
+            // 쿼리에 boxId가 있다면 끝내기
             return;
         }
     }
@@ -52,15 +65,15 @@ const renderContent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 });
 exports.renderContent = renderContent;
 const updateContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("hihihi", req.body);
     try {
-        const Bookmark = yield bookmark_1.default.update({
+        const updateBookmark = yield bookmark_js_1.default.update({
             contentName: req.body.bookmarkName,
             URL: req.body.bookmarkURL,
         }, {
             where: { id: req.body.id },
         });
-        res.redirect("/");
+        res.status(200).end();
+        // 업데이트 성공 Status 200
     }
     catch (error) {
         console.error(error);
@@ -72,12 +85,13 @@ exports.updateContent = updateContent;
 const deleteContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const d_id = req.body.id;
-        const box = yield bookmark_1.default.destroy({ where: { id: d_id } });
+        const deleteBookmark = yield bookmark_js_1.default.destroy({ where: { id: d_id } });
     }
     catch (error) {
         console.error(error);
         next(error);
     }
-    next();
+    res.status(200).end();
+    // 삭제 성공 status 200
 });
 exports.deleteContent = deleteContent;

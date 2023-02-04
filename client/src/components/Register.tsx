@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
 import { ModalContext } from "../App";
 
-/* Post Interface */
+// Interfaces
 interface Post {
   Error: any;
   email: string;
@@ -18,16 +18,25 @@ function email_check(email: string) {
   return reg.test(email);
 }
 
+// React Start from here
 const Register = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   /* Modal View Toggle */
   const { setModalContent } = useContext(ModalContext);
 
-  /* Register Scripts */
-  const registerClickHandeler = (e: any) => {
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Register Scripts */
+  const registerClickHandeler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Email Check */
-    if (!email_check(e.target.Email.value)) {
+    if (!email_check((e.target as HTMLFormElement).Email.value)) {
+      // e.target이 속성 값을 갖는 것이 보장되어 있지 않다.
+      // 따라서 value 속성이 있는 HTMLFormElement인지 확인하기 위해 적절하게 타이핑.
       setModalContent({
         header: "Email ERROR",
         message: "check your email again",
@@ -37,14 +46,19 @@ const Register = (): JSX.Element => {
     }
 
     /* Password Check */
-    if (e.target.Password.value == "") {
+    if ((e.target as HTMLFormElement).Password.value == "") {
+      // password가 비어있는 경우
       setModalContent({
         header: "Password ERROR",
         message: "enter password please",
         toggle: "view",
       });
       return;
-    } else if (e.target.Password.value !== e.target.ConfirmPassword.value) {
+    } else if (
+      // password가 confirmpassword와 일치하지 않는 경우
+      (e.target as HTMLFormElement).Password.value !==
+      (e.target as HTMLFormElement).ConfirmPassword.value
+    ) {
       setModalContent({
         header: "Password ERROR",
         message: "password do not match",
@@ -54,7 +68,8 @@ const Register = (): JSX.Element => {
     }
 
     /* Nickname Check */
-    if (e.target.Nickname.value == "") {
+    if ((e.target as HTMLFormElement).Nickname.value == "") {
+      // nickname이 없는 경우
       setModalContent({
         header: "Nickname ERROR",
         message: "enter your nickname please",
@@ -62,7 +77,8 @@ const Register = (): JSX.Element => {
       });
       return;
     }
-    if (e.target.Nickname.value.length > 15) {
+    if ((e.target as HTMLFormElement).Nickname.value.length > 15) {
+      // nickname의 길이가 15 이상인 경우
       setModalContent({
         header: "Nickname ERROR",
         message: "the maximum number of characters for a nickname is 15",
@@ -75,7 +91,10 @@ const Register = (): JSX.Element => {
     signup(e);
   };
 
-  /* Signup Function */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Register Axios Post /api/user/registration */
   const signup = async (e: any) => {
     try {
       await axios
@@ -85,17 +104,9 @@ const Register = (): JSX.Element => {
           password: e.target.Password.value,
         })
         .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Register ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          } else {
-            window.location.replace("/auth");
-          }
+          window.location.replace("/auth");
         });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -103,8 +114,18 @@ const Register = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Register ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <div className="login-wrapper mb-4">

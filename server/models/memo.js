@@ -27,19 +27,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
-const post_js_1 = __importDefault(require("./post.js"));
-class Hashtag extends sequelize_1.Model {
+const bookmark_js_1 = __importDefault(require("./bookmark.js"));
+class Memo extends sequelize_1.Model {
     static initiate(sequelize) {
-        Hashtag.init({
+        Memo.init({
             id: {
                 type: sequelize_1.default.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            title: {
+            memoName: {
                 type: sequelize_1.default.STRING(15),
                 allowNull: false,
-                unique: true,
+            },
+            memoContent: {
+                type: sequelize_1.default.TEXT,
+                allowNull: true,
             },
             createdAt: sequelize_1.default.DATE,
             updatedAt: sequelize_1.default.DATE,
@@ -47,15 +50,18 @@ class Hashtag extends sequelize_1.Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Hashtag',
-            tableName: 'hashtags',
+            modelName: "Memo",
+            tableName: "memos",
             paranoid: false,
-            charset: 'utf8mb4',
-            collate: 'utf8mb4_general_ci',
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate() {
-        Hashtag.belongsToMany(post_js_1.default, { through: 'PostHashtag' });
+        Memo.belongsTo(bookmark_js_1.default, {
+            targetKey: "id",
+            foreignKey: "BookmarkId",
+        });
     }
 }
-exports.default = Hashtag;
+exports.default = Memo;

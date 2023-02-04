@@ -22,7 +22,7 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     try {
         const exUser = yield user_js_1.default.findOne({ where: { email } });
         if (exUser) {
-            return res.send({ Error: "Account already exists" });
+            return res.status(409).json({ Error: "Account already exists" });
         }
         const hashPassword = yield bcrypt_1.default.hash(password, 12);
         yield user_js_1.default.create({
@@ -30,7 +30,8 @@ const registration = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             nick,
             password: hashPassword,
         });
-        return res.redirect("/");
+        return res.status(201).end();
+        // 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -46,14 +47,16 @@ const login = (req, res, next) => {
             return next(authError);
         }
         if (!user) {
-            return res.json({ Error: info.message });
+            return res.status(401).send({ Error: info.message });
+            // 로그인 실패 Status 401
         }
         return req.login(user, (loginError) => {
             if (loginError) {
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.redirect("/");
+            return res.status(200).end();
+            // 로그인 성공 200 OK
         });
     })(req, res, next);
 };
@@ -61,7 +64,8 @@ exports.login = login;
 /* logout */
 const logout = (req, res) => {
     req.logout(() => {
-        res.status(302).end();
+        res.status(200).end();
+        // 로그아웃 성공 200 OK
     });
 };
 exports.logout = logout;

@@ -13,6 +13,7 @@
     "types": ["node", "jest"],
     "module": "commonjs",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

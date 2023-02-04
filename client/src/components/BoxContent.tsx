@@ -8,7 +8,9 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ModalContext } from "../App";
 import Search from "../utils/Search";
+import { Link } from "react-router-dom";
 
+// Interfaces
 interface Get {
   Error: any;
   box: string;
@@ -23,9 +25,16 @@ interface P {
   boxId: string;
 }
 
+// React Start from here
 const BoxContent: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   const { setModalContent } = useContext(ModalContext);
-  const [bookmarks, setBoookmarks] = useState<string[][]>([]);
+  const [bookmarks, setBoookmarks] = useState<any[][]>([]);
+
+  //--------------------------------------------------------
+  // Modals
 
   /* Add Bookmark */
   const addBookmark = () => {
@@ -45,6 +54,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
     });
   };
 
+  /* Update Content */
   const updateContent = (bookmarkId: string) => {
     setModalContent({
       header: "Update_Content",
@@ -53,22 +63,43 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
     });
   };
 
-  /* Get Box */
-  const getBox = async () => {
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Memo Axios Get /api/content */
+  const getBookmark = async () => {
     try {
-      await axios
-        .get<Get>(`/api/content/page?boxId=${props.boxId}`)
-        .then((res) => {
-          const newBookmark = [];
-          for (let i = 0; i < res.data.length; i++) {
-            const bookmarkName = res.data[i].contentName;
-            const bookmarkURL = res.data[i].URL;
-            const bookmarkId = res.data[i].id;
-            newBookmark.push([bookmarkName, bookmarkURL, bookmarkId]);
-            setBoookmarks(newBookmark);
+      await axios.get<Get>(`/api/content?boxId=${props.boxId}`).then((res) => {
+        const newBookmark: Array<any[]> = [];
+        /*
+         * [bookmarkName, encodedName, bookmarkURL, bookmarkId, [memoId, memoName]
+         * 형태로 변환하여 state에 저장한다.
+         */
+        for (let i = 0; i < res.data.length; i++) {
+          const bookmarkName: string = res.data[i].contentName;
+          const encodedName: string = encodeURIComponent(bookmarkName);
+          const bookmarkURL: string = res.data[i].URL;
+          const bookmarkId: string = res.data[i].id;
+
+          const newMemo = [];
+          for (let j = 0; j < res.data[i].Memos.length; j++) {
+            const memoId: string = res.data[i].Memos[j].id;
+            const memoName: string = res.data[i].Memos[j].memoName;
+
+            newMemo.push([memoId, memoName]);
           }
-        });
-    } catch (error) {
+
+          newBookmark.push([
+            bookmarkName,
+            encodedName,
+            bookmarkURL,
+            bookmarkId,
+            newMemo,
+          ]);
+          setBoookmarks(newBookmark);
+        }
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -76,20 +107,32 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
+  //--------------------------------------------------------
   /* Fetching Data */
+
   useEffect(() => {
-    const fetchBookmarks = async () => {
+    const fetchBookmark = async () => {
       try {
-        await getBox();
+        await getBookmark();
       } catch (e) {
         console.error(e);
       }
     };
-    fetchBookmarks();
+    fetchBookmark();
   }, []);
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <>
@@ -103,13 +146,17 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
 
       {/* Content */}
       {bookmarks ? (
+        // bookmaks가 있다면
         <>
           {bookmarks.map((bookmark, index) => (
+            // bookmarks를 순회하며 조회
             <div className="card bookmark-card" key={index}>
               <div className="bookmark-card-header">
                 <div className="bookmark-card-header-left">
-                  <a href={bookmark[1]} target="_blank">
+                  <a href={bookmark[2]} target="_blank">
+                    {/* 이동할 북마크 링크 */}
                     <button className="bookmark-menu">{bookmark[0]}</button>
+                    {/* 북마크 이름 */}
                   </a>
                 </div>
 
@@ -124,15 +171,35 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
 
+                    {/* Memo 있다면 표시 */}
                     <ul className="dropdown-menu bookmark-dropdown">
+                      {bookmark[4] ? (
+                        // memo가 있다면
+                        <div>
+                          {bookmark[4].map(
+                            // dropdown item의 형태로 출력
+                            (memo: Array<string>, index: number) => (
+                              <li key={index}>
+                                <Link
+                                  to={`/memos/${memo[0]}?category=${bookmark[0]}`}
+                                  // 클릭시 해당 memo로 이동
+                                  className="dropdown-item"
+                                >
+                                  {memo[1]}
+                                </Link>
+                              </li>
+                            )
+                          )}
+                        </div>
+                      ) : null}
+
                       <li>
-                        <a className="dropdown-item" href="#">
-                          hi
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Memo &nbsp;
+                        <a
+                          className="dropdown-item"
+                          href={`/memos/newmemo?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
+                          // 클릭시 쿼리스트링으로 정보를 가진채 newmemo로 이동
+                        >
+                          New &nbsp;
                           <FontAwesomeIcon icon={faPlus} />
                         </a>
                       </li>
@@ -140,21 +207,29 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                   </div>
 
                   <button className="bookmark-menu">
-                    <FontAwesomeIcon icon={faClock} />
+                    <a
+                      className="dropdown-item"
+                      href={`/alarms/newalarm?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
+                      // 클릭시 쿼리스트링으로 정보를 가진채 newalarm으로 이동
+                    >
+                      <FontAwesomeIcon icon={faClock} />
+                    </a>
                   </button>
                   <button className="bookmark-menu">
                     <FontAwesomeIcon
                       icon={faWrench}
+                      // Modify
                       onClick={() => {
-                        updateContent(bookmark[2]);
+                        updateContent(bookmark[3]);
                       }}
                     />
                   </button>
                   <button className="bookmark-menu">
                     <FontAwesomeIcon
                       icon={faBan}
+                      // Delete
                       onClick={() => {
-                        deleteContent(bookmark[2]);
+                        deleteContent(bookmark[3]);
                       }}
                     />
                   </button>

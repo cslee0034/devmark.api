@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useState } from "react";
-import { idText } from "typescript";
 import { ModalContext } from "../App";
+
+// Interfaces
 
 interface Post {
   Error: any;
@@ -17,12 +18,29 @@ interface P {
   id: string;
 }
 
+interface Patch {
+  Error: any;
+  box: string;
+  url: string;
+  id: string;
+  d_url: string;
+  bookmarkName: string;
+  bookmarkURL: string;
+}
+
+// React Start from here
 const UModal: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
 
-  /* Box Edit */
-  const BoxUpdate = async (e: any) => {
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Box Update*/
+  const BoxUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* FormData */
@@ -48,8 +66,38 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Content Update */
+  /* <Event Handler> - Content Update */
   const ContentUpdate = async (e: any) => {
+    /* Bookmark Name Check */
+    if (!(e.target as HTMLFormElement).BookmarkName.value) {
+      // 북마크 이름이 없는 경우
+      setModalContent({
+        header: "Bookmark Name",
+        message: "You must enter bookmark name",
+        toggle: "view",
+      });
+      return;
+    }
+    if ((e.target as HTMLFormElement).BookmarkName.value.length > 15) {
+      // 북마크 이름이 15글자 이상인 경우
+      setModalContent({
+        header: "Bookmark Name",
+        message: "the maximum number of characters for a bookmark is 15",
+        toggle: "view",
+      });
+      return;
+    }
+
+    /* Bookmark URL Check */
+    if (!(e.target as HTMLFormElement).BookmarkURL.value) {
+      // 북마크 url이 없는 경우
+      setModalContent({
+        header: "Bookmark URL",
+        message: "You must enter bookmark URL",
+        toggle: "view",
+      });
+      return;
+    }
     e.preventDefault();
 
     await updateContent(e, props.id);
@@ -58,7 +106,10 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Image Upload */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Image Axios Post /api/box/img */
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
@@ -83,7 +134,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* Update Box */
+  /* <Axios Request> - Box Axios Patch /api/box */
   const updateBox = async (
     e: any,
     imgURL: string,
@@ -91,23 +142,13 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     deleteImgUrl: string
   ) => {
     try {
-      await axios
-        .post<Post>("/api/box/update", {
-          box: e.target.Box.value,
-          url: imgURL,
-          id: boxId,
-          d_url: deleteImgUrl,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
+      await axios.patch<Patch>("/api/box", {
+        box: e.target.Box.value,
+        url: imgURL,
+        id: boxId,
+        d_url: deleteImgUrl,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -115,28 +156,25 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
-  /* Update Content */
+  /* <Axios Request> - Bookmark Axios Patch /api/content */
   const updateContent = async (e: any, contentId: string) => {
     try {
-      await axios
-        .post<Post>("/api/content/update", {
-          bookmarkName: e.target.BookmarkName.value,
-          bookmarkURL: e.target.BookmarkURL.value,
-          id: contentId,
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
+      await axios.patch<Patch>("/api/content", {
+        bookmarkName: e.target.BookmarkName.value,
+        bookmarkURL: e.target.BookmarkURL.value,
+        id: contentId,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -144,17 +182,28 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
-  /* Handle Image File */
+  //--------------------------------------------------------
+  /* Handle ect */
+
+  /* Image File Change Handler*/
   const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
     setFile(files);
   };
 
-  // -------------------------------------------------------------------------
+  //--------------------------------------------------------
+  // Render
 
   /* Handle Main Content */
   const modalMain = () => {
@@ -200,6 +249,9 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       );
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <div className="modal-container-background">

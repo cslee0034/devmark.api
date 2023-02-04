@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,7 +9,6 @@ import Footer from "./components/Footer";
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
-import FeedPage from "./views/FeedPage";
 import AuthPage from "./views/AuthPage";
 import Modal from "./utils/Modal";
 import AlarmPage from "./views/Alarm";
@@ -19,9 +18,16 @@ import CModal from "./utils/CModal";
 import MemoPage from "./views/MemoPage";
 import UModal from "./utils/UModal";
 import DModal from "./utils/DModal";
+import FeedPage from "./views/FeedPage";
+
+// Contexts
 
 export const UserContext = createContext({
-  loginContent: {},
+  loginContent: {
+    loggedIn: false,
+    userId: "",
+    userNick: "",
+  },
   setLoginContent: (loggedIn: any): any => {},
 });
 
@@ -33,6 +39,7 @@ export const ModalContext = createContext({
   setModalContent: (ModalContent: any): any => {},
 });
 
+// Interfaces
 interface Navbar {
   loggedIn: boolean;
 }
@@ -44,9 +51,16 @@ interface Modal {
   url: string;
 }
 
+// React Start from here
 const App = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Config
+
   /* Axios withCredentials */
   axios.defaults.withCredentials = true;
+
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
 
   /* Login Content */
   const [loginContent, setLoginContent] = useState({
@@ -65,6 +79,9 @@ const App = (): JSX.Element => {
     url: "",
     id: "",
   });
+
+  //--------------------------------------------------------
+  // useMemos
 
   /* Remember Login, Sideber, Modal Memo */
   const loginMemo = useMemo(
@@ -99,7 +116,9 @@ const App = (): JSX.Element => {
     }
   };
 
-  /* 매 렌더링 마다 Login 수행 */
+  //--------------------------------------------------------
+  /* Check If Loggedin Or Not */
+
   useEffect(() => {
     if (
       window.localStorage.getItem("userId") ||
@@ -108,6 +127,9 @@ const App = (): JSX.Element => {
       StorageLogin();
     }
   }, []);
+
+  //--------------------------------------------------------
+  // Modal render
 
   /* CRUD Modal */
   const renderModal = () => {
@@ -156,6 +178,9 @@ const App = (): JSX.Element => {
     }
   };
 
+  //--------------------------------------------------------
+  // return
+
   return (
     <UserContext.Provider value={loginMemo}>
       <SidebarContext.Provider value={sidebarMemo}>
@@ -165,7 +190,7 @@ const App = (): JSX.Element => {
               {/* Page Wrapper */}
               <div id="wrapper">
                 {/* Sidebar */}
-                {sidebar ? (
+                {sidebar && loginContent.loggedIn ? (
                   <div id="sidebar">
                     <Slidebar />
                   </div>
@@ -193,17 +218,22 @@ const App = (): JSX.Element => {
                     <div id="main-page">
                       <Routes>
                         <Route path="/" element={<FrontPage />} />
-                        <Route path="/bookmark" element={<BookmarkPage />} />
+                        <Route path="/bookmarks" element={<BookmarkPage />} />
                         <Route
-                          path="/bookmark/:id"
+                          path="/bookmarks/:id"
                           element={<BookmarkPage />}
                         />
                         <Route path="/about" element={<AboutPage />} />
-                        <Route path="/alarm" element={<AlarmPage />} />
-                        <Route path="/Memo" element={<MemoPage />} />
-                        <Route path="/feed" element={<FeedPage />} />
+                        <Route path="/alarms" element={<AlarmPage />} />
+                        <Route
+                          path="/alarms/:alarm_id"
+                          element={<AlarmPage />}
+                        />
+                        <Route path="/memos" element={<MemoPage />} />
+                        <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
+                        <Route path="/feed" element={<FeedPage />} />
                       </Routes>
                     </div>
                     {/* End of Page Content */}

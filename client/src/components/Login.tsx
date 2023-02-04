@@ -1,32 +1,48 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { ModalContext } from "../App";
+import { ModalContext, UserContext } from "../App";
 
-/* Post Interface */
+// Interfaces
 interface Post {
   Error: any;
   email: string;
   password: string;
+  json: any;
 }
 
 interface Get {
   Error: any;
   id: number;
   nick: string;
+  Boxes: any;
 }
 
+// React Start from here
 const Login = (): JSX.Element => {
-  const { setModalContent } = useContext(ModalContext);
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
 
-  const loginClickHandeler = async (e: any) => {
+  const { setModalContent } = useContext(ModalContext);
+  const { loginContent } = useContext(UserContext);
+
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - loginClickHandeler */
+  const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Signin */
-    await signin(e);
+    const errored = await signin(e);
     /* Login */
-    await loginAPI(e);
+    if (!errored) {
+      await loginAPI(e);
+    }
   };
 
-  /* Signin Function */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Login Axios Post /api/user/login */
   const signin = async (e: any) => {
     try {
       await axios
@@ -34,16 +50,8 @@ const Login = (): JSX.Element => {
           email: e.target.Email.value,
           password: e.target.Password.value,
         })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Login ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
+        .then((res) => {});
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -51,30 +59,50 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Login ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+      return true;
+      // 오류 난다면 errored = true 리턴
+      // loginClickHandeler에서 다음 동작을 방지한다
     }
   };
 
-  /* LoginAPI */
+  /* <Axios Request> - Login Axios Get /api/info */
   const loginAPI = async (e: any) => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
+        let Boxes = "";
+        for (let i = 0; i < res.data.Boxes.length; i++) {
+          Boxes += res.data.Boxes[i].id;
+          Boxes += " ";
+        }
+
         /* Remember == true일때 localStorage에 저장 */
         if (e.target.Remember.checked) {
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
+          window.localStorage.setItem("userBoxes", Boxes);
+
+          window.location.replace("/");
         } else {
           /* Remember == false일때 sessionStorage에 저장 */
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
           window.sessionStorage.setItem("userId", UserId);
           window.sessionStorage.setItem("userNick", UserNick);
+          window.sessionStorage.setItem("userBoxes", Boxes);
 
           window.location.replace("/");
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -82,8 +110,18 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
+
+  //--------------------------------------------------------
+  // return
 
   return (
     <div className="login-wrapper mb-4">

@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext } from "react";
 import { ModalContext } from "../App";
 
+// Interfaces
 interface Delete {
   Error: any;
   boxId: string;
@@ -15,10 +16,17 @@ interface P {
   id: string;
 }
 
+// React Start from here
 const DModal: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
 
-  const boxDelete = (e: any) => {
+  //--------------------------------------------------------
+  // Event Handler
+
+  /* <Event Handler> - Delete Box */
+  const boxDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     /* Delete Box */
@@ -28,7 +36,8 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  const contentDelete = (e: any) => {
+  /* <Event Handler> - Delete Bookmark */
+  const contentDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     /* Delete Box */
@@ -38,26 +47,19 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     window.location.reload();
   };
 
-  /* Delete Box */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Box Axios Delete /api/box */
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
-      await axios
-        .delete<Delete>("/api/box/delete", {
-          data: {
-            d_url: imgUrl,
-            id: boxId,
-          },
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
+      await axios.delete<Delete>("/api/box", {
+        data: {
+          d_url: imgUrl,
+          id: boxId,
+        },
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -65,28 +67,25 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
-  /* Delete Content */
+  /* <Axios Request> - Bookmark Axios delete /api/content */
   const deleteContent = async (contentId: string) => {
     try {
-      await axios
-        .delete<Delete>("/api/content/delete", {
-          data: {
-            id: contentId,
-          },
-        })
-        .then((res) => {
-          if (res.data.Error) {
-            setModalContent({
-              header: "Edit ERROR",
-              message: res.data.Error,
-              toggle: "view",
-            });
-          }
-        });
-    } catch (error) {
+      await axios.delete<Delete>("/api/content", {
+        data: {
+          id: contentId,
+        },
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -94,17 +93,31 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
+  //--------------------------------------------------------
+  // Render
+
   const DeleteButton = () => {
-    if(props.header === "Delete_Box") {
-      return <button onClick={boxDelete}>Yes</button>
+    if (props.header === "Delete_Box") {
+      return <button onClick={boxDelete}>Yes</button>;
     }
-    if(props.header === "Delete_Content") {
-      return <button onClick={contentDelete}>Yes</button>
+    if (props.header === "Delete_Content") {
+      return <button onClick={contentDelete}>Yes</button>;
     }
-  }
+  };
+
+  //--------------------------------------------------------
+  // return
+
   return (
     <>
       <div className="modal-container-background">

@@ -27,8 +27,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
-const Box_js_1 = __importDefault(require("./Box.js"));
+const box_js_1 = __importDefault(require("./box.js"));
 const alarm_js_1 = __importDefault(require("./alarm.js"));
+const memo_js_1 = __importDefault(require("./memo.js"));
 class Bookmark extends sequelize_1.Model {
     static initiate(sequelize) {
         Bookmark.init({
@@ -55,13 +56,17 @@ class Bookmark extends sequelize_1.Model {
             modelName: "Bookmark",
             tableName: "bookmarks",
             paranoid: false,
-            charset: "utf8",
-            collate: "utf8_general_ci",
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate() {
-        Bookmark.belongsTo(Box_js_1.default);
+        Bookmark.belongsTo(box_js_1.default, { targetKey: "id" });
         Bookmark.belongsToMany(alarm_js_1.default, { through: "BookmarkAlarm" });
+        Bookmark.hasMany(memo_js_1.default, {
+            sourceKey: "id",
+            foreignKey: "BookmarkId",
+        });
     }
 }
 exports.default = Bookmark;

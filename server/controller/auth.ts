@@ -9,7 +9,7 @@ const registration: RequestHandler = async (req, res, next) => {
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      return res.send({ Error: "Account already exists" });
+      return res.status(409).json({ Error: "Account already exists" });
     }
     const hashPassword = await bcrypt.hash(password, 12);
     await User.create({
@@ -17,7 +17,8 @@ const registration: RequestHandler = async (req, res, next) => {
       nick,
       password: hashPassword,
     });
-    return res.redirect("/");
+    return res.status(201).end();
+    // 생성 성공 Status 201
   } catch (error) {
     console.error(error);
     return next(error);
@@ -32,14 +33,16 @@ const login: RequestHandler = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.json({ Error: info.message });
+      return res.status(401).send({ Error: info.message });
+      // 로그인 실패 Status 401
     }
     return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      return res.status(200).end();
+      // 로그인 성공 200 OK
     });
   })(req, res, next);
 };
@@ -47,7 +50,8 @@ const login: RequestHandler = (req, res, next) => {
 /* logout */
 const logout: RequestHandler = (req, res) => {
   req.logout(() => {
-    res.status(302).end()
+    res.status(200).end();
+    // 로그아웃 성공 200 OK
   });
 };
 

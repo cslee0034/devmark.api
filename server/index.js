@@ -79,10 +79,10 @@ app.use("/api", route_hub_js_1.api);
 /* ErrorHandler */
 const errorHandler = (err, req, res, next) => {
     console.error(err);
-    res.locals.message = err.message;
-    res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
+    // res.locals.message = err.message;
+    // res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
     res.status(err.status || 500);
-    res.render("error");
+    res.json({ Error: err.message });
 };
 app.use(errorHandler);
 exports.default = app;

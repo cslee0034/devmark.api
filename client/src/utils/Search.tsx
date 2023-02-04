@@ -2,11 +2,16 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
 
+// Interfaces
 interface P {
   search: string;
 }
 
+// React Start from here
 const Search: FC<P> = (props: P): JSX.Element => {
+  //--------------------------------------------------------
+  // return
+
   return (
     <form className="search-flex">
       <input

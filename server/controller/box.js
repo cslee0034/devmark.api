@@ -16,8 +16,7 @@ exports.deleteBox = exports.updateBox = exports.imgDelete = exports.renderBox = 
 const fs_1 = __importDefault(require("fs"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
-const Box_js_1 = __importDefault(require("../models/Box.js"));
-// tsc 변환시 대문자로 바뀌는 문제가 있었음
+const box_js_1 = __importDefault(require("../models/box.js"));
 const imgUpload = (0, multer_1.default)({
     storage: multer_1.default.diskStorage({
         destination(req, file, cb) {
@@ -35,12 +34,13 @@ const imgUpload = (0, multer_1.default)({
 exports.imgUpload = imgUpload;
 const createBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield Box_js_1.default.create({
+        const newBox = yield box_js_1.default.create({
             box: req.body.box,
             img: req.body.url,
             UserId: req.user.id,
         });
-        res.redirect("/");
+        res.status(201).end();
+        // 아이템 생성 성공 Status 201
     }
     catch (error) {
         console.error(error);
@@ -52,12 +52,14 @@ exports.createBox = createBox;
 const renderBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const UserId = req.user.id;
-        const userBox = yield Box_js_1.default.findAll({ where: { UserId } });
-        if (!userBox) {
+        const renderBoxs = yield box_js_1.default.findAll({ where: { UserId } });
+        if (!renderBoxs) {
             return res.end();
         }
         else {
-            res.json(userBox);
+            res.status(200);
+            res.json(renderBoxs);
+            // 아이템 가져오기 성공 Status 200
         }
     }
     catch (error) {
@@ -83,18 +85,21 @@ const imgDelete = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             next(error);
         }
     }
-    next();
+    // 가장 마지막에 이미지를 지우기 때문에
+    // status 200을 보내고 종료
+    res.status(200).end();
 });
 exports.imgDelete = imgDelete;
 const updateBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const box = yield Box_js_1.default.update({
+        const updateBox = yield box_js_1.default.update({
             box: req.body.box,
             img: req.body.url,
         }, {
             where: { id: req.body.id },
         });
-        res.redirect("/");
+        res.status(200);
+        // 수정 성공 Status
     }
     catch (error) {
         console.error(error);
@@ -106,7 +111,7 @@ exports.updateBox = updateBox;
 const deleteBox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const d_id = req.body.id;
-        const box = yield Box_js_1.default.destroy({ where: { id: d_id } });
+        const deleteBox = yield box_js_1.default.destroy({ where: { id: d_id } });
     }
     catch (error) {
         console.error(error);

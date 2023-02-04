@@ -4,12 +4,14 @@ import app from "../../index.js";
 
 /* Fake ORM */
 beforeAll(async () => {
-  await sequelize.sync();
+  await sequelize.sync({ force: true });
+  // 기본은 false
 });
 
 /* Registration Test */
 describe("POST /registration", () => {
   it("회원가입", (done) => {
+    // done -> 비동기 함수
     request(app)
       .post("/api/user/registration")
       .send({
@@ -17,7 +19,8 @@ describe("POST /registration", () => {
         password: "temp",
         nick: "temp",
       })
-      .expect(200, done);
+      .expect(201, done);
+    // ststus 201을 반환하고 종료
   });
 });
 
@@ -43,7 +46,7 @@ describe("POST /login", () => {
         email: "temp@example.com",
         password: "temp",
       })
-      .expect(200, { Error: "Already loggedin" })
+      .expect(401, { Error: "Already loggedin" })
       // { Error: "Already loggedin" } 반환하고 종료
       .end(done);
   });
@@ -58,7 +61,7 @@ describe("POST /login", () => {
         email: "NotRegisterd@example.com",
         password: "temp",
       })
-      .expect(200, { Error: "user is not registered" })
+      .expect(401, { Error: "user is not registered" })
       // { Error: "user is not registered" } 반환하고 종료
       .end(done);
   });
@@ -70,7 +73,8 @@ describe("POST /login", () => {
         email: "temp@example.com",
         password: "temp",
       })
-      .expect(302, done);
+      .expect(200, done);
+    // status 200 반환하고 종료
   });
 
   it("password do not match", (done) => {
@@ -80,7 +84,8 @@ describe("POST /login", () => {
         email: "temp@example.com",
         password: "1111",
       })
-      .expect(200, { Error: "password do not match" })
+      .expect(401, { Error: "password do not match" })
+      // 401 인증 실패
       // { Error: "password do not match" } 반환하고 종료
       .end(done);
   });
@@ -93,6 +98,7 @@ describe("GET /logout", () => {
       .post("/api/user/logout")
       .expect(403, { Error: "Login required" })
       .end(done);
+    // 403 금지됨
     // proxy로 분리되어 있기 때문에 redirect url 만들어주지 않고
     // 모달창으로 에러 메시지 전달
     // status = 403, { Error: "Login required" } 반환하고 종료
@@ -112,14 +118,14 @@ describe("GET /logout", () => {
   it("logout", (done) => {
     agent
       .post("/api/user/logout")
-      .expect(302)
-      // 302코드 전달 이후 end()
+      .expect(200)
+      // 200코드 전달 이후 end()
       .end(done);
   });
 });
 
-/* Box Create */
-describe("POST /login", () => {
+/* Box CRUD */
+describe("Box CRUD", () => {
   const agent = request.agent(app);
   beforeEach((done) => {
     agent
@@ -131,6 +137,7 @@ describe("POST /login", () => {
       .end(done);
   });
 
+  // Box create
   it("POST /box", (done) => {
     agent
       .post("/api/box")
@@ -139,46 +146,191 @@ describe("POST /login", () => {
         img: "/img/default",
         UserId: 1,
       })
-      .expect(302, done);
-  });
-});
-
-/* Box */
-/*
-describe("POST /login", () => {
-  const agent = request.agent(app);
-  beforeEach((done) => {
-    agent
-      .post("/api/user/login")
-      .send({
-        email: "temp@example.com",
-        password: "temp",
-      })
-      .end(done);
+      .expect(201, done);
   });
 
-  it("POST /box", (done) => {
+  // Box read
+  it("Get /box", (done) => {
+    agent.get("/api/box").send({}).expect(200, done);
+  });
+
+  // Box update
+  it("Patch /box", (done) => {
     agent
-      .post("/api/box")
+      .patch("/api/box")
       .send({
         box: "temp_box",
         img: "/img/default",
-        UserId: 1,
+        id: 1,
       })
-      .expect(302, done);
+      .expect(200, done);
   });
 
-  it("Delete /box/delete", (done) => {
+  // Box delete
+  it("Delete /api/box", (done) => {
     agent
-      .delete("/api/box/delete")
+      .delete("/api/box")
       .send({
         img: "/img/default",
         id: 1,
       })
-      .expect(302, done);
+      .expect(200, done);
   });
 });
-*/
+
+/* Bookmark CRUD */
+describe("Bookmark CRUD", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  // Bookmark create
+  it("POST /content", (done) => {
+    agent
+      .post("/api/content")
+      .send({
+        bookmarkName: "temp_content",
+        bookmarkURL: "temp_URL",
+        // boxId: 1,
+      })
+      .expect(201, done);
+  });
+
+  // Bookmark read
+  it("Get /content", (done) => {
+    agent.get("/api/content?boxId=1").send({}).expect(200, done);
+    // 쿼리로 BoxId 전달
+  });
+
+  // Bookmark update
+  it("Patch /content", (done) => {
+    agent
+      .patch("/api/content")
+      .send({
+        contentName: "temp_box2",
+        URL: "temp_URL2",
+        id: 1,
+      })
+      .expect(200, done);
+  });
+
+  // Bookmark delete
+  it("Delete /api/content", (done) => {
+    agent
+      .delete("/api/content")
+      .send({
+        id: 1,
+      })
+      .expect(200, done);
+  });
+});
+
+/* Memo CRUD */
+describe("Memo CRUD", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  // Memo create
+  it("POST /memo", (done) => {
+    agent
+      .post("/api/memo")
+      .send({
+        memoName: "temp_content",
+        memoContent: "temp_URL",
+        BookmarkId: 1,
+      })
+      .expect(201, done);
+  });
+
+  // Memo read - all
+  it("Get /memo", (done) => {
+    agent.get("/api/memo").send({}).expect(200, done);
+    // 메모 전체 가져오기
+  });
+
+  // Memo read - each
+  it("Get /memo/each", (done) => {
+    agent.get("/api/memo/each?memoId=1").send({}).expect(200, done);
+    // 메모 일부 가져오기
+  });
+
+  // memo update
+  it("Patch /memo", (done) => {
+    agent
+      .patch("/api/memo")
+      .send({
+        memoName: "temp_box2",
+        memoContent: "temp_URL2",
+        id: 1,
+      })
+      .expect(200, done);
+  });
+
+  // memo delete
+  it("Delete /api/memo", (done) => {
+    agent
+      .delete("/api/memo")
+      .send({
+        id: 1,
+      })
+      .expect(200, done);
+  });
+});
+
+/* Bookmark CRUD */
+describe("Alarm CRUD", () => {
+  const agent = request.agent(app);
+  beforeEach((done) => {
+    agent
+      .post("/api/user/login")
+      .send({
+        email: "temp@example.com",
+        password: "temp",
+      })
+      .end(done);
+  });
+
+  // Alarm create
+  it("POST /alarm", (done) => {
+    agent
+      .post("/api/alarm")
+      .send({
+        alarmName: "temp_content",
+        date: "Sat Feb 04 2023 16:30:53 GMT+0900",
+      })
+      .expect(201, done);
+  });
+
+  // Alarm read
+  it("Get /alarm", (done) => {
+    agent.get("/api/alarm").send({}).expect(200, done);
+  });
+
+  // Alarm delete
+  it("Delete /api/alarm", (done) => {
+    agent
+      .delete("/api/alarm")
+      .send({
+        id: 1,
+      })
+      .expect(200, done);
+  });
+});
 
 afterAll(async () => {
   await sequelize.sync({ force: true });

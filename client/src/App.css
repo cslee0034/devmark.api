@@ -12,7 +12,7 @@
 
 #sidebar {
   width: 25vw;
-  min-height: 40rem;
+  min-height: 48rem;
 
   justify-content: center;
   text-align: center;
@@ -163,7 +163,12 @@
   text-align: center;
 }
 
-.frontpage-container {
+.container-not-logged-in {
+  width: 100vw;
+  position: relative;
+}
+
+.container-logged-in {
   width: 75vw;
   position: relative;
 }
@@ -366,6 +371,10 @@
   border-color: white;
 }
 
+.login-button-delete:hover {
+  background-color: #bf8d30;
+}
+
 .guide {
   text-decoration-line: none;
 }
@@ -480,8 +489,100 @@
   min-height: 15rem;
 }
 
-.datapicker{
+.datapicker {
   margin-bottom: 20px;
+}
+
+.memo-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.memo-card {
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
+.memo-link {
+  text-decoration-line: none;
+}
+
+.memo-view-container-wrapper {
+  margin: 8vw 10vw 8vw 10vw;
+}
+
+.memo-view-container {
+  border-radius: 1rem;
+}
+
+.memo-view-main-container {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+.memo-view-head-container {
+  border: 1px solid;
+
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 15px;
+  margin-bottom: 1vw;
+}
+
+.memo-view-head {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.memo-view-main {
+  border: 1px solid;
+  display: flex;
+  justify-content: left;
+
+  min-height: 20rem;
+  border-radius: 15px;
+}
+
+.memo-main-content {
+  margin: 1rem 1rem 1rem 1rem;
+}
+
+/* Alarm Page */
+
+.alarm-check {
+  border: none;
+  background-color: white;
+
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.alarm-check:hover {
+  color: black;
+}
+
+/* Feed Page*/
+
+.card-wrapper {
+  margin: 2vw;
+}
+
+.card-text-like {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text-like-button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.card-text-like-button:hover {
+  color: #d9b70d;
 }
 
 /* Back to top */

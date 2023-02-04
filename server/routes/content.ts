@@ -1,16 +1,21 @@
 import express from "express";
-import { createContent, deleteContent, renderContent, updateContent } from "../controller/content.js";
+import {
+  createContent,
+  deleteContent,
+  renderContent,
+  updateContent,
+} from "../controller/content.js";
 import { isLoggedIn } from "../middleware/middleware.js";
 export const content = express.Router();
 
-/* Post /bookmark/api/content */
+/* Post /api/content */
 content.post("/", isLoggedIn, createContent);
 
-/* Post /bookmark/api/content/update */
-content.post('/update', isLoggedIn, updateContent)
+/* Get /api/content */
+content.get("/", isLoggedIn, renderContent);
 
-/* Delete /bookmark/api/content/delete */
-content.delete("/delete", isLoggedIn, deleteContent)
+/* Patch /api/content */
+content.patch("/", isLoggedIn, updateContent);
 
-/* Get /bookmark/api/box/page */
-content.get("/page", isLoggedIn, renderContent);
+/* Delete /api/content */
+content.delete("/", isLoggedIn, deleteContent);

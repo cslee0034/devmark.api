@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ModalContext } from "../App";
 import Search from "../utils/Search";
 
+// Interfaces
 interface Get {
   Error: any;
   box: string;
@@ -13,11 +14,17 @@ interface Get {
   [index: number]: any;
 }
 
+// React Start from here
 const Box = (): JSX.Element => {
+  //--------------------------------------------------------
+  // Declaration of useState, useContext, useRef ...
+
   const { setModalContent } = useContext(ModalContext);
   const [boxs, setBoxs] = useState<string[][]>([]);
 
-  /* Modal */
+  //--------------------------------------------------------
+  /* Modals */
+
   const addBox = () => {
     setModalContent({
       header: "Edit_Box",
@@ -43,20 +50,24 @@ const Box = (): JSX.Element => {
     });
   };
 
-  /* Get Box */
+  //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Memo Axios Get /api/box */
   const getBox = async () => {
     try {
-      await axios.get<Get>("/api/box/page").then((res) => {
-        const newBox = [];
+      await axios.get<Get>("/api/box").then((res) => {
+        const newBox: Array<string[]> = [];
         for (let i = 0; i < res.data.length; i++) {
-          const boxName = res.data[i].box;
-          const boxUrl = res.data[i].img;
-          const boxId = res.data[i].id;
+          const boxName: string = res.data[i].box;
+          const boxUrl: string = res.data[i].img;
+          const boxId: string = res.data[i].id;
           newBox.push([boxName, boxUrl, boxId]);
+          // [boxName, boxUrl, boxId] 형태로 Array에 저장 후 setState
           setBoxs(newBox);
         }
       });
-    } catch (error) {
+    } catch (error:any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -64,10 +75,19 @@ const Box = (): JSX.Element => {
       } else {
         console.error(error);
       }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
     }
   };
 
+  //--------------------------------------------------------
   /* Fetching Data */
+
   useEffect(() => {
     const fetchBoxs = async () => {
       try {
@@ -80,6 +100,9 @@ const Box = (): JSX.Element => {
     fetchBoxs();
   }, []);
 
+  //--------------------------------------------------------
+  // return
+  
   return (
     <>
       {/* Header */}
@@ -89,19 +112,23 @@ const Box = (): JSX.Element => {
           <Search search="" />
         </div>
       </h3>
+      {/* Main */}
       {boxs ? (
         <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">
           {boxs.map((box, index) => (
+            // boxs 요소를 순회하며 렌더링
             <div className="col" key={index}>
               <div className="dropup add-card card h-100">
-                <Link to={`/bookmark/${box[2]}`}>
+                <Link to={`/bookmarks/${box[2]}`}>
                   {box[1] === "/img/undefined" ? (
+                    // 저장한 이미지가 없을 경우 default.png를 가져온다.
                     <img
                       src={`http://localhost:5000/img/default.png`}
                       className="card-img-top"
                       alt="..."
                     />
                   ) : (
+                    // 저장한 이미지가 있다면 가져온다.
                     <img
                       src={`http://localhost:5000${box[1]}`}
                       className="card-img-top"

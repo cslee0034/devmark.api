@@ -1,42 +1,42 @@
 import React from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import AlarmMain from "../components/AlarmMain";
+import Edit from "../utils/Edit";
+import Scrollback from "../utils/Scrollback";
 
 const AlarmPage = (): JSX.Element => {
+  /* Get Memo_id */
+  const { alarm_id } = useParams<string>();
+  /* 쿼리스트링 해석 */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const boxId = searchParams.get("box");
+  const bookmarkId = searchParams.get("bookmarkId");
+
+  /* Render Page or EditMemo */
+  const alarmPageRender = () => {
+    if (alarm_id === "newalarm" && category && boxId && bookmarkId) {
+      return (
+        <>
+          <Edit
+            type={alarm_id}
+            category={category}
+            boxId={boxId}
+            bookmarkId={bookmarkId}
+          />
+        </>
+      );
+    } else {
+      return <>{ <AlarmMain /> }</>;
+    }
+  };
+
   return (
     <div className="mainpage-container">
       {/* Header */}
       <h3 className="main-header">Alarm</h3>
-
-      {/* Content */}
-      <div className="card tils-card">
-        <div className="card-header">2023-01</div>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">05</li>
-          <li className="list-group-item">04</li>
-          <li className="list-group-item">03</li>
-          <li className="list-group-item">02</li>
-          <li className="list-group-item">01</li>
-        </ul>
-      </div>
-
-      {/* Button */}
-
-      <div
-        className="btn-toolbar mb-3"
-        role="toolbar"
-        aria-label="Toolbar with button groups"
-      >
-        <div className="btn-group me-2" role="group" aria-label="First group">
-          <button type="button" className="btn btn-outline-secondary">
-            {"<"}
-          </button>
-          <button type="button" className="btn btn-outline-secondary disabled btn-center-disable">
-            &nbsp;&nbsp;
-          </button>
-          <button type="button" className="btn btn-outline-secondary">
-            {">"}
-          </button>
-        </div>
-      </div>
+      {alarmPageRender()}
+      <Scrollback />
     </div>
   );
 };

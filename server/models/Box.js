@@ -27,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
+const bookmark_js_1 = __importDefault(require("./bookmark.js"));
 const user_js_1 = __importDefault(require("./user.js"));
 class Box extends sequelize_1.Model {
     static initiate(sequelize) {
@@ -58,7 +59,11 @@ class Box extends sequelize_1.Model {
         });
     }
     static associate() {
-        Box.belongsTo(user_js_1.default);
+        Box.belongsTo(user_js_1.default, { targetKey: "id" });
+        Box.hasMany(bookmark_js_1.default, {
+            sourceKey: "id",
+            foreignKey: "BoxId",
+        });
     }
 }
 exports.default = Box;

@@ -35,14 +35,14 @@ box.post(
   }
 );
 
-/* Post /bookmark/api/box */
+/* Post /api/box */
 box.post("/", isLoggedIn, imgUpload.none(), createBox);
 
-/* Post /bookmark/api/box/update */
-box.post("/update", isLoggedIn, imgUpload.none(), updateBox, imgDelete);
+/* Get /api/box */
+box.get("/", isLoggedIn, renderBox);
 
-/* Delete /bookmark/api/box/delete */
-box.delete("/delete", isLoggedIn, deleteBox, imgDelete);
+/* Patch /api/box */
+box.patch("/", isLoggedIn, imgUpload.none(), updateBox, imgDelete);
 
-/* Get /bookmark/api/box/page */
-box.get("/page", isLoggedIn, renderBox);
+/* Delete /api/box */
+box.delete("/", isLoggedIn, deleteBox, imgDelete);
