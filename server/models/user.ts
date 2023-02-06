@@ -5,6 +5,7 @@ import Sequelize, {
   Model,
 } from "sequelize";
 import {
+  BelongsToManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
@@ -12,6 +13,7 @@ import {
   HasManyHasAssociationMixin,
 } from "sequelize/types/associations";
 import Box from "./box.js";
+import Feed from "./feed.js";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -34,6 +36,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare hasBoxs: HasManyHasAssociationMixin<Box, number>;
   declare countBoxs: HasManyCountAssociationsMixin;
   declare createBoxs: HasManyCreateAssociationMixin<Box>;
+
+  declare getFeeds: BelongsToManyGetAssociationsMixin<Feed>
 
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
@@ -87,6 +91,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
       sourceKey: "id",
       foreignKey: "UserId",
     });
+    User.hasMany(Feed, {
+      sourceKey: "id",
+      foreignKey: "UserId",
+    });
+    Feed.belongsToMany(Feed, { through: "UserLikeFeed" });
   }
 }
 

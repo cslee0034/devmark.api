@@ -69,7 +69,7 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Feed */}
       <li className="nav-item my-1 sidebar-feed-container">
-        <Link to="/feed" className="nav-link sidebar-feed">
+        <Link to="/feeds" className="nav-link sidebar-feed">
           <div>
             <FontAwesomeIcon icon={faComment} />
           </div>

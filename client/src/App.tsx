@@ -233,7 +233,8 @@ const App = (): JSX.Element => {
                         <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
-                        <Route path="/feed" element={<FeedPage />} />
+                        <Route path="/feeds" element={<FeedPage />} />
+                        <Route path="/feeds/:feed_id" element={<FeedPage />} />
                       </Routes>
                     </div>
                     {/* End of Page Content */}

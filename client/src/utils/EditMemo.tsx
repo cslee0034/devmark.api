@@ -30,11 +30,13 @@ const Edit: FC<P> = (props: P): JSX.Element => {
 
   /* <Event Handler> - Memo Create*/
   const memoCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
     /* Memo Name Check */
     if (!(e.target as HTMLFormElement).Title.value) {
       // 메모 이름이 없는 경우
       setModalContent({
-        header: "Bookmark Name",
+        header: "Memo Name",
         message: "You must enter memo name",
         toggle: "view",
       });
@@ -43,7 +45,7 @@ const Edit: FC<P> = (props: P): JSX.Element => {
     if ((e.target as HTMLFormElement).Title.value.length > 15) {
       // 메모 이름이 15글자 이상인 경우
       setModalContent({
-        header: "Bookmark Name",
+        header: "Memo Name",
         message: "the maximum number of characters for a memo is 15",
         toggle: "view",
       });
@@ -54,7 +56,7 @@ const Edit: FC<P> = (props: P): JSX.Element => {
     if (!(e.target as HTMLFormElement).Text.value) {
       // 내용이 없는 경우
       setModalContent({
-        header: "Bookmark URL",
+        header: "Memo URL",
         message: "You must enter memo content",
         toggle: "view",
       });

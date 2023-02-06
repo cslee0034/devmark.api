@@ -585,6 +585,35 @@
   color: #d9b70d;
 }
 
+.card-body-feed {
+  height: 130px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-text-feed {
+  height: 130px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feed-img {
+  height: 130px;
+  width: 130px;
+}
+
+.edit-feed-container {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+
+.feed-edit {
+  margin-left: 25px;
+}
+
 /* Back to top */
 
 .back-to-top {

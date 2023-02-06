@@ -5,6 +5,7 @@ import Alarm from "./alarm.js";
 import Bookmark from "./bookmark.js";
 import Box from "./box.js";
 import Memo from "./memo.js";
+import Feed from "./feed.js";
 
 const env = (process.env.NODE_ENV as "production" | "test") || "development";
 const config = configObj[env];
@@ -13,17 +14,19 @@ export const sequelize = new Sequelize.Sequelize(
   config.database,
   config.username,
   config.password,
-  config,
+  config
 );
 
 Alarm.initiate(sequelize);
 Bookmark.initiate(sequelize);
 Box.initiate(sequelize);
+Feed.initiate(sequelize);
 Memo.initiate(sequelize);
 User.initiate(sequelize);
 
 Alarm.associate();
 Bookmark.associate();
+Feed.associate();
 Box.associate();
 Memo.associate();
 User.associate();

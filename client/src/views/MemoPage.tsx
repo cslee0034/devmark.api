@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import MemoMain from "../components/MemoMain";
 import MemoView from "../components/MemoView";
-import Edit from "../utils/Edit";
+import Edit from "../utils/EditMemo";
 import Scrollback from "../utils/Scrollback";
 
 const MemoPage = (): JSX.Element => {

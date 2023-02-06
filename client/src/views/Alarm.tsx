@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import AlarmMain from "../components/AlarmMain";
-import Edit from "../utils/Edit";
+import Edit from "../utils/EditMemo";
 import Scrollback from "../utils/Scrollback";
 
 const AlarmPage = (): JSX.Element => {
@@ -27,7 +27,7 @@ const AlarmPage = (): JSX.Element => {
         </>
       );
     } else {
-      return <>{ <AlarmMain /> }</>;
+      return <>{<AlarmMain />}</>;
     }
   };
 

@@ -27,62 +27,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
-const box_js_1 = __importDefault(require("./box.js"));
-const feed_js_1 = __importDefault(require("./feed.js"));
-class User extends sequelize_1.Model {
+const user_js_1 = __importDefault(require("./user.js"));
+class Feed extends sequelize_1.Model {
     static initiate(sequelize) {
-        User.init({
+        Feed.init({
             id: {
                 type: sequelize_1.default.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            email: {
-                type: sequelize_1.default.STRING(40),
-                allowNull: true,
-                unique: true,
-            },
-            nick: {
+            FeedName: {
                 type: sequelize_1.default.STRING(15),
                 allowNull: false,
             },
-            password: {
-                type: sequelize_1.default.STRING(100),
-                allowNull: true,
-            },
-            provider: {
-                type: sequelize_1.default.ENUM("local", "kakao", "github"),
+            FeedContent: {
+                // 내용 최대길이: 200
+                type: sequelize_1.default.STRING(200),
                 allowNull: false,
-                defaultValue: "local",
             },
-            snsId: {
-                type: sequelize_1.default.STRING(30),
+            img: {
+                type: sequelize_1.default.STRING(200),
                 allowNull: true,
             },
             createdAt: sequelize_1.default.DATE,
             updatedAt: sequelize_1.default.DATE,
-            deletedAt: sequelize_1.default.DATE,
         }, {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: "User",
-            tableName: "users",
-            paranoid: true,
-            charset: "utf8",
-            collate: "utf8_general_ci",
+            modelName: "Feed",
+            tableName: "feeds",
+            paranoid: false,
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate() {
-        User.hasMany(box_js_1.default, {
-            sourceKey: "id",
-            foreignKey: "UserId",
-        });
-        User.hasMany(feed_js_1.default, {
-            sourceKey: "id",
-            foreignKey: "UserId",
-        });
-        feed_js_1.default.belongsToMany(feed_js_1.default, { through: "UserLikeFeed" });
+        Feed.belongsToMany(user_js_1.default, { through: "UserLikeFeed" });
+        Feed.belongsTo(user_js_1.default, { targetKey: "id" });
     }
 }
-exports.default = User;
+exports.default = Feed;

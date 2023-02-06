@@ -15,4 +15,5 @@ api.use("/user", user);
 api.use("/box", box);
 api.use("/content", content);
 api.use("/memo", memo);
+api.use("/alarm", alarm);
 api.use("/feed", feed);
