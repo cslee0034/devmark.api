@@ -37,7 +37,6 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare countBoxs: HasManyCountAssociationsMixin;
   declare createBoxs: HasManyCreateAssociationMixin<Box>;
 
-  declare getFeeds: BelongsToManyGetAssociationsMixin<Feed>
 
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
@@ -91,11 +90,6 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
       sourceKey: "id",
       foreignKey: "UserId",
     });
-    User.hasMany(Feed, {
-      sourceKey: "id",
-      foreignKey: "UserId",
-    });
-    Feed.belongsToMany(Feed, { through: "UserLikeFeed" });
   }
 }
 

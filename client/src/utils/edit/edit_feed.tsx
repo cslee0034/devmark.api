@@ -1,7 +1,7 @@
 import React, { FC, useContext, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios, { AxiosResponse } from "axios";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface Post {
@@ -20,8 +20,8 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Event Handler
 
-  /* <Event Handler> - Memo Create*/
-  const feedCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+  /* <Event Handler> - Feed Create*/
+  const handleCreateFeed = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Feed URL Check */
@@ -84,7 +84,7 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Axios Request
 
-  /* <Axios Request> - Memo Axios Post /api/memo */
+  /* <Axios Request> - Feed Axios Post /api/memo */
   const createFeed = async (e: any) => {
     try {
       await axios.post<Post>("/api/feed", {
@@ -115,7 +115,7 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
 
   return (
     <>
-      <form className="edit-form" onSubmit={feedCreate}>
+      <form className="edit-form" onSubmit={handleCreateFeed}>
         <input
           className="form-control"
           id="URL"

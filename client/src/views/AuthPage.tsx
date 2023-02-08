@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "../components/pages/Login";
+import Register from "../components/pages/Register";
 
 const AuthPage = (): JSX.Element => {
   const [loginPage, setPage] = useState<boolean>(true);

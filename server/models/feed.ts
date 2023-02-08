@@ -18,7 +18,6 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
 
   declare UserId: ForeignKey<User["id"]>;
 
-  declare getUsers: BelongsToManyGetAssociationsMixin<User>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     Feed.init(
@@ -59,8 +58,6 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
   }
 
   static associate() {
-    Feed.belongsToMany(User, { through: "UserLikeFeed" });
-    Feed.belongsTo(User, { targetKey: "id" });
   }
 }
 

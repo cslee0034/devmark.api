@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useState } from "react";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
-
 interface Post {
   Error: any;
   file: any;
@@ -13,61 +12,25 @@ interface Post {
 
 interface P {
   header: string;
+  message: string;
   toggle: any;
-  url: string;
   id: string;
-}
-
-interface Patch {
-  Error: any;
-  box: string;
-  url: string;
-  id: string;
-  d_url: string;
-  bookmarkName: string;
-  bookmarkURL: string;
 }
 
 // React Start from here
-const UModal: FC<P> = (props: P): JSX.Element => {
+const CModal: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
-
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
 
   //--------------------------------------------------------
   // Event Handler
 
-  /* <Event Handler> - Box Update*/
-  const BoxUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+  /* <Event Handler> - Bookmark Create */
+  const BookmarkCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    /* FormData */
-    const formData = new FormData();
-    if (file !== undefined) {
-      formData.append("img", file);
-    }
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-
-    /* Image Upload */
-    if (file !== undefined) {
-      await uploadImg(e, formData, config);
-      await updateBox(e, imageURL, props.id, props.url);
-    } else {
-      await updateBox(e, props.url, props.id, "");
-    }
-
-    /* Reload */
-    window.location.reload();
-  };
-
-  /* <Event Handler> - Content Update */
-  const ContentUpdate = async (e: any) => {
     /* Bookmark Name Check */
     if (!(e.target as HTMLFormElement).BookmarkName.value) {
       // 북마크 이름이 없는 경우
@@ -98,104 +61,49 @@ const UModal: FC<P> = (props: P): JSX.Element => {
       });
       return;
     }
-    e.preventDefault();
 
-    await updateContent(e, props.id);
+    /* Create Bookmark */
+    createBookmark(e, props.id);
 
     /* Reload */
     window.location.reload();
   };
 
-  //--------------------------------------------------------
-  // Axios Request
+  /* <Event Handler> - Box Edit */
+  const BoxCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  /* <Axios Request> - Image Axios Post /api/box/img */
-  let imageURL = "";
-  const uploadImg = async (e: any, formData: FormData, config: object) => {
-    try {
-      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
-        imageURL = res.data.url;
-        if (res.data.Error) {
-          setModalContent({
-            header: "Edit ERROR",
-            message: res.data.Error,
-            toggle: "view",
-          });
-        }
+    if ((e.target as HTMLFormElement).Box.value.length > 15) {
+      setModalContent({
+        header: "Box Name",
+        message: "the maximum number of characters for a bookmark box is 15",
+        toggle: "view",
       });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
+      return;
     }
+
+    /* FormData */
+    const formData = new FormData();
+    if (file !== undefined) {
+      formData.append("img", file);
+    }
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
+    /* Image Upload */
+    await uploadImg(e, formData, config);
+
+    /* Create Box */
+    await createBox(e, imageURL);
+
+    /* Reload */
+    window.location.reload();
   };
 
-  /* <Axios Request> - Box Axios Patch /api/box */
-  const updateBox = async (
-    e: any,
-    imgURL: string,
-    boxId: string,
-    deleteImgUrl: string
-  ) => {
-    try {
-      await axios.patch<Patch>("/api/box", {
-        box: e.target.Box.value,
-        url: imgURL,
-        id: boxId,
-        d_url: deleteImgUrl,
-      });
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-      if (error.response.data.Error) {
-        setModalContent({
-          header: "Edit ERROR",
-          message: error.response.data.Error,
-          toggle: "view",
-        });
-      }
-    }
-  };
-
-  /* <Axios Request> - Bookmark Axios Patch /api/content */
-  const updateContent = async (e: any, contentId: string) => {
-    try {
-      await axios.patch<Patch>("/api/content", {
-        bookmarkName: e.target.BookmarkName.value,
-        bookmarkURL: e.target.BookmarkURL.value,
-        id: contentId,
-      });
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-      if (error.response.data.Error) {
-        setModalContent({
-          header: "Edit ERROR",
-          message: error.response.data.Error,
-          toggle: "view",
-        });
-      }
-    }
-  };
-
-  //--------------------------------------------------------
-  /* Handle ect */
-
-  /* Image File Change Handler*/
+  /* <Event Handler> - Handle Image File */
   const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
@@ -203,13 +111,95 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   };
 
   //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Bookmark Axios Post /api/content*/
+  const createBookmark = async (
+    e: React.FormEvent<HTMLFormElement>,
+    BoxId: string
+  ) => {
+    try {
+      await axios.post<Post>("/api/content", {
+        bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
+        bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
+        boxId: BoxId,
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  /* <Axios Request> - Image Axios Post /api/box/img */
+  let imageURL = "";
+  const uploadImg = async (e: any, formData: FormData, config: object) => {
+    try {
+      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
+        imageURL = res.data.url;
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  /* <Axios Request> - Box Axios Post /api/box */
+  const createBox = async (e: any, imgURL: string) => {
+    try {
+      await axios.post<Post>("/api/box/", {
+        box: e.target.Box.value,
+        url: imgURL,
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  // -------------------------------------------------------------------------
   // Render
 
-  /* Handle Main Content */
+  /* Render Main Content */
   const modalMain = () => {
-    if (props.header === "Modify_Box") {
+    if (props.header === "Edit_Box") {
       return (
-        <form className="edit-box" onSubmit={BoxUpdate}>
+        <form className="edit-box" onSubmit={BoxCreate}>
           <input
             type="file"
             className="img-upload mb-3"
@@ -223,13 +213,13 @@ const UModal: FC<P> = (props: P): JSX.Element => {
             placeholder="Box Name"
           />
           <button type="submit" className="login-button">
-            Modify
+            Edit
           </button>
         </form>
       );
-    } else if (props.header === "Update_Content") {
+    } else if (props.header === "Edit_Bookmark") {
       return (
-        <form className="edit-box" onSubmit={ContentUpdate}>
+        <form className="edit-box" onSubmit={BookmarkCreate}>
           <input
             type="text"
             className="form-control"
@@ -279,4 +269,4 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   );
 };
 
-export default UModal;
+export default CModal;

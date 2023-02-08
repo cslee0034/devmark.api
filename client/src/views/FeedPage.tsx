@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import FeedView from "../components/FeedView";
-import EditFeed from "../utils/EditFeed";
+import FeedView from "../components/pages/FeedView";
+import EditFeed from "../utils/edit/edit_feed";
 
 const FeedPage = (): JSX.Element => {
   const { feed_id } = useParams<string>();

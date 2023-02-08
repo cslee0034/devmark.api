@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Box from "../components/Box";
-import BoxContent from "../components/BoxContent";
+import Box from "../components/pages/Box";
+import BoxContent from "../components/pages/BoxContent";
 import Scrollback from "../utils/Scrollback";
 
 const BookmarkPage = (): JSX.Element => {

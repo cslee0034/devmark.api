@@ -6,9 +6,9 @@ import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ModalContext } from "../App";
-import Search from "../utils/Search";
+import { ModalContext } from "../../App";
 import { Link } from "react-router-dom";
+import Header from "../common/Header";
 
 // Interfaces
 interface Get {
@@ -137,12 +137,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   return (
     <>
       {/* Header */}
-      <h3 className="main-header">
-        <div className="main-header-right">Bookmark</div>
-        <div className="main-header-left">
-          <Search search="" />
-        </div>
-      </h3>
+      <Header header="Bookmark" search={false} />
 
       {/* Content */}
       {bookmarks ? (
@@ -153,11 +148,11 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
             <div className="card bookmark-card" key={index}>
               <div className="bookmark-card-header">
                 <div className="bookmark-card-header-left">
-                  <a href={bookmark[2]} target="_blank">
+                  <Link to={bookmark[2]} target="_blank">
                     {/* 이동할 북마크 링크 */}
                     <button className="bookmark-menu">{bookmark[0]}</button>
                     {/* 북마크 이름 */}
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="bookmark-card-header-right">
@@ -194,26 +189,26 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                       ) : null}
 
                       <li>
-                        <a
+                        <Link
+                          to={`/memos/newmemo?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
                           className="dropdown-item"
-                          href={`/memos/newmemo?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
                           // 클릭시 쿼리스트링으로 정보를 가진채 newmemo로 이동
                         >
                           New &nbsp;
                           <FontAwesomeIcon icon={faPlus} />
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
 
                   <button className="bookmark-menu">
-                    <a
+                    <Link
+                      to={`/alarms/newalarm?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
                       className="dropdown-item"
-                      href={`/alarms/newalarm?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
                       // 클릭시 쿼리스트링으로 정보를 가진채 newalarm으로 이동
                     >
                       <FontAwesomeIcon icon={faClock} />
-                    </a>
+                    </Link>
                   </button>
                   <button className="bookmark-menu">
                     <FontAwesomeIcon

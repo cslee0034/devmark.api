@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface Post {
@@ -30,7 +30,7 @@ const Register = (): JSX.Element => {
   // Event Handler
 
   /* <Event Handler> - Register Scripts */
-  const registerClickHandeler = (e: React.FormEvent<HTMLFormElement>) => {
+  const handelRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /* Email Check */
@@ -87,15 +87,15 @@ const Register = (): JSX.Element => {
       return;
     }
 
-    /* Signup */
-    signup(e);
+    /* register */
+    register(e);
   };
 
   //--------------------------------------------------------
   // Axios Request
 
   /* <Axios Request> - Register Axios Post /api/user/registration */
-  const signup = async (e: any) => {
+  const register = async (e: any) => {
     try {
       await axios
         .post<Post>("/api/user/registration", {
@@ -133,7 +133,7 @@ const Register = (): JSX.Element => {
       <div className="login-container">
         {/* Header */}
         <h2 className="login-header">Register</h2>
-        <form onSubmit={registerClickHandeler}>
+        <form onSubmit={handelRegister}>
           {/* Email Form */}
           <input
             type="text"

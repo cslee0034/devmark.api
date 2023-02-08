@@ -1,25 +1,8 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios, { AxiosResponse } from "axios";
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { ModalContext } from "../App";
-import Search from "../utils/Search";
-
-// Interfaces
-interface Get {
-  Error: any;
-  box: string;
-  img: string;
-  length: number;
-  i: number;
-  [index: number]: any;
-  boxId: string;
-  memoArr: any;
-
-  memoName: string;
-  memoContent: string;
-}
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import Header from "../common/Header";
 
 interface P {}
 
@@ -27,12 +10,8 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
   return (
     <>
       {/* Header */}
-      <h3 className="main-header">
-        <div className="main-header-right">Feed</div>
-        <div className="main-header-left">
-          <Search search="" />
-        </div>
-      </h3>
+      <Header header="Feed" search={false} />
+      {/* Main */}
       <div className="edit-feed-container">
         <Link to="/feeds/newfeed">
           <button type="button" className="btn btn-secondary feed-edit">

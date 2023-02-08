@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
 const box_js_1 = __importDefault(require("./box.js"));
-const feed_js_1 = __importDefault(require("./feed.js"));
 class User extends sequelize_1.Model {
     static initiate(sequelize) {
         User.init({
@@ -78,11 +77,6 @@ class User extends sequelize_1.Model {
             sourceKey: "id",
             foreignKey: "UserId",
         });
-        User.hasMany(feed_js_1.default, {
-            sourceKey: "id",
-            foreignKey: "UserId",
-        });
-        feed_js_1.default.belongsToMany(feed_js_1.default, { through: "UserLikeFeed" });
     }
 }
 exports.default = User;

@@ -1,13 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext } from "react";
-import { ModalContext, UserContext } from "../App";
+import { ModalContext, UserContext } from "../../App";
 
 // Interfaces
 interface Post {
   Error: any;
   email: string;
   password: string;
-  json: any;
+  json: object;
 }
 
 interface Get {
@@ -29,13 +29,13 @@ const Login = (): JSX.Element => {
   // Event Handler
 
   /* <Event Handler> - loginClickHandeler */
-  const loginClickHandeler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Signin */
-    const errored = await signin(e);
+    const errored = await login(e);
     /* Login */
     if (!errored) {
-      await loginAPI(e);
+      await getInfo(e);
     }
   };
 
@@ -43,7 +43,7 @@ const Login = (): JSX.Element => {
   // Axios Request
 
   /* <Axios Request> - Login Axios Post /api/user/login */
-  const signin = async (e: any) => {
+  const login = async (e: any) => {
     try {
       await axios
         .post<Post>("/api/user/login", {
@@ -68,12 +68,12 @@ const Login = (): JSX.Element => {
       }
       return true;
       // 오류 난다면 errored = true 리턴
-      // loginClickHandeler에서 다음 동작을 방지한다
+      // handleLogin 다음 동작을 방지한다
     }
   };
 
   /* <Axios Request> - Login Axios Get /api/info */
-  const loginAPI = async (e: any) => {
+  const getInfo = async (e: any) => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
         let Boxes = "";
@@ -130,7 +130,7 @@ const Login = (): JSX.Element => {
         {/* Header */}
         <h2 className="login-header">Welcome!</h2>
         {/* Email Form */}
-        <form onSubmit={loginClickHandeler}>
+        <form onSubmit={handleLogin}>
           <input
             type="text"
             className="form-control"

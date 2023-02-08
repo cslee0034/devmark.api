@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface Get {
@@ -42,14 +42,14 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
   const { setModalContent } = useContext(ModalContext);
 
   /* Memo Each State */
-  const [viewMemos, setViewMemos] = useState<any>([]);
+  const [viewMemos, setViewMemos] = useState<string[]>([]);
   const [modify, setModify] = useState<boolean>(false);
 
   //--------------------------------------------------------
   // Event Handler
 
   /* <Event Handler> - Delete Memo */
-  const memoDelete = (e: React.MouseEvent<HTMLElement>) => {
+  const handelDeleteMemo = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     /* Delete Confirm */
     if (!window.confirm("Are you sure to delete?")) {
@@ -62,15 +62,15 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
   };
 
   /* <Event Handler> - Toggle Modify */
-  const toggleModify = (e: any) => {
+  const handleModifyToggle = (e: React.MouseEvent<HTMLElement>) => {
     setModify(true);
   };
 
   /* <Event Handler> - Update Memo */
-  const memoUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdateMemo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /* Delete Box */
-    updateMemo(e, memo_id);
+    updateMemo(e, memo_id!);
     /* Reload */
     window.location.reload();
   };
@@ -133,7 +133,7 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
   };
 
   /* <Axios Request> - Memo Axios Delete /api/memo */
-  const updateMemo = async (e: any, memoId: any) => {
+  const updateMemo = async (e: any, memoId: string) => {
     try {
       await axios.patch<Patch>("/api/memo", {
         memoName: e.target[1].value,
@@ -180,7 +180,7 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
     <>
       {modify ? (
         <>
-          <form className="edit-form" onSubmit={memoUpdate}>
+          <form className="edit-form" onSubmit={handleUpdateMemo}>
             <input
               className="form-control"
               type="text"
@@ -221,14 +221,14 @@ const MemoView: FC<P> = (props: P): JSX.Element => {
           <button
             type="button"
             className="login-button mt-2"
-            onClick={toggleModify}
+            onClick={handleModifyToggle}
           >
             Modify
           </button>
           <button
             type="button"
             className="login-button login-button-delete mt-2 mb-4"
-            onClick={memoDelete}
+            onClick={handelDeleteMemo}
           >
             Delete
           </button>

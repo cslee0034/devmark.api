@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import AlarmMain from "../components/AlarmMain";
-import Edit from "../utils/EditMemo";
+import AlarmMain from "../components/pages/AlarmMain";
+import EditAlarm from "../utils/edit/edit_alarm";
 import Scrollback from "../utils/Scrollback";
 
 const AlarmPage = (): JSX.Element => {
@@ -18,7 +18,7 @@ const AlarmPage = (): JSX.Element => {
     if (alarm_id === "newalarm" && category && boxId && bookmarkId) {
       return (
         <>
-          <Edit
+          <EditAlarm
             type={alarm_id}
             category={category}
             boxId={boxId}
@@ -32,12 +32,10 @@ const AlarmPage = (): JSX.Element => {
   };
 
   return (
-    <div className="mainpage-container">
-      {/* Header */}
-      <h3 className="main-header">Alarm</h3>
+    <>
       {alarmPageRender()}
       <Scrollback />
-    </div>
+    </>
   );
 };
 

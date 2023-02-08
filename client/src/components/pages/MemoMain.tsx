@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ModalContext } from "../App";
-import Search from "../utils/Search";
+import { ModalContext } from "../../App";
+import Header from "../common/Header";
 
 // Interfaces
 interface Get {
@@ -12,8 +12,6 @@ interface Get {
   length: number;
   i: number;
   [index: number]: any;
-  boxId: string;
-  memoArr: any;
 
   memoName: string;
   memoContent: string;
@@ -111,12 +109,8 @@ const MemoMain: FC<P> = (props: P): JSX.Element => {
   return (
     <>
       {/* Header */}
-      <h3 className="main-header">
-        <div className="main-header-right">Memo</div>
-        <div className="main-header-left">
-          <Search search="" />
-        </div>
-      </h3>
+      <Header header="Memo" search={false} />
+      {/* Main */}
       <>
         {memos[0] != "" ? (
           // 메모가 있다면

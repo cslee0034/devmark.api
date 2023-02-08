@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ModalContext } from "../App";
-import Search from "../utils/Search";
+import { ModalContext } from "../../App";
+import Header from "../common/Header";
 
 // Interfaces
 interface Get {
@@ -67,7 +67,7 @@ const Box = (): JSX.Element => {
           setBoxs(newBox);
         }
       });
-    } catch (error:any) {
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
           (error.response as AxiosResponse<{ message: string }>)?.data.message
@@ -102,16 +102,11 @@ const Box = (): JSX.Element => {
 
   //--------------------------------------------------------
   // return
-  
+
   return (
     <>
       {/* Header */}
-      <h3 className="main-header">
-        <div className="main-header-right">Bookmark</div>
-        <div className="main-header-left">
-          <Search search="" />
-        </div>
-      </h3>
+      <Header header="Bookmark" search={true} />
       {/* Main */}
       {boxs ? (
         <div className="row row-cols-1 row-cols-md-4 g-4 mb-4 card-container">

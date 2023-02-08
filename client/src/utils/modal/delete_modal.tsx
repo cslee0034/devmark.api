@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext } from "react";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface Delete {

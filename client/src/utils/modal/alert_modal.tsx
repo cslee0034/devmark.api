@@ -1,5 +1,5 @@
 import React, { FC, useContext } from "react";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface P {
@@ -9,7 +9,7 @@ interface P {
 }
 
 // React Start from here
-const Modal: FC<P> = (props: P): JSX.Element => {
+const WModal: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
 
@@ -44,4 +44,4 @@ const Modal: FC<P> = (props: P): JSX.Element => {
   );
 };
 
-export default Modal;
+export default WModal;

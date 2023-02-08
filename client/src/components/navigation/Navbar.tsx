@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { ModalContext, SidebarContext, UserContext } from "../App";
+import { ModalContext, SidebarContext, UserContext } from "../../App";
 import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 
@@ -30,7 +30,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
   // Axios Request
 
   /* <Axios Request> - Logout Axios Post /api/user/logout */
-  const signout = async () => {
+  const logout = async () => {
     try {
       await axios.post<Post>("/api/user/logout").then((res) => {
         setLoginContent({
@@ -111,17 +111,16 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
                 </Link>
               </li>
               <li>
-                <a
+                <Link to='/'
                   className="dropdown-item"
                   onClick={() => {
-                    signout();
+                    logout();
                     localStorage.clear();
                     sessionStorage.clear();
                   }}
-                  href="/"
                 >
                   Logout
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

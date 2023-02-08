@@ -2,7 +2,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosResponse } from "axios";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { ModalContext } from "../App";
+import { ModalContext } from "../../App";
+import Header from "../common/Header";
 
 // Interfaces
 interface Get {
@@ -13,7 +14,6 @@ interface Get {
   i: number;
   [index: number]: any;
   boxId: string;
-  memoArr: any;
 
   memoName: string;
   memoContent: string;
@@ -138,6 +138,8 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
 
   return (
     <>
+      {/* Header */}
+      <Header header="Alarm" search={false} />
       <table className="table mb-4">
         <thead>
           <tr>
@@ -147,6 +149,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
           </tr>
         </thead>
 
+        {/* Main */}
         {alarms ? (
           <>
             {alarms.map((alarm: any[], index: number) => (
