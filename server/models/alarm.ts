@@ -55,7 +55,6 @@ class Alarm extends Model<
 
   static associate() {
     Alarm.belongsTo(User);
-    Alarm.belongsToMany(Bookmark, { through: "BookmarkAlarm" });
   }
 }
 

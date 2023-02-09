@@ -70,7 +70,6 @@ class Bookmark extends Model<
 
   static associate() {
     Bookmark.belongsTo(Box, { targetKey: "id" });
-    Bookmark.belongsToMany(Alarm, { through: "BookmarkAlarm" });
     Bookmark.hasMany(Memo, {
       sourceKey: "id",
       foreignKey: "BookmarkId",
