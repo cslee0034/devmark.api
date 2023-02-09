@@ -55,4 +55,42 @@ const logout: RequestHandler = (req, res) => {
   });
 };
 
-export { registration, login, logout };
+const updateUser: RequestHandler = async (req, res, next) => {
+  const UserId = req.user!.id;
+  const password = req.body.password;
+  const nick = req.body.nick;
+  try {
+    const exUser = await User.findOne({ where: { id: UserId } });
+    if (!exUser) {
+      return res.status(409).json({ Error: "Account is not exists" });
+    }
+    const hashPassword = await bcrypt.hash(password, 12);
+    await User.update(
+      {
+        nick,
+        password: hashPassword,
+      },
+      {
+        where: { id: UserId },
+      }
+    );
+    return res.status(201).end();
+    // 생성 성공 Status 201
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+const deleteUser: RequestHandler = async (req, res, next) => {
+  try {
+    const d_id = req.user!.id;
+    const deleteUser = await User.destroy({ where: { id: d_id } });
+    res.status(200).end();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export { registration, login, logout, updateUser, deleteUser };

@@ -1,4 +1,4 @@
-import { isLoggedIn, isNotLoggedIn } from "../../middleware/middleware.js";
+import { isLoggedIn, isNotLoggedIn } from "../middleware";
 import { Request, Response } from "express";
 
 describe("isLoggedIn", () => {
@@ -15,9 +15,9 @@ describe("isLoggedIn", () => {
     const req = {
       isAuthenticated: jest.fn(() => true),
     } as unknown as Request;
-    isLoggedIn(req, res, next); 
+    isLoggedIn(req, res, next);
     // 함수가 실행되서 true이면 next()를 반환하게 된다.
-    expect(next).toBeCalledTimes(1); 
+    expect(next).toBeCalledTimes(1);
     // next가 1번 호출되는지 검증
   });
 

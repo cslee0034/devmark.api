@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
 const box_js_1 = __importDefault(require("./box.js"));
+const feed_js_1 = __importDefault(require("./feed.js"));
 class User extends sequelize_1.Model {
     static initiate(sequelize) {
         User.init({
@@ -67,13 +68,17 @@ class User extends sequelize_1.Model {
             underscored: false,
             modelName: "User",
             tableName: "users",
-            paranoid: true,
+            paranoid: false,
             charset: "utf8",
             collate: "utf8_general_ci",
         });
     }
     static associate() {
         User.hasMany(box_js_1.default, {
+            sourceKey: "id",
+            foreignKey: "UserId",
+        });
+        User.hasMany(feed_js_1.default, {
             sourceKey: "id",
             foreignKey: "UserId",
         });

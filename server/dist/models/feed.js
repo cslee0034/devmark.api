@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
+const user_js_1 = __importDefault(require("./user.js"));
 class Feed extends sequelize_1.Model {
     static initiate(sequelize) {
         Feed.init({
@@ -33,7 +37,7 @@ class Feed extends sequelize_1.Model {
                 autoIncrement: true,
             },
             FeedName: {
-                type: sequelize_1.default.STRING(15),
+                type: sequelize_1.default.STRING(25),
                 allowNull: false,
             },
             FeedContent: {
@@ -44,6 +48,11 @@ class Feed extends sequelize_1.Model {
             img: {
                 type: sequelize_1.default.STRING(200),
                 allowNull: true,
+            },
+            URL: {
+                // URL 최대길이: 2083
+                type: sequelize_1.default.STRING(2083),
+                allowNull: false,
             },
             createdAt: sequelize_1.default.DATE,
             updatedAt: sequelize_1.default.DATE,
@@ -59,6 +68,7 @@ class Feed extends sequelize_1.Model {
         });
     }
     static associate() {
+        Feed.belongsTo(user_js_1.default, { targetKey: "id" });
     }
 }
 exports.default = Feed;

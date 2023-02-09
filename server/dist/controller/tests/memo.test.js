@@ -12,11 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { Request, Response, NextFunction } from "express";
-const box_js_1 = require("../../controller/box.js");
+const memo_js_1 = require("../../controller/memo.js");
 const node_mocks_http_1 = __importDefault(require("node-mocks-http"));
-jest.mock("../../models/box.js");
-const box_js_2 = __importDefault(require("../../models/box.js"));
+jest.mock("../../models/memo.js");
+const memo_js_2 = __importDefault(require("../../models/memo.js"));
 let req, res, next;
 // beforeEach 위에서 선언 해주어야 각각 넣어줄 수 있다.
 beforeEach(() => {
@@ -24,30 +23,30 @@ beforeEach(() => {
     res = node_mocks_http_1.default.createResponse();
     next = jest.fn();
 });
-describe("createBox", () => {
+describe("createMemo", () => {
     beforeEach(() => {
         req.user = { id: 1 };
         // 각각의 요소에 이메일 등록에 사용될 req.body를 넣어준다.
         req.body = {
-            box: "temp_box",
-            url: "temp_box_url",
-            UserId: 1,
+            memoName: "temp_memo",
+            memoContent: "temp_memo_content",
+            bookmarkId: 1,
         };
         // Registration 내부에서 사용할 함수도 모킹해준다.
         // 테스트 통과를 가정하고 특정 value를 return하도록 mockResolvedValue
         // (Memo.findOne as jest.Mock).mockResolvedValue(null);
-        box_js_2.default.create.mockResolvedValue({});
+        memo_js_2.default.create.mockResolvedValue({});
     });
-    it("박스 생성", () => __awaiter(void 0, void 0, void 0, function* () {
-        yield (0, box_js_1.createBox)(req, res, next);
+    it("메모 생성", () => __awaiter(void 0, void 0, void 0, function* () {
+        yield (0, memo_js_1.createMemo)(req, res, next);
         expect(res.statusCode).toBe(201);
         // res의 statusCode가 201로 return된다.
     }));
-    it("박스 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
-        req.user = null;
-        // req.user가 없을 경우.
+    it("메모 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+        req.body = null;
+        // req.body 없을 경우.
         try {
-            yield (0, box_js_1.createBox)(req, res, next);
+            yield (0, memo_js_1.createMemo)(req, res, next);
         }
         catch (error) {
             expect(error).toBeTruthy();
@@ -55,7 +54,7 @@ describe("createBox", () => {
         }
     }));
 });
-describe("readBox", () => {
+describe("readMemo", () => {
     beforeEach(() => {
         req.user = { id: 1 };
         req.body = {
@@ -64,31 +63,31 @@ describe("readBox", () => {
             UserId: 1,
         };
     });
-    it("박스가 있다면 박스 읽어온다", () => __awaiter(void 0, void 0, void 0, function* () {
-        const renderBoxs = { id: 1 };
-        box_js_2.default.findAll.mockResolvedValue(renderBoxs);
-        yield (0, box_js_1.renderBox)(req, res, next);
+    it("메모가 있다면 메모 읽어온다", () => __awaiter(void 0, void 0, void 0, function* () {
+        const renderMemos = { id: 1 };
+        memo_js_2.default.findAll.mockResolvedValue(renderMemos);
+        yield (0, memo_js_1.renderMemo)(req, res, next);
         expect(res.statusCode).toBe(200);
         expect(res._isEndCalled).toBeTruthy();
         // res.status(200).send(); 같이 만약 보내오는 데이터가 있다면
         // send가 잘 보내져 왔다고 Truthy
-        expect(res._getJSONData()).toStrictEqual(renderBoxs);
+        expect(res._getJSONData()).toStrictEqual(renderMemos);
         // 보내져 오는 json 데이터가 ~~와 같다
     }));
-    it("박스가 없다면 end()", () => __awaiter(void 0, void 0, void 0, function* () {
-        const renderBoxs = null;
-        box_js_2.default.findAll.mockResolvedValue(renderBoxs);
+    it("메모가 없다면 end()", () => __awaiter(void 0, void 0, void 0, function* () {
+        const renderMemos = null;
+        memo_js_2.default.findAll.mockResolvedValue(renderMemos);
         const spyFn = jest.spyOn(res, "end");
         // 가짜함수로 대체하지 않음 ( 결괏값이 실제 구현 값 )
         // res라는 객체의 end라는 함수에 spy를 붙여서 정보를 캘 수 있다.
-        yield (0, box_js_1.renderBox)(req, res, next);
+        yield (0, memo_js_1.renderMemo)(req, res, next);
         expect(spyFn).toBeCalled();
     }));
-    it("박스 읽어오며 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+    it("메모 읽어오며 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
         req.user = null;
         // req.user가 없을 경우.
         try {
-            yield (0, box_js_1.createBox)(req, res, next);
+            yield (0, memo_js_1.createMemo)(req, res, next);
         }
         catch (error) {
             expect(error).toBeTruthy();
@@ -96,18 +95,18 @@ describe("readBox", () => {
         }
     }));
 });
-describe("updateBox", () => {
+describe("updateMemo", () => {
     beforeEach(() => {
         req.user = { id: 1 };
         req.body = {
-            box: "temp_box",
-            url: "temp_box_url",
+            memoName: "temp_box",
+            memoContent: "temp_box_url",
             id: 1,
         };
     });
-    it("요소가 전부 있다면 박스 수정", () => __awaiter(void 0, void 0, void 0, function* () {
-        box_js_2.default.update.mockResolvedValue(null);
-        yield (0, box_js_1.updateBox)(req, res, next);
+    it("요소가 전부 있다면 메모 수정", () => __awaiter(void 0, void 0, void 0, function* () {
+        memo_js_2.default.update.mockResolvedValue(null);
+        yield (0, memo_js_1.updateMemo)(req, res, next);
         expect(res.statusCode).toBe(200);
         expect(next).toBeCalled();
         // update가 성공하면 next가 불려올 것이다.
@@ -117,17 +116,18 @@ describe("updateBox", () => {
         // body에 정보가 없는 경우.
         const errorMessage = { message: "Error" };
         // 에러메시지.
-        box_js_2.default.update.mockResolvedValue(Promise.reject(errorMessage));
+        memo_js_2.default.update.mockResolvedValue(Promise.reject(errorMessage));
         // 비동기로 에러 메시지가 온다.
-        yield (0, box_js_1.updateBox)(req, res, next);
+        yield (0, memo_js_1.updateMemo)(req, res, next);
         expect(next).toBeCalledWith(errorMessage);
         // 에러메시지가 next로와 함께 불린다.
     }));
-    it("박스 업데이트 하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
-        req.user = null;
+    it("메모 업데이트 하면서 에러 발생", () => __awaiter(void 0, void 0, void 0, function* () {
+        req.body.id = null;
         // req.user가 없을 경우.
+        memo_js_2.default.update.mockResolvedValue(null);
         try {
-            yield (0, box_js_1.updateBox)(req, res, next);
+            yield (0, memo_js_1.updateMemo)(req, res, next);
         }
         catch (error) {
             expect(error).toBeTruthy();
@@ -135,18 +135,16 @@ describe("updateBox", () => {
         }
     }));
 });
-describe("deleteBox", () => {
+describe("deleteMemo", () => {
     beforeEach(() => {
         req.user = { id: 1 };
         req.body = {
-            box: "temp_box",
-            url: "temp_box_url",
             id: 1,
         };
     });
     it("d_id가 있다면 삭제", () => __awaiter(void 0, void 0, void 0, function* () {
-        box_js_2.default.destroy.mockResolvedValue(null);
-        yield (0, box_js_1.deleteBox)(req, res, next);
+        memo_js_2.default.destroy.mockResolvedValue(null);
+        yield (0, memo_js_1.deleteMemo)(req, res, next);
         expect(res.statusCode).toBe(200);
         expect(next).toBeCalled();
         // update가 성공하면 next가 불려올 것이다.
@@ -156,9 +154,9 @@ describe("deleteBox", () => {
         // body의 id를 삭제한다.
         const errorMessage = { message: "Error" };
         // 에러메시지.
-        box_js_2.default.destroy.mockResolvedValue(Promise.reject(errorMessage));
+        memo_js_2.default.destroy.mockResolvedValue(Promise.reject(errorMessage));
         // 비동기로 에러 메시지가 온다.
-        yield (0, box_js_1.deleteBox)(req, res, next);
+        yield (0, memo_js_1.deleteMemo)(req, res, next);
         expect(next).toBeCalledWith(errorMessage);
         // 에러메시지가 next로와 함께 불린다.
     }));

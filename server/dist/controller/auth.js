@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.registration = void 0;
+exports.deleteUser = exports.updateUser = exports.logout = exports.login = exports.registration = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport_1 = __importDefault(require("passport"));
 const user_js_1 = __importDefault(require("../models/user.js"));
@@ -69,3 +69,40 @@ const logout = (req, res) => {
     });
 };
 exports.logout = logout;
+const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const UserId = req.user.id;
+    const password = req.body.password;
+    const nick = req.body.nick;
+    try {
+        const exUser = yield user_js_1.default.findOne({ where: { id: UserId } });
+        if (!exUser) {
+            return res.status(409).json({ Error: "Account is not exists" });
+        }
+        const hashPassword = yield bcrypt_1.default.hash(password, 12);
+        yield user_js_1.default.update({
+            nick,
+            password: hashPassword,
+        }, {
+            where: { id: UserId },
+        });
+        return res.status(201).end();
+        // 생성 성공 Status 201
+    }
+    catch (error) {
+        console.error(error);
+        return next(error);
+    }
+});
+exports.updateUser = updateUser;
+const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const d_id = req.user.id;
+        const deleteUser = yield user_js_1.default.destroy({ where: { id: d_id } });
+        res.status(200).end();
+    }
+    catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+exports.deleteUser = deleteUser;

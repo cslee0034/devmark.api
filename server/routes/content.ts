@@ -5,6 +5,7 @@ import {
   renderContent,
   updateContent,
 } from "../controller/content.js";
+import { findUserBox } from "../middleware/checkUserBox.js";
 import { isLoggedIn } from "../middleware/middleware.js";
 export const content = express.Router();
 
@@ -12,7 +13,7 @@ export const content = express.Router();
 content.post("/", isLoggedIn, createContent);
 
 /* Get /api/content */
-content.get("/", isLoggedIn, renderContent);
+content.get("/", isLoggedIn, findUserBox, renderContent);
 
 /* Patch /api/content */
 content.patch("/", isLoggedIn, updateContent);

@@ -5,7 +5,6 @@ import Sequelize, {
   Model,
 } from "sequelize";
 import {
-  BelongsToManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
@@ -37,6 +36,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare countBoxs: HasManyCountAssociationsMixin;
   declare createBoxs: HasManyCreateAssociationMixin<Box>;
 
+  declare getFeeds: HasManyGetAssociationsMixin<Feed>;
+  declare addFeeds: HasManyAddAssociationMixin<Feed, number>;
+  declare hasFeeds: HasManyHasAssociationMixin<Feed, number>;
+  declare countFeeds: HasManyCountAssociationsMixin;
+  declare createFeeds: HasManyCreateAssociationMixin<Feed>;
 
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
@@ -78,7 +82,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
         underscored: false,
         modelName: "User",
         tableName: "users",
-        paranoid: true,
+        paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -87,6 +91,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
   static associate() {
     User.hasMany(Box, {
+      sourceKey: "id",
+      foreignKey: "UserId",
+    });
+    User.hasMany(Feed, {
       sourceKey: "id",
       foreignKey: "UserId",
     });

@@ -15,6 +15,10 @@ exports.user.post("/registration", middleware_js_1.isNotLoggedIn, auth_js_1.regi
 exports.user.post("/login", middleware_js_1.isNotLoggedIn, auth_js_1.login);
 /* Post /auth/api/user/logout */
 exports.user.post("/logout", middleware_js_1.isLoggedIn, auth_js_1.logout);
+/* Patch /auth/api/user/ */
+exports.user.patch("/", middleware_js_1.isLoggedIn, auth_js_1.updateUser);
+/* Delete /auth/api/user */
+exports.user.delete("/", middleware_js_1.isLoggedIn, auth_js_1.deleteUser);
 /* GET /auth/api/user/kakao */
 exports.user.get("/kakao", passport_1.default.authenticate("kakao"));
 /* GET /auth/api/user/kakao/callback */

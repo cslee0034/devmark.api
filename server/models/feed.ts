@@ -5,7 +5,6 @@ import Sequelize, {
   InferCreationAttributes,
   ForeignKey,
 } from "sequelize";
-import { BelongsToManyGetAssociationsMixin } from "sequelize/types/associations";
 import User from "./user.js";
 
 class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
@@ -13,11 +12,11 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
   declare FeedName: string;
   declare FeedContent: string;
   declare img: string;
+  declare URL: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
   declare UserId: ForeignKey<User["id"]>;
-
 
   static initiate(sequelize: Sequelize.Sequelize) {
     Feed.init(
@@ -28,7 +27,7 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
           autoIncrement: true,
         },
         FeedName: {
-          type: Sequelize.STRING(15),
+          type: Sequelize.STRING(25),
           allowNull: false,
         },
         FeedContent: {
@@ -39,6 +38,11 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
         img: {
           type: Sequelize.STRING(200),
           allowNull: true,
+        },
+        URL: {
+          // URL 최대길이: 2083
+          type: Sequelize.STRING(2083),
+          allowNull: false,
         },
 
         createdAt: Sequelize.DATE,
@@ -58,6 +62,7 @@ class Feed extends Model<InferAttributes<Feed>, InferCreationAttributes<Feed>> {
   }
 
   static associate() {
+    Feed.belongsTo(User, { targetKey: "id" });
   }
 }
 
