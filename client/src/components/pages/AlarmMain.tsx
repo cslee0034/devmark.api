@@ -52,7 +52,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Axios Request
 
-  /* <Axios Request> - Memo Axios Get /api/box -- Get All */
+  /* <Axios Request> - Alarm Axios Get /api/alarm -- Get All */
   const getAlarms = async () => {
     try {
       await axios.get<Get>("/api/alarm").then((res) => {
@@ -71,7 +71,6 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
           newAlarm.push([alarmName, newDate, alarmId]);
           // [boxName, boxUrl, boxId] 형태로 Array에 저장 후 setState
           setAlarms(newAlarm);
-          console.log(alarms);
         }
       });
     } catch (error: any) {
@@ -92,7 +91,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* <Axios Request> - Memo Axios Delete /api/memo */
+  /* <Axios Request> - Alarm Axios Delete /api/alarm */
   const deleteAlarm = async (alarmId: string) => {
     try {
       await axios.delete<Delete>("/api/alarm", {

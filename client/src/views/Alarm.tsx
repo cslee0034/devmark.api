@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import AlarmMain from "../components/pages/AlarmMain";
 import EditAlarm from "../utils/edit/edit_alarm";
-import Scrollback from "../utils/Scrollback";
+import Scrollback from "../utils/scrollback";
 
 const AlarmPage = (): JSX.Element => {
   /* Get Memo_id */
@@ -34,7 +34,7 @@ const AlarmPage = (): JSX.Element => {
   return (
     <>
       {alarmPageRender()}
-      <Scrollback />
+      <Scrollback/>
     </>
   );
 };

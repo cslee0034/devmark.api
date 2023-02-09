@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
@@ -13,6 +13,10 @@ interface P {
   userNick: string;
 }
 
+interface Get {
+  length: string;
+}
+
 interface Post {
   id: number;
 }
@@ -23,8 +27,11 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
   // Declaration of useState, useContext, useRef ...
 
   const { setSidebar } = useContext(SidebarContext);
+  const { loginContent } = useContext(UserContext);
   const { setLoginContent } = useContext(UserContext);
   const { setModalContent } = useContext(ModalContext);
+
+  const [notification, setNotification] = useState<string>();
 
   //--------------------------------------------------------
   // Axios Request
@@ -58,6 +65,52 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
   };
 
   //--------------------------------------------------------
+  // Axios Request
+
+  /* <Axios Request> - Alarm Axios Get /api/alarm/notification -- Get All */
+
+  const nofityAlarm = async () => {
+    try {
+      await axios.get<Get>("/api/alarm/notification").then((res) => {
+        const alarms = res.data.length;
+        setNotification(alarms);
+      });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.Error) {
+        setModalContent({
+          header: "ERROR",
+          message: error.response.data.Error,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  //--------------------------------------------------------
+  /* Fetching Data */
+
+  useEffect(() => {
+    const fetchAlarms = async () => {
+      try {
+        if (loginContent.loggedIn) {
+          await nofityAlarm();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchAlarms();
+  }, [loginContent]);
+
+  //--------------------------------------------------------
   // return
 
   return (
@@ -77,10 +130,12 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
       <ul className="navbar-nav navbar-left-container">
         {/* Notification */}
         <button className="nav-item position-relative notification">
-          <FontAwesomeIcon icon={faBell} />
-          {props.loggedIn ? (
+          <Link to="/alarms" className="nav-notification">
+            <FontAwesomeIcon icon={faBell} />
+          </Link>
+          {props.loggedIn && notification ? (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              4+
+              {`${notification}+`}
               <span className="visually-hidden">unread messages</span>
             </span>
           ) : null}
@@ -99,7 +154,9 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
               data-bs-display="static"
               aria-expanded="false"
             >
-              <div className="username-nick">{props.userNick} &nbsp;</div>
+              <div className="username-nick">
+                {loginContent.userNick} &nbsp;
+              </div>
               <div>
                 <FontAwesomeIcon icon={faUser} />
               </div>
@@ -111,7 +168,8 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
                 </Link>
               </li>
               <li>
-                <Link to='/'
+                <Link
+                  to="/"
                   className="dropdown-item"
                   onClick={() => {
                     logout();

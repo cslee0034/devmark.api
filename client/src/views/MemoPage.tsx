@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import MemoMain from "../components/pages/MemoMain";
 import MemoView from "../components/pages/MemoView";
 import Edit from "../utils/edit/edit_memo";
-import Scrollback from "../utils/Scrollback";
+import Scrollback from "../utils/scrollback";
 
 const MemoPage = (): JSX.Element => {
   /* Get Memo_id */
@@ -46,7 +46,7 @@ const MemoPage = (): JSX.Element => {
   return (
     <>
       {memoPageRender()}
-      <Scrollback />
+      <Scrollback/>
     </>
   );
 };

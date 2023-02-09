@@ -23,7 +23,7 @@ const Login = (): JSX.Element => {
   // Declaration of useState, useContext, useRef ...
 
   const { setModalContent } = useContext(ModalContext);
-  const { loginContent } = useContext(UserContext);
+  const { setLoginContent } = useContext(UserContext);
 
   //--------------------------------------------------------
   // Event Handler
@@ -76,19 +76,13 @@ const Login = (): JSX.Element => {
   const getInfo = async (e: any) => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
-        let Boxes = "";
-        for (let i = 0; i < res.data.Boxes.length; i++) {
-          Boxes += res.data.Boxes[i].id;
-          Boxes += " ";
-        }
-
         /* Remember == true일때 localStorage에 저장 */
         if (e.target.Remember.checked) {
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
-          window.localStorage.setItem("userBoxes", Boxes);
+          window.sessionStorage.setItem("local", "true");
 
           window.location.replace("/");
         } else {
@@ -97,7 +91,7 @@ const Login = (): JSX.Element => {
           const UserNick = String(res.data.nick);
           window.sessionStorage.setItem("userId", UserId);
           window.sessionStorage.setItem("userNick", UserNick);
-          window.sessionStorage.setItem("userBoxes", Boxes);
+          window.sessionStorage.setItem("local", "true");
 
           window.location.replace("/");
         }

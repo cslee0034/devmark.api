@@ -34,9 +34,10 @@ interface Patch {
 
 // React Start from here
 const MemoView: FC<P> = (props: P): JSX.Element => {
-  const { memo_id } = useParams<string>();
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
+
+  const { memo_id } = useParams<string>();
 
   /* Modal Context */
   const { setModalContent } = useContext(ModalContext);

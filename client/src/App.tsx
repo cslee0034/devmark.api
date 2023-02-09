@@ -19,6 +19,7 @@ import UpdateModal from "./utils/modal/update_modal";
 import DeleteModal from "./utils/modal/delete_modal";
 import FeedPage from "./views/FeedPage";
 import AlertModal from "./utils/modal/alert_modal";
+import ProfilePage from "./views/ProfilePage";
 
 // Contexts
 
@@ -112,7 +113,7 @@ const App = (): JSX.Element => {
   //--------------------------------------------------------
   /* Check If Loggedin Or Not */
 
-  useEffect(() => {
+  useEffect( () => {
     if (
       window.localStorage.getItem("userId") ||
       window.sessionStorage.getItem("userId")
@@ -228,6 +229,7 @@ const App = (): JSX.Element => {
                         <Route path="/redirect" element={<RedirectPage />} />
                         <Route path="/feeds" element={<FeedPage />} />
                         <Route path="/feeds/:feed_id" element={<FeedPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                       </Routes>
                     </div>
                     {/* End of Page Content */}

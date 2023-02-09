@@ -123,6 +123,10 @@
   background-color: white;
 }
 
+.nav-notification {
+  color: black;
+}
+
 .notification:hover {
   color: #d9b70d;
 }
@@ -245,8 +249,9 @@
 
 .card-body {
   background-color: rgba(0, 0, 0, 0.04);
-
+  height: 100%;
   display: flex;
+  justify-content: center;
 }
 
 .bookmark-card {
@@ -612,6 +617,25 @@
 
 .feed-edit {
   margin-left: 25px;
+}
+
+.feed-row {
+  color: black;
+  text-decoration-line: none;
+}
+
+.delete-feed {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.hyper-link {
+  color: black;
+  text-decoration-line: none;
 }
 
 /* Back to top */

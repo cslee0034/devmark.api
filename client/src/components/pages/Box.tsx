@@ -53,7 +53,7 @@ const Box = (): JSX.Element => {
   //--------------------------------------------------------
   // Axios Request
 
-  /* <Axios Request> - Memo Axios Get /api/box */
+  /* <Axios Request> - Box Axios Get /api/box */
   const getBox = async () => {
     try {
       await axios.get<Get>("/api/box").then((res) => {

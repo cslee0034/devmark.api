@@ -44,11 +44,11 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
       });
       return;
     }
-    if ((e.target as HTMLFormElement).Title.value.length > 15) {
+    if ((e.target as HTMLFormElement).Title.value.length > 25) {
       // 피드 이름이 15글자 이상인 경우
       setModalContent({
         header: "Feed Name",
-        message: "the maximum number of characters for a feed name is 15",
+        message: "the maximum number of characters for a feed name is 25",
         toggle: "view",
       });
       return;
@@ -87,11 +87,13 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Feed Axios Post /api/memo */
   const createFeed = async (e: any) => {
     try {
-      await axios.post<Post>("/api/feed", {
-        options: e.target[0].value, // URL
-        feedName: e.target[1].value,
-        feedContent: e.target[2].value,
-      });
+      await axios
+        .post<Post>("/api/feed", {
+          options: e.target[0].value, // URL for og
+          url: e.target[0].value, // URL
+          feedName: e.target[1].value,
+          feedContent: e.target[2].value,
+        })
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(

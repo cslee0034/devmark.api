@@ -23,6 +23,7 @@ interface P {
 
 // React Start from here
 const MemoMain: FC<P> = (props: P): JSX.Element => {
+
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
 

@@ -88,7 +88,7 @@ describe("readBox", () => {
     req.user = null;
     // req.user가 없을 경우.
     try {
-      await createBox(req, res, next);
+      await renderBox(req, res, next);
     } catch (error) {
       expect(error).toBeTruthy();
       // 에러가 발생한다.

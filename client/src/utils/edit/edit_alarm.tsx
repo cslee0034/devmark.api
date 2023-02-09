@@ -52,18 +52,17 @@ const EditAlarm: FC<P> = (props: P): JSX.Element => {
       return;
     }
 
-    console.log(e.type);
     /* createAlarm Axios */
     createAlarm(e, startDate);
 
     /* Reload */
-    // window.location.replace(`/bookmarks/${props.boxId}`);
+    window.location.replace("/alarms");
   };
 
   //--------------------------------------------------------
   // Axios Request
 
-  /* <Axios Request> - Memo Axios Post /api/alarm */
+  /* <Axios Request> - Alarm Axios Post /api/alarm */
   const createAlarm = async (e: any, startDate: Date) => {
     try {
       await axios.post<Post>("/api/alarm", {
