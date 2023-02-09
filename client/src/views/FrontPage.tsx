@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../App";
-import Scrollback from "../utils/Scrollback";
+import Scrollback from "../utils/scrollback";
 
 const FrontPage = (): JSX.Element => {
   const { loginContent } = useContext(UserContext);
@@ -61,7 +61,7 @@ const FrontPage = (): JSX.Element => {
             className="background-img"
             src={`${process.env.PUBLIC_URL}/images/Frontpage-background.png`}
           ></img>
-          <Scrollback />
+          <Scrollback/>
         </div>
     </>
   );

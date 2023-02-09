@@ -2,23 +2,24 @@ import axios from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Slidebar from "./components/Sidebar";
-import Navbar from "./components/NavBar";
-import Footer from "./components/Footer";
+import Slidebar from "./components/navigation/Sidebar";
+import Navbar from "./components/navigation/Navbar";
+import Footer from "./components/common/Footer";
 
 import FrontPage from "./views/FrontPage";
 import BookmarkPage from "./views/BookmarkPage";
 import AboutPage from "./views/AboutPage";
 import AuthPage from "./views/AuthPage";
-import Modal from "./utils/Modal";
 import AlarmPage from "./views/Alarm";
 import "./App.css";
 import RedirectPage from "./views/RedirectPage";
-import CModal from "./utils/CModal";
+import CreateModal from "./utils/modal/create_modal";
 import MemoPage from "./views/MemoPage";
-import UModal from "./utils/UModal";
-import DModal from "./utils/DModal";
+import UpdateModal from "./utils/modal/update_modal";
+import DeleteModal from "./utils/modal/delete_modal";
 import FeedPage from "./views/FeedPage";
+import AlertModal from "./utils/modal/alert_modal";
+import ProfilePage from "./views/ProfilePage";
 
 // Contexts
 
@@ -42,13 +43,6 @@ export const ModalContext = createContext({
 // Interfaces
 interface Navbar {
   loggedIn: boolean;
-}
-
-interface Modal {
-  header: string;
-  message: string;
-  toggle: any;
-  url: string;
 }
 
 // React Start from here
@@ -119,7 +113,7 @@ const App = (): JSX.Element => {
   //--------------------------------------------------------
   /* Check If Loggedin Or Not */
 
-  useEffect(() => {
+  useEffect( () => {
     if (
       window.localStorage.getItem("userId") ||
       window.sessionStorage.getItem("userId")
@@ -138,7 +132,7 @@ const App = (): JSX.Element => {
     }
     if (ModalContent.toggle === "view") {
       return (
-        <Modal
+        <AlertModal
           header={ModalContent.header}
           message={ModalContent.message}
           toggle={ModalContent.toggle}
@@ -147,7 +141,7 @@ const App = (): JSX.Element => {
     }
     if (ModalContent.toggle === "create") {
       return (
-        <CModal
+        <CreateModal
           header={ModalContent.header}
           message={ModalContent.message}
           toggle={ModalContent.toggle}
@@ -157,7 +151,7 @@ const App = (): JSX.Element => {
     }
     if (ModalContent.toggle === "update") {
       return (
-        <UModal
+        <UpdateModal
           header={ModalContent.header}
           toggle={ModalContent.toggle}
           url={ModalContent.url}
@@ -167,7 +161,7 @@ const App = (): JSX.Element => {
     }
     if (ModalContent.toggle === "delete") {
       return (
-        <DModal
+        <DeleteModal
           header={ModalContent.header}
           message={ModalContent.message}
           toggle={ModalContent.toggle}
@@ -233,7 +227,9 @@ const App = (): JSX.Element => {
                         <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
-                        <Route path="/feed" element={<FeedPage />} />
+                        <Route path="/feeds" element={<FeedPage />} />
+                        <Route path="/feeds/:feed_id" element={<FeedPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                       </Routes>
                     </div>
                     {/* End of Page Content */}

@@ -8,7 +8,7 @@ interface Get {
 }
 
 const RedirectPage = (): JSX.Element => {
-  const loginAPI = async () => {
+  const getInfo = async () => {
     try {
       await axios.get<Get>("/api/info").then((res) => {
         const UserId = String(res.data.id);
@@ -30,7 +30,7 @@ const RedirectPage = (): JSX.Element => {
   };
 
   useEffect(() => {
-    loginAPI();
+    getInfo();
   });
 
   return <div className="redirect"></div>;

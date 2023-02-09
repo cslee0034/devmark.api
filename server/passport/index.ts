@@ -13,13 +13,6 @@ export default () => {
   passport.deserializeUser((id: number, done) => {
     User.findOne({
       where: { id },
-      include: [
-        {
-          model: Box,
-          attributes: ["id"],
-          as: "Boxes",
-        },
-      ],
     })
       .then((user) => done(null, user))
       .catch((err) => done(err));

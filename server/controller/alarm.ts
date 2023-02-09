@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
-import Bookmark from "../models/bookmark.js";
+import { sequelize } from "../models/index.js";
 import Alarm from "../models/alarm.js";
+import { Op, QueryTypes } from "sequelize";
 
 const createAlarm: RequestHandler = async (req, res, next) => {
   try {
@@ -49,4 +50,25 @@ const deleteAlarm: RequestHandler = async (req, res, next) => {
   // 삭제 성공 status 200
 };
 
-export { createAlarm, renderAlarm, deleteAlarm };
+const notifyAlarm: RequestHandler = async (req, res, next) => {
+  try {
+    const UserId = req.user!.id;
+    const query = `SELECT * FROM alarms WHERE UserId = ${UserId} AND time <= now()`;
+    const nofityAlarm = await sequelize.query(query, {
+      type: QueryTypes.SELECT,
+      raw: true,
+    });
+    if (!nofityAlarm) {
+      return res.end();
+    } else {
+      res.status(200);
+      res.json(nofityAlarm);
+      // 아이템 가져오기 성공 Status 200
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export { createAlarm, renderAlarm, deleteAlarm, notifyAlarm };

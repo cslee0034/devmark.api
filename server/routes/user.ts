@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
 import { isLoggedIn, isNotLoggedIn } from "../middleware/middleware.js";
-import { registration, login, logout } from "../controller/auth.js";
+import { registration, login, logout, updateUser, deleteUser } from "../controller/auth.js";
 
 export const user = express.Router();
 
@@ -13,6 +13,12 @@ user.post("/login", isNotLoggedIn, login);
 
 /* Post /auth/api/user/logout */
 user.post("/logout", isLoggedIn, logout);
+
+/* Patch /auth/api/user/ */
+user.patch("/", isLoggedIn, updateUser)
+
+/* Delete /auth/api/user */
+user.delete("/", isLoggedIn, deleteUser)
 
 /* GET /auth/api/user/kakao */
 user.get("/kakao", passport.authenticate("kakao"));
