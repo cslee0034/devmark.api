@@ -5,6 +5,7 @@
     "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "@nestjs/mapped-types": "*",
     "concurrently": "^7.6.0"
   },
   "devDependencies": {
