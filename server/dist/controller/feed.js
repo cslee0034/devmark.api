@@ -49,7 +49,8 @@ const createFeed = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             UserId: req.user.id,
         });
         req.body = Object.assign(Object.assign({}, req.body), { id: newFeed.dataValues.id });
-        // 아이템 생성 성공 Status 201
+        res.status(201);
+        // 아이템 생성 성공 Status 200
     }
     catch (error) {
         console.error(error);

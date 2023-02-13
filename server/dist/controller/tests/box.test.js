@@ -87,7 +87,7 @@ describe("readBox", () => {
         req.user = null;
         // req.user가 없을 경우.
         try {
-            yield (0, box_js_1.createBox)(req, res, next);
+            yield (0, box_js_1.renderBox)(req, res, next);
         }
         catch (error) {
             expect(error).toBeTruthy();
