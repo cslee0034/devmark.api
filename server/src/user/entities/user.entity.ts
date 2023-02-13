@@ -9,15 +9,14 @@ enum ProviderType {
 }
 @Entity()
 export class UserEntity extends CommonEntity {
-  @IsEmail({}, { message: '이메일 형식을 확인 해주세요' })
-  @IsNotEmpty({ message: '이메일은 비워져 있을 수 없습니다.' })
+  @IsEmail()
+  @IsNotEmpty()
   @Column({ type: 'varchar', unique: true, nullable: true })
   email: string;
 
   @IsString()
-  @IsNotEmpty({ message: '이름을 작성해주세요.' })
-  @Column({ type: 'varchar', unique: true, nullable: false })
-  @Length(1, 15, { message: '닉네임은 1~15자 이내로 작성해야 합니다.' })
+  @IsNotEmpty()
+  @Column({ type: 'varchar', unique: true, nullable: false, length: 15 })
   nick: string;
 
   @Column({ type: 'varchar', nullable: true, length: 100 })
