@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserEntity } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 import * as Joi from 'joi';
 
@@ -36,7 +35,7 @@ import * as Joi from 'joi';
       // 변경사항 업데이트
       dropSchema: true,
       // row 삭제
-      logging: true,
+      // logging: true,
       entities: ['src/**/*.entity{.ts,.js}'],
     }),
     UserModule,
