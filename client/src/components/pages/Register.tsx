@@ -9,6 +9,7 @@ interface Post {
   password: string;
   confirmPassword: string;
   nickname: string;
+  success: boolean;
 }
 
 /* Email Check Reg*/
@@ -104,7 +105,9 @@ const Register = (): JSX.Element => {
           password: e.target.Password.value,
         })
         .then((res) => {
-          window.location.replace("/auth");
+          if (res.data.success) {
+            window.location.replace("/auth");
+          }
         });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {

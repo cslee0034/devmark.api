@@ -18,6 +18,7 @@ export class UserController {
   @Post('registration')
   async createUser(@Body() body: CreateUserDto) {
     await this.userService.createUser(body);
+    return { status: 201, success: true };
   }
 
   @Get()
