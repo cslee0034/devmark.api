@@ -16,7 +16,7 @@ export class UserEntity extends CommonEntity {
 
   @IsString()
   @IsNotEmpty()
-  @Column({ type: 'varchar', unique: true, nullable: false, length: 15 })
+  @Column({ type: 'varchar', unique: false, nullable: false, length: 15 })
   nick: string;
 
   @Column({ type: 'varchar', nullable: true, length: 100 })
