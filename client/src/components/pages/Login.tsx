@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import React, { useContext } from "react";
-import { ModalContext, UserContext } from "../../App";
+import React, { useContext, useRef } from "react";
+import { ModalContext } from "../../App";
 
 // Interfaces
 interface Post {
@@ -8,6 +8,7 @@ interface Post {
   email: string;
   password: string;
   json: object;
+  token: string;
 }
 
 interface Get {
@@ -15,6 +16,7 @@ interface Get {
   id: number;
   nick: string;
   Boxes: any;
+  provider: string;
 }
 
 // React Start from here
@@ -23,7 +25,7 @@ const Login = (): JSX.Element => {
   // Declaration of useState, useContext, useRef ...
 
   const { setModalContent } = useContext(ModalContext);
-  const { setLoginContent } = useContext(UserContext);
+  const tokenRef = useRef("");
 
   //--------------------------------------------------------
   // Event Handler
@@ -31,9 +33,9 @@ const Login = (): JSX.Element => {
   /* <Event Handler> - loginClickHandeler */
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /* Signin */
-    const errored = await login(e);
     /* Login */
+    const errored = await login(e);
+    /* Get Info */
     if (!errored) {
       await getInfo(e);
     }
@@ -50,7 +52,9 @@ const Login = (): JSX.Element => {
           email: e.target.Email.value,
           password: e.target.Password.value,
         })
-        .then((res) => {});
+        .then((res) => {
+          tokenRef.current = res.data.token;
+        });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -59,10 +63,10 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "Login ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }
@@ -75,27 +79,22 @@ const Login = (): JSX.Element => {
   /* <Axios Request> - Login Axios Get /api/info */
   const getInfo = async (e: any) => {
     try {
-      await axios.get<Get>("/api/info").then((res) => {
-        /* Remember == true일때 localStorage에 저장 */
-        if (e.target.Remember.checked) {
+      await axios
+        .get<Get>("/api/user/info", {
+          headers: { Authorization: `Bearer ${tokenRef.current}` },
+        })
+        .then((res) => {
+          console.log(res);
           const UserId = String(res.data.id);
           const UserNick = String(res.data.nick);
+          const Provider = String(res.data.provider);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
-          window.sessionStorage.setItem("local", "true");
+          window.localStorage.setItem("privider", Provider);
+          window.localStorage.setItem("token", tokenRef.current);
 
           window.location.replace("/");
-        } else {
-          /* Remember == false일때 sessionStorage에 저장 */
-          const UserId = String(res.data.id);
-          const UserNick = String(res.data.nick);
-          window.sessionStorage.setItem("userId", UserId);
-          window.sessionStorage.setItem("userNick", UserNick);
-          window.sessionStorage.setItem("local", "true");
-
-          window.location.replace("/");
-        }
-      });
+        });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -104,10 +103,10 @@ const Login = (): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }

@@ -40,7 +40,7 @@ export class UserController {
   @Get('info')
   findOne(@CurrentUser() user) {
     // 커스텀 데코레이터
-    return user.readonly;
+    return user;
     // user를 readonly로 넘겨준다.
   }
 

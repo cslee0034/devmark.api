@@ -36,37 +36,6 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Axios Request
 
-  /* <Axios Request> - Logout Axios Post /api/user/logout */
-  const logout = async () => {
-    try {
-      await axios.post<Post>("/api/user/logout").then((res) => {
-        setLoginContent({
-          loggedIn: false,
-          userId: null,
-        });
-        window.location.replace("/");
-      });
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-      if (error.response.data.Error) {
-        setModalContent({
-          header: "ERROR",
-          message: error.response.data.Error,
-          toggle: "view",
-        });
-      }
-    }
-  };
-
-  //--------------------------------------------------------
-  // Axios Request
-
   /* <Axios Request> - Alarm Axios Get /api/alarm/notification -- Get All */
 
   const nofityAlarm = async () => {
@@ -172,9 +141,11 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
                   to="/"
                   className="dropdown-item"
                   onClick={() => {
-                    logout();
                     localStorage.clear();
-                    sessionStorage.clear();
+                    setLoginContent({
+                      loggedIn: false,
+                      userId: null,
+                    });
                   }}
                 >
                   Logout
