@@ -1,9 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from './repository/user.repository';
 // commonjs는 default import가 없음
