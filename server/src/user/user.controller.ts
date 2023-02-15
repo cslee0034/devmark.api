@@ -6,12 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 
 @Controller('api/user')
 export class UserController {
@@ -31,9 +35,13 @@ export class UserController {
     return this.authService.jwtLogIn(data);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  // Guards에서 인증처리된 것을 req에 넘겨준다.
+  @Get('info')
+  findOne(@CurrentUser() user) {
+    // 커스텀 데코레이터
+    return user.readonly;
+    // user를 readonly로 넘겨준다.
   }
 
   @Patch(':id')

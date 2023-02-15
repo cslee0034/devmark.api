@@ -19,4 +19,15 @@ export class UserRepository {
   async create(user: CreateUserDto): Promise<UserEntity> {
     return await this.userRepository.save(user);
   }
+
+  async findUserByIdWithoutPassword(
+    userId: string,
+  ): Promise<UserEntity | null> {
+    const id = parseInt(userId, 10);
+    const user = await this.userRepository.findOne({
+      select: ['id', 'email', 'nick', 'provider'],
+      where: { id },
+    });
+    return user;
+  }
 }
