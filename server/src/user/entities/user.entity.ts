@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { Entity, Column } from 'typeorm';
 
@@ -10,13 +10,14 @@ enum ProviderType {
 @Entity()
 export class UserEntity extends CommonEntity {
   @IsEmail()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '이메일은 비워져 있을 수 없습니다.' })
   @Column({ type: 'varchar', unique: true, nullable: true })
   email: string;
 
   @IsString()
-  @IsNotEmpty()
-  @Column({ type: 'varchar', unique: false, nullable: false, length: 15 })
+  @IsNotEmpty({ message: '닉네임은 비워져 있을 수 없습니다.' })
+  @MaxLength(15, { message: '닉네임은 최대 15글자입니다.' })
+  @Column({ type: 'varchar', unique: false, nullable: false })
   nick: string;
 
   @Column({ type: 'varchar', nullable: true, length: 100 })
