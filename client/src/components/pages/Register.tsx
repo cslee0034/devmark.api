@@ -117,7 +117,7 @@ const Register = (): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "Register ERROR",
           message: error.response.data.message,
