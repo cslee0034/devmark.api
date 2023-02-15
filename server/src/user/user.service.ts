@@ -5,28 +5,28 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { UserRepository } from './repository/user.repository';
 // commonjs는 default import가 없음
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
+  // 유저 생성
   async createUser(body: CreateUserDto) {
     const { email, nick, password } = body;
-    const newUser = await this.usersRepository.findOne({ where: { email } });
+    const newUser = await this.userRepository.checkByEmail(email);
     if (newUser) {
       throw new UnprocessableEntityException('이미 존재하는 사용자입니다.');
-    } else {
-      const hashPassword = await bcrypt.hash(password, 12);
-      await this.usersRepository.save({
-        email,
-        nick,
-        password: hashPassword,
-      });
     }
+
+    const hashPassword = await bcrypt.hash(password, 12);
+
+    await this.userRepository.create({
+      email,
+      nick,
+      password: hashPassword,
+    });
   }
 
   findAll() {
