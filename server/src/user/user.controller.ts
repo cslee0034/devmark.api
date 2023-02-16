@@ -7,14 +7,19 @@ import {
   Param,
   Delete,
   UseGuards,
+  HttpStatus,
+  Redirect,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { KakaoAuthGuard } from 'src/auth/guard/kakao.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/user')
 export class UserController {
@@ -43,13 +48,25 @@ export class UserController {
     // user를 readonly로 넘겨준다.
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Get('kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoLogin() {
+    return HttpStatus.OK;
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Get('kakao/callback')
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoLoginCallback(@Req() req, @Res() res): Promise<any> {
+    const access_token = req.user.access_token;
+
+    res.redirect(`http://localhost:3000/redirect?access_token=${access_token}`);
+    res.end();
+  }
+
+  @Get('info/kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async info(@Req() req) {
+    console.log(req);
+    return 'hello';
   }
 }

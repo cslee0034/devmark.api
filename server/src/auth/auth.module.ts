@@ -3,8 +3,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from 'src/user/user.module';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt/jwt.localStrategy';
+import { JwtStrategy } from './strategy/jwt.localStrategy';
 import { ConfigModule } from '@nestjs/config';
+import { KakaoStrategy } from './strategy/kakao.strategy';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     forwardRef(() => UserModule),
     // 순환 종속성 해결.
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, KakaoStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

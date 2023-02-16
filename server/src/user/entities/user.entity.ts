@@ -2,11 +2,6 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { Entity, Column } from 'typeorm';
 
-enum ProviderType {
-  Local = 'local',
-  Kakao = 'kakao',
-  Github = 'github',
-}
 @Entity()
 export class UserEntity extends CommonEntity {
   @IsEmail()
@@ -23,12 +18,8 @@ export class UserEntity extends CommonEntity {
   @Column({ type: 'varchar', nullable: true, length: 100 })
   password: string;
 
-  @Column({
-    type: 'enum',
-    enum: ProviderType,
-    default: ProviderType.Local,
-  })
-  provider: ProviderType;
+  @Column({ default: 'local' })
+  provider: string;
 
   @Column({ type: 'varchar', nullable: true })
   snsId: string;

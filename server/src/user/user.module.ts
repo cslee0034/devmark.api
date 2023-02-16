@@ -5,11 +5,13 @@ import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
 import { AuthModule } from 'src/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     forwardRef(() => AuthModule),
+    JwtModule,
   ],
   controllers: [UserController],
   providers: [UserService, UserRepository],

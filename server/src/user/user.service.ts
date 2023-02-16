@@ -12,14 +12,14 @@ export class UserService {
   // 유저 생성
   async createUser(body: CreateUserDto) {
     const { email, nick, password } = body;
-    const newUser = await this.userRepository.checkByEmail(email);
+    const newUser = await this.userRepository.findUserByEmail(email);
     if (newUser) {
       throw new UnprocessableEntityException('이미 존재하는 사용자입니다.');
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
 
-    await this.userRepository.create({
+    await this.userRepository.createUserLocal({
       email,
       nick,
       password: hashPassword,

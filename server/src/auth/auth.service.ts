@@ -15,7 +15,7 @@ export class AuthService {
     const { email, password } = data;
 
     // 해당 email 있는지 확인.
-    const user = await this.userRepository.checkByEmail(email);
+    const user = await this.userRepository.findUserByEmail(email);
     if (!user) {
       throw new UnauthorizedException('이메일과 비밀번호를 확인해주세요.');
     }
