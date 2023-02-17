@@ -62,11 +62,4 @@ export class UserController {
     res.redirect(`http://localhost:3000/redirect?access_token=${access_token}`);
     res.end();
   }
-
-  @Get('info/kakao')
-  @UseGuards(AuthGuard('kakao'))
-  async info(@Req() req) {
-    console.log(req);
-    return 'hello';
-  }
 }
