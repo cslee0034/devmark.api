@@ -32,14 +32,14 @@ export class UserRepository {
     return user;
   }
 
-  async findUserKakao(snsId: string, provider: any): Promise<UserEntity> {
+  async findUserOauth(snsId: string, provider: any): Promise<UserEntity> {
     const result = await this.userRepository.findOne({
       where: { snsId, provider },
     });
     return result;
   }
 
-  async createUserKakao(user: CreateKakaoUserDto): Promise<UserEntity> {
+  async createUserOauth(user: CreateKakaoUserDto): Promise<UserEntity> {
     return await this.userRepository.save(user);
   }
 }

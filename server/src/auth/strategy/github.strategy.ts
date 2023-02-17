@@ -29,9 +29,9 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     const provider = 'github';
 
     try {
-      const user = await this.userRepository.findUserKakao(snsId, provider);
+      const user = await this.userRepository.findUserOauth(snsId, provider);
       if (user === null) {
-        const user = await this.userRepository.createUserKakao({
+        const user = await this.userRepository.createUserOauth({
           email,
           nick,
           provider,
