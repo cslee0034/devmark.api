@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategy/jwt.localStrategy';
 import { ConfigModule } from '@nestjs/config';
 import { KakaoStrategy } from './strategy/kakao.strategy';
+import { GithubStrategy } from './strategy/github.strategy';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { KakaoStrategy } from './strategy/kakao.strategy';
     forwardRef(() => UserModule),
     // 순환 종속성 해결.
   ],
-  providers: [AuthService, JwtStrategy, KakaoStrategy],
+  providers: [AuthService, JwtStrategy, KakaoStrategy, GithubStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

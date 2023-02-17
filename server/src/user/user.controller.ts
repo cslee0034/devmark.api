@@ -62,4 +62,19 @@ export class UserController {
     res.redirect(`http://localhost:3000/redirect`);
     res.end();
   }
+
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  async githubLogin() {
+    return HttpStatus.OK;
+  }
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubLoginCallback(@Req() req, @Res() res): Promise<any> {
+    const access_token = req.user.access_token;
+    res.cookie('access_token', access_token);
+    res.redirect(`http://localhost:3000/redirect`);
+    res.end();
+  }
 }
