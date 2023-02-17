@@ -12,8 +12,10 @@ interface Get {
 }
 
 const RedirectPage = (): JSX.Element => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const access_token = searchParams.get("access_token");
+  const access_token = document.cookie
+    ?.split("; ")
+    ?.find((row) => row.startsWith("access_token="))
+    ?.split("=")[1];
 
   const getInfo = async () => {
     try {
@@ -29,7 +31,6 @@ const RedirectPage = (): JSX.Element => {
           window.localStorage.setItem("userNick", UserNick);
           window.localStorage.setItem("provider", Provider);
           window.localStorage.setItem("token", access_token!);
-          // 로컬에서 변조한 토큰임
 
           window.location.replace("/");
         });
