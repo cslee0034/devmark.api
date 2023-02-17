@@ -15,7 +15,7 @@ import { KakaoStrategy } from './strategy/kakao.strategy';
 
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1y' },
+      signOptions: { expiresIn: '1m' },
     }),
 
     forwardRef(() => UserModule),
