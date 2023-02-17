@@ -32,6 +32,10 @@ const RedirectPage = (): JSX.Element => {
           window.localStorage.setItem("provider", Provider);
           window.localStorage.setItem("token", access_token!);
 
+          document.cookie =
+            "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          // 쿠키 삭제
+
           window.location.replace("/");
         });
     } catch (error) {
