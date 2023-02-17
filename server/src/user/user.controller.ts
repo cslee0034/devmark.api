@@ -35,10 +35,8 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() data: LoginRequestDto, @Res() res) {
-    const { token } = await this.authService.jwtLogIn(data);
-    res.cookie('access_token', token, { httpOnly: true });
-    return res.json({ success: true });
+  login(@Body() data: LoginRequestDto) {
+    return this.authService.jwtLogIn(data);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -60,7 +58,8 @@ export class UserController {
   @UseGuards(AuthGuard('kakao'))
   async kakaoLoginCallback(@Req() req, @Res() res): Promise<any> {
     const access_token = req.user.access_token;
-    res.cookie('access_token', access_token, { httpOnly: true });
-    res.redirect('http://localhost:3000/redirect');
+    res.cookie('access_token', access_token);
+    res.redirect(`http://localhost:3000/redirect`);
+    res.end();
   }
 }

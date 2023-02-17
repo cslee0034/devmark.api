@@ -30,7 +30,12 @@ export class AuthService {
     }
 
     // jwt를 반환. // sub = 토큰 제목
-    const payload = { email: email, sub: user.id };
+    const payload = {
+      email: email,
+      id: user.id,
+      nick: user.nick,
+      provider: user.provider,
+    };
 
     return {
       token: this.jwtService.sign(payload),
