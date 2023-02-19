@@ -24,6 +24,7 @@ export class UserService {
       nick,
       password: hashPassword,
     });
+    return { status: 201, success: true };
   }
 
   findAll() {
