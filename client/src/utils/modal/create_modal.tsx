@@ -23,6 +23,8 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -100,7 +102,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     await createBox(e, imageURL);
 
     /* Reload */
-    window.location.reload();
+    // window.location.reload();
   };
 
   /* <Event Handler> - Handle Image File */
@@ -170,10 +172,17 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Post /api/box */
   const createBox = async (e: any, imgURL: string) => {
     try {
-      await axios.post<Post>("/api/box/", {
-        box: e.target.Box.value,
-        url: imgURL,
-      });
+      await axios.post<Post>(
+        "/api/box/",
+        {
+          boxName: e.target.Box.value,
+          img: imgURL,
+          user_id: localStorage.getItem("userId"),
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(

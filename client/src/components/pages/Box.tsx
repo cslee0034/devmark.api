@@ -118,7 +118,7 @@ const Box = (): JSX.Element => {
                   {box[1] === "/img/undefined" ? (
                     // 저장한 이미지가 없을 경우 default.png를 가져온다.
                     <img
-                      src={`http://localhost:5000/img/default.png`}
+                      src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/default.png?raw=true`}
                       className="card-img-top"
                       alt="..."
                     />
