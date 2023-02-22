@@ -20,9 +20,24 @@ export class BoxRepository {
         // box property 뿐 아니라 user property로 포함한다.
       };
       const result = await this.boxRepository.save(box);
+      return;
     } catch (error) {
       throw new Error('error while saving box');
     }
-    return;
+  }
+
+  async findAllBoxByUserId(user_id: number): Promise<any> {
+    try {
+      const result = await this.boxRepository.find({
+        where: {
+          user: {
+            id: user_id,
+          },
+        },
+      });
+      return result;
+    } catch (error) {
+      throw new Error('error while finding box');
+    }
   }
 }

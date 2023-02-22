@@ -12,12 +12,9 @@ export class BoxService {
     return { status: 200, success: true };
   }
 
-  findAll() {
-    return `This action returns all box`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} box`;
+  async findAll(user_id: number) {
+    const boxs = await this.boxRepository.findAllBoxByUserId(user_id);
+    return boxs;
   }
 
   update(id: number, updateBoxDto: UpdateBoxDto) {

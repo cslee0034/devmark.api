@@ -36,10 +36,12 @@ export class BoxController {
     return this.boxService.create(body);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.boxService.findOne(+id);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Get('')
+  findAll(@Req() req) {
+    const user_id = req.user.id;
+    return this.boxService.findAll(user_id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateBoxDto: UpdateBoxDto) {
