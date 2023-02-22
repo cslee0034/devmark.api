@@ -177,7 +177,6 @@ const CModal: FC<P> = (props: P): JSX.Element => {
         {
           boxName: e.target.Box.value,
           img: imgURL,
-          user_id: localStorage.getItem("userId"),
         },
         {
           headers: { Authorization: `Bearer ${token}` },
