@@ -4,11 +4,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 interface Get {
   Error: any;
-  user: {
-    id: number;
-    nick: string;
-    provider: string;
-  };
+  id: number;
+  nick: string;
+  provider: string;
 }
 
 const RedirectPage = (): JSX.Element => {
@@ -24,9 +22,9 @@ const RedirectPage = (): JSX.Element => {
           headers: { Authorization: `Bearer ${access_token}` },
         })
         .then((res) => {
-          const UserId = String(res.data.user.id);
-          const UserNick = String(res.data.user.nick);
-          const Provider = String(res.data.user.provider);
+          const UserId = String(res.data.id);
+          const UserNick = String(res.data.nick);
+          const Provider = String(res.data.provider);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
           window.localStorage.setItem("provider", Provider);
