@@ -12,6 +12,7 @@ import {
 import { Req, Res, UploadedFile } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { multerOptions } from 'src/common/utils/multer.options';
 import { BoxService } from './box.service';
 import { CreateBoxDto } from './dto/create-box.dto';
@@ -31,16 +32,16 @@ export class BoxController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async UplaodBox(@Req() req): Promise<{ status: number; success: boolean }> {
-    const user_id = req.user.id;
-    const body = { ...req.body, user_id };
+  async UplaodBox(
+    @ReqWithUserId() body,
+  ): Promise<{ status: number; success: boolean }> {
     return this.boxService.create(body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll(@Req() req): Promise<BoxEntity> {
-    const user_id = req.user.id;
+  findAll(@ReqWithUserId() body): Promise<BoxEntity> {
+    const user_id = body.user_id;
     return this.boxService.findAll(user_id);
   }
 
