@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { AuthService } from '../../auth/auth.service';
 import { LoginRequestDto } from '../../auth/dto/login.request.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 
 const mockUserService = () => ({
   createUser: jest.fn((createUserDto) => {
@@ -27,10 +28,15 @@ const mockAuthService = () => ({
   }),
 });
 
+const MockJwtAuthGuard = () => {
+  return { email: 'test_email', id: 'test_id' };
+};
+
 describe('UserController', () => {
   let controller: UserController;
   let spyUserService: UserService;
   let spyAuthService: AuthService;
+  let spyJwtAuthGuard: JwtAuthGuard;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -43,6 +49,7 @@ describe('UserController', () => {
         // useFactory = 프로바이더가 동작할 방식을 결정한다 (동적 프로바이더 제공).
         // UserService의 함수는 팩토리 함수에서 반환된 값(함수)으로 제공된다.
         { provide: AuthService, useFactory: mockAuthService },
+        { provide: JwtAuthGuard, useFactory: MockJwtAuthGuard },
       ],
     }).compile();
     // 테스트 모듈에 등록된 provider와 기타 module의 인스턴스를 생성해서 종속성 해결.
@@ -52,6 +59,7 @@ describe('UserController', () => {
     spyUserService = module.get<UserService>(UserService);
     // UserService의 인스턴스를 가져온다.
     spyAuthService = module.get<AuthService>(AuthService);
+    spyJwtAuthGuard = module.get<JwtAuthGuard>(JwtAuthGuard);
   });
 
   describe('registration', () => {
@@ -85,6 +93,7 @@ describe('UserController', () => {
         password: 'test',
       };
       const response = await controller.login(data);
+
       expect(spyAuthService.jwtLogIn).toBeCalled();
       expect(spyAuthService.jwtLogIn).toBeCalledWith(data);
       expect(response).toEqual('test_token');
@@ -95,9 +104,23 @@ describe('UserController', () => {
         email: 'test@email.com',
       };
       const response = await controller.login(data);
+
       expect(spyAuthService.jwtLogIn).toBeCalled();
       expect(spyAuthService.jwtLogIn).toBeCalledWith(data);
       expect(response).toEqual('test_error');
+    });
+  });
+
+  describe('info', () => {
+    it('정보 가져오기 성공', () => {
+      const user = MockJwtAuthGuard();
+      const findOneSpy = jest.spyOn(controller, 'findOne');
+      // authService나 userService에서 가져오는 것이 아니고
+      // controller의 메서드를 spy한다.
+      const response = controller.findOne(user);
+
+      expect(findOneSpy).toBeCalledWith(user);
+      expect(response).toEqual({ email: 'test_email', id: 'test_id' });
     });
   });
 });
