@@ -37,7 +37,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
           snsId,
         });
 
-        const payload = { user };
+        const payload = user;
 
         const access_token = this.jwtService.sign(payload, {
           secret: process.env.JWT_SECRET,
@@ -46,7 +46,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
 
         done(null, { ...user, access_token });
       } else {
-        const payload = { user };
+        const payload = user;
 
         const access_token = this.jwtService.sign(payload, {
           secret: process.env.JWT_SECRET,
