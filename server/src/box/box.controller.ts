@@ -6,16 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { BoxService } from './box.service';
 import { CreateBoxDto } from './dto/create-box.dto';
 import { UpdateBoxDto } from './dto/update-box.dto';
 
-@Controller('box')
+@Controller('api/box')
 export class BoxController {
   constructor(private readonly boxService: BoxService) {}
 
-  @Post()
+  @UseGuards(JwtAuthGuard)
+  @Post('img')
   create(@Body() createBoxDto: CreateBoxDto) {
     return this.boxService.create(createBoxDto);
   }
