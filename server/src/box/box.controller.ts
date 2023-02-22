@@ -7,7 +7,10 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { UploadedFile } from '@nestjs/common/decorators';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { BoxService } from './box.service';
 import { CreateBoxDto } from './dto/create-box.dto';
@@ -17,29 +20,31 @@ import { UpdateBoxDto } from './dto/update-box.dto';
 export class BoxController {
   constructor(private readonly boxService: BoxService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('img')
-  create(@Body() createBoxDto: CreateBoxDto) {
-    return this.boxService.create(createBoxDto);
+  @UseInterceptors(FileInterceptor('img'))
+  uploadImg(@UploadedFile() img: Array<Express.Multer.File>) {
+    console.log(img);
+    return 'uploadImg';
   }
 
-  @Get()
-  findAll() {
-    return this.boxService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.boxService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.boxService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.boxService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBoxDto: UpdateBoxDto) {
-    return this.boxService.update(+id, updateBoxDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateBoxDto: UpdateBoxDto) {
+  //   return this.boxService.update(+id, updateBoxDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boxService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.boxService.remove(+id);
+  // }
 }

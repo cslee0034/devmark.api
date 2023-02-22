@@ -5,6 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { utilities, WinstonModule } from 'nest-winston';
 import * as winstonDaily from 'winston-daily-rotate-file';
 import * as winston from 'winston';
+import * as path from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express/interfaces';
 
 const logDir = __dirname + '../../logs';
 
@@ -21,7 +23,7 @@ const dailyOptions = (level: string) => {
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: WinstonModule.createLogger({
       transports: [
         new winston.transports.Console({
@@ -38,6 +40,10 @@ async function bootstrap() {
         new winstonDaily(dailyOptions('error')),
       ],
     }),
+  });
+  app.useStaticAssets(path.join(__dirname, '../../', 'uploads'), {
+    prefix: './img',
+    // static file 제공 주소
   });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(5000);
