@@ -1,8 +1,11 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { BoxEntity } from 'src/box/entities/box.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity({
+  name: 'USER',
+})
 export class UserEntity extends CommonEntity {
   @IsEmail()
   @IsNotEmpty({ message: '이메일은 비워져 있을 수 없습니다.' })
@@ -23,4 +26,14 @@ export class UserEntity extends CommonEntity {
 
   @Column({ type: 'varchar', nullable: true })
   snsId: string;
+
+  // relations
+
+  @OneToMany(() => BoxEntity, (box) => box.user, {
+    cascade: true,
+    // 사용자를 통해 Box가 추가, 수정, 삭제 되고
+    // 사용자가 저장되면 Box도 저장된다.
+  })
+  boxs: BoxEntity[];
+  // OneToMany일때 Many쪽은 복수형 + 엔티티[]
 }
