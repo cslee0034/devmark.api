@@ -6,9 +6,19 @@ import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt');
 
+const mockUserRepository = () => ({
+  findUserByEmail: jest.fn((email) => {
+    if (email === 'exists') {
+      return '이미 존재하는 사용자입니다.';
+    }
+    return null;
+  }),
+  createUserLocal: jest.fn(),
+});
+
 describe('UserService', () => {
-  let userService: UserService;
-  let userRepository: UserRepository;
+  let spyUserService: UserService;
+  let spyUserRepository: UserRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -16,13 +26,13 @@ describe('UserService', () => {
         UserService,
         {
           provide: UserRepository,
-          useValue: { findUserByEmail: jest.fn(), createUserLocal: jest.fn() },
+          useFactory: mockUserRepository,
         },
       ],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
-    userRepository = module.get<UserRepository>(UserRepository);
+    spyUserService = module.get<UserService>(UserService);
+    spyUserRepository = module.get<UserRepository>(UserRepository);
   });
 
   describe('createUser', () => {
@@ -33,16 +43,14 @@ describe('UserService', () => {
     };
 
     it('새 유저 생성', async () => {
-      jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValue(null);
-      jest.spyOn(userRepository, 'createUserLocal').mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('test_hash');
-      const result = await userService.createUser(mockCreateUserDto);
+      const result = await spyUserService.createUser(mockCreateUserDto);
 
-      expect(userRepository.findUserByEmail).toBeCalledWith(
+      expect(spyUserRepository.findUserByEmail).toBeCalledWith(
         mockCreateUserDto.email,
       );
       expect(bcrypt.hash).toBeCalledWith(mockCreateUserDto.password, 12);
-      expect(userRepository.createUserLocal).toBeCalledWith({
+      expect(spyUserRepository.createUserLocal).toBeCalledWith({
         email: mockCreateUserDto.email,
         nick: mockCreateUserDto.nick,
         password: 'test_hash',
