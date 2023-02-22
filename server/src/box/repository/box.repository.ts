@@ -13,7 +13,6 @@ export class BoxRepository {
 
   async createBox(body: CreateBoxDto): Promise<BoxEntity> {
     try {
-      console.log(body);
       const box = {
         ...body,
         user: { id: Number(body.user_id) },
