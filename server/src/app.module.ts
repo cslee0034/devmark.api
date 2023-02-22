@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import * as Joi from 'joi';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
+import { BoxModule } from './box/box.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    BoxModule,
   ],
   controllers: [AppController],
   providers: [AppService],
