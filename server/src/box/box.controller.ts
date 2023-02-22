@@ -12,6 +12,7 @@ import {
 import { UploadedFile } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { multerOptions } from 'src/common/utils/multer.options';
 import { BoxService } from './box.service';
 import { CreateBoxDto } from './dto/create-box.dto';
 import { UpdateBoxDto } from './dto/update-box.dto';
@@ -22,10 +23,9 @@ export class BoxController {
 
   // @UseGuards(JwtAuthGuard)
   @Post('img')
-  @UseInterceptors(FileInterceptor('img'))
-  uploadImg(@UploadedFile() img: Array<Express.Multer.File>) {
-    console.log(img);
-    return 'uploadImg';
+  @UseInterceptors(FileInterceptor('img', multerOptions('')))
+  uploadImg(@UploadedFile() img: Express.Multer.File) {
+    return { url: `http://localhost:5000/img/${img.filename}` };
   }
 
   // @Get()
