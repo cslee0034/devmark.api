@@ -28,7 +28,17 @@ const mockAuthService = () => ({
   }),
 });
 
-const MockJwtAuthGuard = () => {
+const MockJwtAuthGuard = (param) => {
+  if (param === 'kakao' || param === 'github') {
+    return {
+      req: {
+        user: {
+          access_token: 'token',
+          email: 'test_email',
+        },
+      },
+    };
+  }
   return { email: 'test_email', id: 'test_id' };
 };
 
@@ -113,7 +123,7 @@ describe('UserController', () => {
 
   describe('info', () => {
     it('정보 가져오기 성공', () => {
-      const user = MockJwtAuthGuard();
+      const user = MockJwtAuthGuard(null);
       const findOneSpy = jest.spyOn(controller, 'findOne');
       // authService나 userService에서 가져오는 것이 아니고
       // controller의 메서드를 spy한다.
@@ -121,6 +131,64 @@ describe('UserController', () => {
 
       expect(findOneSpy).toBeCalledWith(user);
       expect(response).toEqual({ email: 'test_email', id: 'test_id' });
+    });
+  });
+
+  describe('kakao_login', () => {
+    it('카카오 로그인 성공', async () => {
+      const kakaoLoginSpy = jest.spyOn(controller, 'kakaoLogin');
+      const response = await controller.kakaoLogin();
+
+      expect(kakaoLoginSpy).toBeCalled();
+      expect(response).toBe(200);
+    });
+
+    it('카카오 로그인 콜백 성공', async () => {
+      const { req } = MockJwtAuthGuard('kakao');
+      const res = {
+        cookie: jest.fn(),
+        redirect: jest.fn(),
+        end: jest.fn(),
+      };
+      const kakaoLoginCallbackSpy = jest.spyOn(
+        controller,
+        'kakaoLoginCallback',
+      );
+      await controller.kakaoLoginCallback(req, res);
+
+      expect(kakaoLoginCallbackSpy).toBeCalled();
+      expect(res.cookie).toBeCalledWith('access_token', 'token');
+      expect(res.redirect).toBeCalledWith('http://localhost:3000/redirect');
+      expect(res.end).toBeCalled();
+    });
+  });
+
+  describe('github_login', () => {
+    it('깃허브 로그인 성공', async () => {
+      const githubLoginSpy = jest.spyOn(controller, 'githubLogin');
+      const response = await controller.githubLogin();
+
+      expect(githubLoginSpy).toBeCalled();
+      expect(response).toBe(200);
+    });
+
+    it('깃허브 로그인 콜백 성공', async () => {
+      const { req } = MockJwtAuthGuard('github');
+      const res = {
+        cookie: jest.fn(),
+        redirect: jest.fn(),
+        end: jest.fn(),
+      };
+      const githubLoginCallbackSpy = jest.spyOn(
+        controller,
+        'githubLoginCallback',
+      );
+      await controller.githubLoginCallback(req, res);
+
+      expect(githubLoginCallbackSpy).toBeCalled();
+      expect(res.cookie).toBeCalledWith('access_token', 'token');
+      expect(res.redirect).toBeCalledWith('http://localhost:3000/redirect');
+      expect(res.end).toBeCalled();
     });
   });
 });
