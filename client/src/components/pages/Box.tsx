@@ -21,6 +21,8 @@ const Box = (): JSX.Element => {
 
   const { setModalContent } = useContext(ModalContext);
   const [boxs, setBoxs] = useState<string[][]>([]);
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   /* Modals */
@@ -59,7 +61,7 @@ const Box = (): JSX.Element => {
       await axios.get<Get>("/api/box").then((res) => {
         const newBox: Array<string[]> = [];
         for (let i = 0; i < res.data.length; i++) {
-          const boxName: string = res.data[i].box;
+          const boxName: string = res.data[i].boxName;
           const boxUrl: string = res.data[i].img;
           const boxId: string = res.data[i].id;
           newBox.push([boxName, boxUrl, boxId]);
@@ -115,20 +117,16 @@ const Box = (): JSX.Element => {
             <div className="col" key={index}>
               <div className="dropup add-card card h-100">
                 <Link to={`/bookmarks/${box[2]}`}>
-                  {box[1] === "/img/undefined" ? (
+                  {box[1] === "" ? (
                     // 저장한 이미지가 없을 경우 default.png를 가져온다.
                     <img
-                      src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/default.png?raw=true`}
+                      src="https://raw.githubusercontent.com/ChangSuLee00/CS-study/main/pictures/default.png"
                       className="card-img-top"
                       alt="..."
                     />
                   ) : (
                     // 저장한 이미지가 있다면 가져온다.
-                    <img
-                      src={`http://localhost:5000${box[1]}`}
-                      className="card-img-top"
-                      alt="..."
-                    />
+                    <img src={box[1]} className="card-img-top" alt="..." />
                   )}
                 </Link>
 

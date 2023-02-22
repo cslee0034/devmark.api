@@ -102,7 +102,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     await createBox(e, imageURL);
 
     /* Reload */
-    // window.location.reload();
+    window.location.reload();
   };
 
   /* <Event Handler> - Handle Image File */
