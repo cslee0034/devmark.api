@@ -16,6 +16,7 @@ import { multerOptions } from 'src/common/utils/multer.options';
 import { BoxService } from './box.service';
 import { CreateBoxDto } from './dto/create-box.dto';
 import { UpdateBoxDto } from './dto/update-box.dto';
+import { BoxEntity } from './entities/box.entity';
 
 @Controller('api/box')
 export class BoxController {
@@ -30,7 +31,7 @@ export class BoxController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async UplaodBox(@Req() req): Promise<any> {
+  async UplaodBox(@Req() req): Promise<{ status: number; success: boolean }> {
     const user_id = req.user.id;
     const body = { ...req.body, user_id };
     return this.boxService.create(body);
@@ -38,7 +39,7 @@ export class BoxController {
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll(@Req() req) {
+  findAll(@Req() req): Promise<BoxEntity> {
     const user_id = req.user.id;
     return this.boxService.findAll(user_id);
   }
