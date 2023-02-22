@@ -3,13 +3,14 @@ import { UserService } from '../user.service';
 import { UserRepository } from '../repository/user.repository';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UnprocessableEntityException } from '@nestjs/common';
 
 jest.mock('bcrypt');
 
 const mockUserRepository = () => ({
   findUserByEmail: jest.fn((email) => {
-    if (email === 'exists') {
-      return '이미 존재하는 사용자입니다.';
+    if (email === 'exist') {
+      throw new UnprocessableEntityException('이미 존재하는 사용자입니다.');
     }
     return null;
   }),
@@ -41,9 +42,9 @@ describe('UserService', () => {
       nick: 'test_nick',
       password: 'test_password',
     };
+    (bcrypt.hash as jest.Mock).mockResolvedValue('test_hash');
 
     it('새 유저 생성', async () => {
-      (bcrypt.hash as jest.Mock).mockResolvedValue('test_hash');
       const result = await spyUserService.createUser(mockCreateUserDto);
 
       expect(spyUserRepository.findUserByEmail).toBeCalledWith(
@@ -56,6 +57,15 @@ describe('UserService', () => {
         password: 'test_hash',
       });
       expect(result).toEqual({ status: 201, success: true });
+    });
+
+    it('새 유저 생성 실패', async () => {
+      mockCreateUserDto.email = 'exist';
+      try {
+        const result = await spyUserService.createUser(mockCreateUserDto);
+      } catch (error) {
+        expect(error).toBeTruthy;
+      }
     });
   });
 });
