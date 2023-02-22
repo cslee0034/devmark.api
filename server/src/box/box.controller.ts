@@ -31,8 +31,9 @@ export class BoxController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async UplaodBox(@Req() req): Promise<any> {
-    console.log(req);
-    // return this.boxService.create(req);
+    const user_id = req.user.id;
+    const body = { ...req.body, user_id };
+    return this.boxService.create(body);
   }
 
   // @Get(':id')
