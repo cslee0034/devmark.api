@@ -9,7 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadedFile } from '@nestjs/common/decorators';
+import { Req, Res, UploadedFile } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { multerOptions } from 'src/common/utils/multer.options';
@@ -21,17 +21,18 @@ import { UpdateBoxDto } from './dto/update-box.dto';
 export class BoxController {
   constructor(private readonly boxService: BoxService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('img')
   @UseInterceptors(FileInterceptor('img', multerOptions('')))
   uploadImg(@UploadedFile() img: Express.Multer.File) {
     return { url: `http://localhost:5000/img/${img.filename}` };
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.boxService.findAll();
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async UplaodBox(@Body() body: CreateBoxDto): Promise<any> {
+    return this.boxService.create(body);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

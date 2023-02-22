@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBoxDto } from './dto/create-box.dto';
 import { UpdateBoxDto } from './dto/update-box.dto';
+import { BoxRepository } from './repository/box.repository';
 
 @Injectable()
 export class BoxService {
-  create(createBoxDto: CreateBoxDto) {
-    return 'This action adds a new box';
+  constructor(private readonly boxRepository: BoxRepository) {}
+
+  async create(body: CreateBoxDto) {
+    const newBox = await this.boxRepository.createBox(body);
+    return { status: 200, success: true };
   }
 
   findAll() {
