@@ -41,10 +41,10 @@ async function bootstrap() {
       ],
     }),
   });
-  app.useStaticAssets(path.join(__dirname, '../../', 'uploads'), {
+  app.useStaticAssets(path.join(__dirname, '../', 'uploads'), {
     // const app = await NestFactory.create<NestExpressApplication>
     // express 앱이라고 명시 해줘야 사용 가능.
-    prefix: './img',
+    prefix: '/img',
     // static file 제공 주소.
   });
   app.useGlobalPipes(new ValidationPipe());
