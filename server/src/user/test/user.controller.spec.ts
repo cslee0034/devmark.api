@@ -3,6 +3,7 @@ import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { AuthService } from '../../auth/auth.service';
+import { LoginRequestDto } from '../../auth/dto/login.request.dto';
 
 const mockUserService = () => ({
   createUser: jest.fn((createUserDto) => {
@@ -15,7 +16,15 @@ const mockUserService = () => ({
 });
 
 const mockAuthService = () => ({
-  jwtLogIn: jest.fn(),
+  jwtLogIn: jest.fn((data) => {
+    const token = 'test_token';
+    const error = 'test_error';
+    if (data.email && data.password) {
+      return token;
+    } else {
+      return error;
+    }
+  }),
 });
 
 describe('UserController', () => {
@@ -42,9 +51,10 @@ describe('UserController', () => {
     // UserController의 인스턴스를 가져온다. (get()은 TestingModule의 메서드)
     spyUserService = module.get<UserService>(UserService);
     // UserService의 인스턴스를 가져온다.
+    spyAuthService = module.get<AuthService>(AuthService);
   });
 
-  describe('createUser', () => {
+  describe('registration', () => {
     it('유저 생성', async () => {
       const createUserDto: CreateUserDto = {
         email: 'testmail',
@@ -63,8 +73,31 @@ describe('UserController', () => {
       const response = await controller.createUser(createUserDto);
 
       expect(spyUserService.createUser).toBeCalled();
-      expect(spyUserService.createUser).toHaveBeenCalledWith(createUserDto);
+      expect(spyUserService.createUser).toBeCalledWith(createUserDto);
       expect(response).toEqual({ status: 422, success: false });
+    });
+  });
+
+  describe('login', () => {
+    it('로그인 성공', async () => {
+      const data: LoginRequestDto = {
+        email: 'test@email.com',
+        password: 'test',
+      };
+      const response = await controller.login(data);
+      expect(spyAuthService.jwtLogIn).toBeCalled();
+      expect(spyAuthService.jwtLogIn).toBeCalledWith(data);
+      expect(response).toEqual('test_token');
+    });
+
+    it('로그인 실패', async () => {
+      const data: any = {
+        email: 'test@email.com',
+      };
+      const response = await controller.login(data);
+      expect(spyAuthService.jwtLogIn).toBeCalled();
+      expect(spyAuthService.jwtLogIn).toBeCalledWith(data);
+      expect(response).toEqual('test_error');
     });
   });
 });
