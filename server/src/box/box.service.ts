@@ -7,20 +7,20 @@ import { BoxRepository } from './repository/box.repository';
 export class BoxService {
   constructor(private readonly boxRepository: BoxRepository) {}
 
-  async createBox(body: CreateBoxDto) {
-    const newBox = await this.boxRepository.createBox(body);
+  async create(body: CreateBoxDto) {
+    const createdBox = await this.boxRepository.createBox(body);
     return { status: 201, success: true };
   }
 
   async findAll(user_id: number) {
-    const boxs = await this.boxRepository.findAllBoxByUserId(user_id);
-    return boxs;
+    const readBoxs = await this.boxRepository.findAllBoxByUserId(user_id);
+    return readBoxs;
   }
 
   async update(body: UpdateBoxDto) {
-    const updateBox = await this.boxRepository.updateBox(body);
-    if (updateBox) {
-      const deleteImg = await this.boxRepository.deleteImg(body);
+    const updatedBox = await this.boxRepository.updateBox(body);
+    if (updatedBox) {
+      const deletedImg = await this.boxRepository.deleteImg(body);
       return { status: 200, success: true };
     }
     return { status: 422, success: false };
@@ -28,9 +28,9 @@ export class BoxService {
   }
 
   async remove(body: { boxId: number; deleteImg: string }) {
-    const deleteBox = await this.boxRepository.deleteBox(body);
-    if (deleteBox) {
-      const deleteImg = await this.boxRepository.deleteImg(body);
+    const deletedBox = await this.boxRepository.deleteBox(body);
+    if (deletedBox) {
+      const deletedImg = await this.boxRepository.deleteImg(body);
       return { status: 200, success: true };
     }
     return { status: 422, success: false };

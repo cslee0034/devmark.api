@@ -4,13 +4,11 @@ import {
   Post,
   Body,
   Patch,
-  Param,
   Delete,
   UseGuards,
   Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from './dto/update-bookmark.dto';
@@ -22,10 +20,10 @@ export class BookmarkController {
 
   @UseGuards(JwtAuthGuard)
   @Post('')
-  createBookmark(
+  create(
     @Body() body: CreateBookmarkDto,
   ): Promise<{ status: number; success: boolean }> {
-    return this.bookmarkService.createBookmark(body);
+    return this.bookmarkService.create(body);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -40,10 +38,9 @@ export class BookmarkController {
     return this.bookmarkService.update(body);
   }
 
-  // @Delete(':id')
-  // remove(
-  //   @Param('id') id: string,
-  // ): Promise<{ status: number; success: boolean }> {
-  //   return this.bookmarkService.remove(+id);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Delete('')
+  remove(@Body() body): Promise<{ status: number; success: boolean }> {
+    return this.bookmarkService.remove(body.id);
+  }
 }

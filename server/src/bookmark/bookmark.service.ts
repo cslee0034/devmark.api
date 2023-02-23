@@ -7,22 +7,25 @@ import { BookmarkRepository } from './repository/bookmark.repository';
 export class BookmarkService {
   constructor(private readonly bookmarkRepository: BookmarkRepository) {}
 
-  async createBookmark(body: CreateBookmarkDto) {
-    const newBookmark = await this.bookmarkRepository.createBookmark(body);
+  async create(body: CreateBookmarkDto) {
+    const createdBookmark = await this.bookmarkRepository.createBookmark(body);
     return { status: 201, success: true };
   }
 
   async findAll(boxId: number) {
-    const bookmarks = await this.bookmarkRepository.findAllBookmarkById(boxId);
-    return bookmarks;
+    const readBookmarks = await this.bookmarkRepository.findAllBookmarkById(
+      boxId,
+    );
+    return readBookmarks;
   }
 
   async update(body: UpdateBookmarkDto) {
-    const bookmarks = await this.bookmarkRepository.updateBookmark(body);
+    const updatedBookmark = await this.bookmarkRepository.updateBookmark(body);
     return { status: 201, success: true };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bookmark`;
+  async remove(id: number) {
+    const deletedBookmark = await this.bookmarkRepository.deleteBookmark(id);
+    return { status: 201, success: true };
   }
 }

@@ -2,14 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
-  Param,
   Delete,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { Req, Res, UploadedFile } from '@nestjs/common/decorators';
+import { UploadedFile } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
@@ -33,7 +31,7 @@ export class BoxController {
   async UplaodBox(
     @ReqWithUserId() body,
   ): Promise<{ status: number; success: boolean }> {
-    return this.boxService.createBox(body);
+    return this.boxService.create(body);
   }
 
   @UseGuards(JwtAuthGuard)

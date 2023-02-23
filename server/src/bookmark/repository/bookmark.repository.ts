@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { type } from 'os';
 import { Repository } from 'typeorm';
 import { CreateBookmarkDto } from '../dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from '../dto/update-bookmark.dto';
@@ -54,7 +53,17 @@ export class BookmarkRepository {
         URL: body.URL,
       });
     } catch (error) {
+      throw new InternalServerErrorException('error while updating bookmark');
+      // 내부 서버 에러 500
+    }
+  }
+
+  async deleteBookmark(id: number) {
+    try {
+      const result = await this.bookmarkRepository.delete({ id: id });
+    } catch (error) {
       throw new InternalServerErrorException('error while saving bookmark');
+      // 내부 서버 에러 500
     }
   }
 }
