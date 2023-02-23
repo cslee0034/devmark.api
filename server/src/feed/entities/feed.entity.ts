@@ -1,7 +1,11 @@
 import { maxLength, MaxLength } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
-import { Column } from 'typeorm';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
+@Entity({
+  name: 'FEED',
+})
 export class FeedEntity extends CommonEntity {
   @MaxLength(15, { message: '피드 이름은 최대 15글자입니다.' })
   @Column({ nullable: false })
@@ -16,4 +20,21 @@ export class FeedEntity extends CommonEntity {
 
   @Column({ length: 2083 })
   URL: string;
+
+  // relations
+
+  @ManyToOne(() => UserEntity, (user) => user.feeds, {
+    onDelete: 'CASCADE',
+    // 사용자가 삭제되면 블로그도 삭제된다.
+  })
+  @JoinColumn([
+    // foreign key 정보들
+    {
+      name: 'user_id',
+      // db에 저장되는 필드 이름
+      referencedColumnName: 'id',
+      // USER의 id
+    },
+  ])
+  user: UserEntity;
 }

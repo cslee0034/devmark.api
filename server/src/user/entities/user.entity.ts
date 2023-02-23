@@ -1,6 +1,8 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { AlarmEntity } from 'src/alarm/entities/alarm.entity';
 import { BoxEntity } from 'src/box/entities/box.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
+import { FeedEntity } from 'src/feed/entities/feed.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
 
 @Entity({
@@ -40,5 +42,10 @@ export class UserEntity extends CommonEntity {
   @OneToMany(() => BoxEntity, (alarm) => alarm.user, {
     cascade: true,
   })
-  alarms: BoxEntity[];
+  alarms: AlarmEntity[];
+
+  @OneToMany(() => FeedEntity, (feed) => feed.user, {
+    cascade: true,
+  })
+  feeds: FeedEntity[];
 }

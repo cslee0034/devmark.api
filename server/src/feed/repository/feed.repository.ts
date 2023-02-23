@@ -7,6 +7,6 @@ import { FeedEntity } from '../entities/feed.entity';
 export class FeedRepository {
   constructor(
     @InjectRepository(FeedEntity)
-    private readonly userRepository: Repository<FeedEntity>,
+    private readonly feedRepository: Repository<FeedEntity>,
   ) {}
 }
