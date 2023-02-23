@@ -10,7 +10,7 @@ import {
 import { UpdateBoxDto } from '../dto/update-box.dto';
 
 const mockBoxService = () => ({
-  createBox: jest.fn((createBoxDto) => {
+  create: jest.fn((createBoxDto) => {
     if (createBoxDto.boxName && createBoxDto.img && createBoxDto.user_id) {
       return { status: 201, success: true };
     } else {
@@ -90,7 +90,7 @@ describe('UserController', () => {
   });
 
   describe('UploadBox', () => {
-    it('박스 생성', async () => {
+    it('박스 생성 성공', async () => {
       const createBoxDto: CreateBoxDto = {
         boxName: 'test_boxname',
         img: 'test_img',
@@ -98,8 +98,8 @@ describe('UserController', () => {
       };
       const response = await controller.UplaodBox(createBoxDto);
 
-      expect(spyBoxService.createBox).toBeCalled();
-      expect(spyBoxService.createBox).toBeCalledWith(createBoxDto);
+      expect(spyBoxService.create).toBeCalled();
+      expect(spyBoxService.create).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 201, success: true });
     });
 
@@ -107,8 +107,8 @@ describe('UserController', () => {
       const createBoxDto: any = {};
       const response = await controller.UplaodBox(createBoxDto);
 
-      expect(spyBoxService.createBox).toBeCalled();
-      expect(spyBoxService.createBox).toBeCalledWith(createBoxDto);
+      expect(spyBoxService.create).toBeCalled();
+      expect(spyBoxService.create).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 422, success: false });
     });
   });

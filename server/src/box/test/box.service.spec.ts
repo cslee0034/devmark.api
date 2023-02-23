@@ -80,7 +80,7 @@ describe('BoxService', () => {
     };
 
     it('새 박스 생성', async () => {
-      const result = await spyBoxService.createBox(createBoxDto);
+      const result = await spyBoxService.create(createBoxDto);
 
       expect(spyBoxRepository.createBox).toBeCalled();
       expect(spyBoxRepository.createBox).toBeCalledWith({
@@ -94,7 +94,7 @@ describe('BoxService', () => {
     it('새 박스 생성 실패', async () => {
       createBoxDto.boxName = null;
       try {
-        const result = await spyBoxService.createBox(createBoxDto);
+        const result = await spyBoxService.create(createBoxDto);
       } catch (error) {
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf(InternalServerErrorException);
