@@ -41,7 +41,7 @@ export class BookmarkRepository {
       });
       return result;
     } catch (error) {
-      throw new NotFoundException('error while finding box');
+      throw new NotFoundException('error while finding bookmark');
       // 페이지 또는 파일을 찾을 수 없음 404
     }
   }

@@ -35,8 +35,9 @@ export class AlarmController {
     return this.alarmService.findNotification(body.user_id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('')
-  remove_alarm(@Param('id') id: string) {
-    return this.alarmService.remove(+id);
+  remove_alarm(@ReqWithUserId() body) {
+    return this.alarmService.remove(body);
   }
 }

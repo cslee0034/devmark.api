@@ -25,11 +25,8 @@ export class AlarmService {
     return notificationAlarm;
   }
 
-  update(id: number, updateAlarmDto: UpdateAlarmDto) {
-    return `This action updates a #${id} alarm`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} alarm`;
+  async remove(body) {
+    const deleteAlarm = await this.alarmRepository.deleteAlarm(body);
+    return { status: 201, success: true };
   }
 }
