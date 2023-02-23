@@ -8,7 +8,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 })
 export class BoxEntity extends CommonEntity {
   @MaxLength(15, { message: '북마크 상자는 최대 15글자입니다.' })
-  @Column({ type: 'varchar', nullable: true, length: 200 })
+  @Column({ type: 'varchar', nullable: true })
   boxName: string;
 
   @Column({ type: 'varchar', nullable: true, length: 200 })
