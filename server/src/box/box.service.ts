@@ -19,6 +19,7 @@ export class BoxService {
 
   async update(body: UpdateBoxDto) {
     const updateBox = await this.boxRepository.updateBox(body);
+    const deleteImg = await this.boxRepository.deleteImg(body);
     return { status: 200, success: true };
   }
 

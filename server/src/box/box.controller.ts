@@ -51,8 +51,8 @@ export class BoxController {
     return this.boxService.update(body);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.boxService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.boxService.remove(+id);
+  }
 }

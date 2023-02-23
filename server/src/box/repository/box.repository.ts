@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBoxDto } from '../dto/create-box.dto';
 import { BoxEntity } from '../entities/box.entity';
+import * as fs from 'fs';
 
 @Injectable()
 export class BoxRepository {
@@ -54,6 +55,17 @@ export class BoxRepository {
     } catch (error) {
       throw new NotFoundException('error while update box');
       // 페이지 또는 파일을 을 수 없음 404
+    }
+  }
+
+  async deleteImg(body) {
+    try {
+      let url = body.deleteImg;
+      url = url.replace('http://localhost:5000/img/', './uploads/');
+      fs.unlinkSync(url);
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving box');
+      // 내부 서버 에러 500
     }
   }
 }
