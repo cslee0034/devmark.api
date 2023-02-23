@@ -26,6 +26,6 @@ export class AlarmService {
 
   async remove(body) {
     const deleteAlarm = await this.alarmRepository.deleteAlarm(body);
-    return { status: 201, success: true };
+    return { status: 200, success: true };
   }
 }
