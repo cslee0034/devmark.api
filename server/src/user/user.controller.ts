@@ -3,12 +3,8 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseGuards,
   HttpStatus,
-  Redirect,
   Req,
   Res,
 } from '@nestjs/common';
@@ -18,7 +14,6 @@ import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { KakaoAuthGuard } from 'src/auth/guard/kakao.guard';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/user')

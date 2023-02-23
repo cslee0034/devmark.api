@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateAlarmDto } from './dto/update-alarm.dto';
 import { AlarmRepository } from './repository/alarm.repository';
 
 @Injectable()
