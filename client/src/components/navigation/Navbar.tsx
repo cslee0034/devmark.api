@@ -68,19 +68,19 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   /* Fetching Data */
 
-  // useEffect(() => {
-  //   const fetchAlarms = async () => {
-  //     try {
-  //       if (loginContent.loggedIn) {
-  //         await nofityAlarm();
-  //       }
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchAlarms = async () => {
+      try {
+        if (loginContent.loggedIn) {
+          await nofityAlarm();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-  //   fetchAlarms();
-  // }, [loginContent]);
+    fetchAlarms();
+  }, [loginContent]);
 
   //--------------------------------------------------------
   // return
