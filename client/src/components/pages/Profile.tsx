@@ -29,6 +29,8 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
   const { loginContent } = useContext(UserContext);
   const { setLoginContent } = useContext(UserContext);
   const { setModalContent } = useContext(ModalContext);
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   // Check Local Login
   const localUserLoggedin =
@@ -90,7 +92,6 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
 
   /* <Event Handler> - Delete User */
   const handleDeleteUser = () => {
-    
     /* Delete Confirm */
     if (!window.confirm("Are you sure to delete?")) {
       return;

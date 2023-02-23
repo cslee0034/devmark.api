@@ -33,6 +33,9 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const [notification, setNotification] = useState<string>();
 
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
   //--------------------------------------------------------
   // Axios Request
 

@@ -49,6 +49,9 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
     window.location.replace("/alarms");
   };
 
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
   //--------------------------------------------------------
   // Axios Request
 
