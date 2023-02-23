@@ -19,11 +19,21 @@ export class BoxService {
 
   async update(body: UpdateBoxDto) {
     const updateBox = await this.boxRepository.updateBox(body);
-    const deleteImg = await this.boxRepository.deleteImg(body);
-    return { status: 200, success: true };
+    if (updateBox) {
+      const deleteImg = await this.boxRepository.deleteImg(body);
+      return { status: 200, success: true };
+    }
+    return { status: 422, success: false };
+    // 요청 문법은 맞지만 지시에 따를 수 없음
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} box`;
+  async remove(body: { boxid: number; deleteImg: string }) {
+    const deleteBox = await this.boxRepository.deleteBox(body);
+    if (deleteBox) {
+      const deleteImg = await this.boxRepository.deleteImg(body);
+      return { status: 422, success: true };
+    }
+    return { status: 422, success: false };
+    // 요청 문법은 맞지만 지시에 따를 수 없음
   }
 }

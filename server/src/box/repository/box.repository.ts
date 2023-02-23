@@ -43,7 +43,7 @@ export class BoxRepository {
       return result;
     } catch (error) {
       throw new NotFoundException('error while finding box');
-      // 페이지 또는 파일을 을 수 없음 404
+      // 페이지 또는 파일을 찾을 수 없음 404
     }
   }
 
@@ -51,10 +51,10 @@ export class BoxRepository {
     try {
       const { boxId, boxName, img } = body;
       const result = await this.boxRepository.update(boxId, { boxName, img });
-      return { success: true };
+      return result;
     } catch (error) {
       throw new NotFoundException('error while update box');
-      // 페이지 또는 파일을 을 수 없음 404
+      // 페이지 또는 파일을 찾을 수 없음 404
     }
   }
 
@@ -63,6 +63,16 @@ export class BoxRepository {
       let url = body.deleteImg;
       url = url.replace('http://localhost:5000/img/', './uploads/');
       fs.unlinkSync(url);
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving box');
+      // 내부 서버 에러 500
+    }
+  }
+
+  async deleteBox(body) {
+    try {
+      const result = await this.boxRepository.delete({ id: body.boxId });
+      return result;
     } catch (error) {
       throw new InternalServerErrorException('error while saving box');
       // 내부 서버 에러 500

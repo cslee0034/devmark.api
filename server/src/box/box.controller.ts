@@ -51,8 +51,9 @@ export class BoxController {
     return this.boxService.update(body);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boxService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Delete('')
+  remove(@ReqWithUserId() body): Promise<{ status: number; success: boolean }> {
+    return this.boxService.remove(body);
   }
 }
