@@ -342,6 +342,7 @@
   justify-content: left;
 
   font-size: 14px;
+  display: none;
 }
 
 .remember-me-button {
@@ -668,9 +669,6 @@
     display: none;
   }
   .sidebar-Alarm-explain {
-    display: none;
-  }
-  .sidebar-memo-explain {
     display: none;
   }
   .sidebar-feed-explain {
