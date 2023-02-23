@@ -3,14 +3,49 @@ import { BoxController } from '../box.controller';
 import { BoxService } from '../box.service';
 import { CreateBoxDto } from '../dto/create-box.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { UpdateBoxDto } from '../dto/update-box.dto';
 
 const mockBoxService = () => ({
-  create: jest.fn((createUserDto) => {
-    if (createUserDto.boxName && createUserDto.img && createUserDto.user_id) {
+  createBox: jest.fn((createBoxDto) => {
+    if (createBoxDto.boxName && createBoxDto.img && createBoxDto.user_id) {
       return { status: 201, success: true };
     } else {
       return { status: 422, success: false };
     }
+  }),
+
+  findAll: jest.fn((user_id) => {
+    if (user_id === 1) {
+      return { box: 1 };
+    } else {
+      return NotFoundException;
+    }
+  }),
+
+  update: jest.fn((updateBoxDto) => {
+    if (
+      updateBoxDto.boxName &&
+      updateBoxDto.img &&
+      updateBoxDto.user_id &&
+      updateBoxDto.boxId &&
+      updateBoxDto.deleteImg
+    ) {
+      return { status: 200, success: true };
+    } else {
+      return { status: 422, success: false };
+    }
+  }),
+
+  remove: jest.fn((ReqWithUserId) => {
+    console.log(ReqWithUserId);
+    if (ReqWithUserId.boxId) {
+      return { box: 1 };
+    }
+    return InternalServerErrorException;
   }),
 });
 
@@ -64,8 +99,8 @@ describe('UserController', () => {
       };
       const response = await controller.UplaodBox(createBoxDto);
 
-      expect(spyBoxService.create).toBeCalled();
-      expect(spyBoxService.create).toHaveBeenCalledWith(createBoxDto);
+      expect(spyBoxService.createBox).toBeCalled();
+      expect(spyBoxService.createBox).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 201, success: true });
     });
 
@@ -73,9 +108,97 @@ describe('UserController', () => {
       const createBoxDto: any = {};
       const response = await controller.UplaodBox(createBoxDto);
 
-      expect(spyBoxService.create).toBeCalled();
-      expect(spyBoxService.create).toBeCalledWith(createBoxDto);
+      expect(spyBoxService.createBox).toBeCalled();
+      expect(spyBoxService.createBox).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 422, success: false });
+    });
+  });
+
+  describe('findAll', () => {
+    it('박스 찾기 성공', async () => {
+      const ReqWithUserId = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 1,
+      };
+      const response = await controller.findAll(ReqWithUserId);
+
+      expect(spyBoxService.findAll).toBeCalled();
+      expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
+      expect(response).toEqual({ box: 1 });
+    });
+
+    it('박스 찾기 실패', async () => {
+      const ReqWithUserId = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 2,
+      };
+      const response = await controller.findAll(ReqWithUserId);
+
+      expect(spyBoxService.findAll).toBeCalled();
+      expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
+      expect(response).toEqual(NotFoundException);
+    });
+  });
+
+  describe('update', () => {
+    it('박스 업데이트 성공', async () => {
+      const updateBoxDto: UpdateBoxDto = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 1,
+        boxId: '1',
+        deleteImg: 'test_delete',
+      };
+      const response = await controller.update(updateBoxDto);
+
+      expect(spyBoxService.update).toBeCalled();
+      expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
+      expect(response).toEqual({ status: 200, success: true });
+    });
+
+    it('박스 업데이트 실패', async () => {
+      const updateBoxDto: any = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 1,
+        boxId: '1',
+      };
+      const response = await controller.update(updateBoxDto);
+
+      expect(spyBoxService.update).toBeCalled();
+      expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
+      expect(response).toEqual({ status: 422, success: false });
+    });
+  });
+
+  describe('remove', () => {
+    it('박스 삭제 성공', async () => {
+      const ReqWithUserId = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 1,
+        boxId: '1',
+      };
+      const response = await controller.remove(ReqWithUserId);
+
+      expect(spyBoxService.remove).toBeCalled();
+      expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
+      expect(response).toEqual({ box: 1 });
+    });
+
+    it('박스 삭제 실패', async () => {
+      const ReqWithUserId = {
+        boxName: 'test_boxname',
+        img: 'test_img',
+        user_id: 1,
+      };
+      const response = await controller.remove(ReqWithUserId);
+
+      expect(spyBoxService.remove).toBeCalled();
+      expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
+      expect(response).toEqual(InternalServerErrorException);
     });
   });
 });
