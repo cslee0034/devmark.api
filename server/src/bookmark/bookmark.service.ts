@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from './dto/update-bookmark.dto';
+import { BookmarkRepository } from './repository/bookmark.repository';
 
 @Injectable()
 export class BookmarkService {
-  create(createBookmarkDto: CreateBookmarkDto) {
-    return 'This action adds a new bookmark';
+  constructor(private readonly bookmarkRepository: BookmarkRepository) {}
+
+  async createBookmark(body: CreateBookmarkDto) {
+    const newBookmark = await this.bookmarkRepository.createBookmark(body);
+    return { status: 201, success: true };
   }
 
   findAll() {

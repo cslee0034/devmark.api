@@ -6,18 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from './dto/update-bookmark.dto';
 
-@Controller('bookmark')
+@Controller('api/bookmark')
 export class BookmarkController {
   constructor(private readonly bookmarkService: BookmarkService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createBookmarkDto: CreateBookmarkDto) {
-    return this.bookmarkService.create(createBookmarkDto);
+  createBookmark(
+    @Body() body: CreateBookmarkDto,
+  ): Promise<{ status: number; success: boolean }> {
+    console.log(body);
+    return this.bookmarkService.createBookmark(body);
   }
 
   @Get()
