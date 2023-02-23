@@ -10,7 +10,7 @@ jest.mock('bcrypt');
 const mockUserRepository = () => ({
   findUserByEmail: jest.fn((email) => {
     if (email === 'exist') {
-      throw new UnprocessableEntityException('이미 존재하는 사용자입니다.');
+      throw new UnprocessableEntityException();
     }
     return null;
   }),
@@ -65,6 +65,7 @@ describe('UserService', () => {
         const result = await spyUserService.createUser(mockCreateUserDto);
       } catch (error) {
         expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(UnprocessableEntityException);
       }
     });
   });
