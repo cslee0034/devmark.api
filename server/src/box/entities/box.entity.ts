@@ -1,7 +1,8 @@
 import { MaxLength } from 'class-validator';
+import { BookmarkEntity } from 'src/bookmark/entities/bookmark.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({
   name: 'BOX',
@@ -30,4 +31,11 @@ export class BoxEntity extends CommonEntity {
     },
   ])
   user: UserEntity;
+
+  @OneToMany(() => BookmarkEntity, (boookmark) => boookmark.box, {
+    cascade: true,
+    // Box를 통해 Bookmark가 추가, 수정, 삭제 되고
+    // Box가 저장되면 Bookmark도 저장된다.
+  })
+  bookmarks: BookmarkEntity[];
 }
