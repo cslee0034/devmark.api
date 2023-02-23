@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -13,33 +17,58 @@ export class UserRepository {
   ) {}
 
   async findUserByEmail(email: string): Promise<UserEntity> {
-    const result = await this.userRepository.findOne({ where: { email } });
-    return result;
+    try {
+      const result = await this.userRepository.findOne({ where: { email } });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('error while finding user');
+      // 페이지 또는 파일을 을 수 없음 404
+    }
   }
 
   async createUserLocal(user: CreateUserDto): Promise<UserEntity> {
-    return await this.userRepository.save(user);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving user');
+      // 내부 서버 에러 500
+    }
   }
 
   async findUserByIdWithoutPassword(
     userId: string,
   ): Promise<UserEntity | null> {
     const id = parseInt(userId, 10);
-    const user = await this.userRepository.findOne({
-      select: ['id', 'email', 'nick', 'provider'],
-      where: { id },
-    });
-    return user;
+    try {
+      const user = await this.userRepository.findOne({
+        select: ['id', 'email', 'nick', 'provider'],
+        where: { id },
+      });
+      return user;
+    } catch (error) {
+      throw new NotFoundException('error while finding user');
+      // 페이지 또는 파일을 을 수 없음 404
+    }
   }
 
   async findUserOauth(snsId: string, provider: any): Promise<UserEntity> {
-    const result = await this.userRepository.findOne({
-      where: { snsId, provider },
-    });
-    return result;
+    try {
+      const result = await this.userRepository.findOne({
+        where: { snsId, provider },
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('error while finding user');
+      // 페이지 또는 파일을 을 수 없음 404
+    }
   }
 
   async createUserOauth(user: CreateKakaoUserDto): Promise<UserEntity> {
-    return await this.userRepository.save(user);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving user');
+      // 내부 서버 에러 500
+    }
   }
 }
