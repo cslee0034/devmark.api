@@ -1,5 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { type } from 'os';
 import { Repository } from 'typeorm';
 import { CreateBookmarkDto } from '../dto/create-bookmark.dto';
 import { BookmarkEntity } from '../entities/bookmark.entity';
@@ -22,6 +27,22 @@ export class BookmarkRepository {
     } catch (error) {
       throw new InternalServerErrorException('error while saving bookmark');
       // 내부 서버 에러 500
+    }
+  }
+
+  async findAllBookmarkById(boxId: number) {
+    try {
+      const result = await this.bookmarkRepository.find({
+        where: {
+          box: {
+            id: boxId,
+          },
+        },
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('error while finding box');
+      // 페이지 또는 파일을 찾을 수 없음 404
     }
   }
 }

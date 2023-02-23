@@ -12,8 +12,9 @@ export class BookmarkService {
     return { status: 201, success: true };
   }
 
-  findAll() {
-    return `This action returns all bookmark`;
+  async findAll(boxId: number) {
+    const bookmarks = await this.bookmarkRepository.findAllBookmarkById(boxId);
+    return bookmarks;
   }
 
   findOne(id: number) {
