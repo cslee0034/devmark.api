@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { BoxModule } from './box/box.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { AlarmModule } from './alarm/alarm.module';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { AlarmModule } from './alarm/alarm.module';
     BoxModule,
     BookmarkModule,
     AlarmModule,
+    FeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
