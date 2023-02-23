@@ -12,7 +12,7 @@ export class AlarmService {
     return `This action returns all alarm`;
   }
 
-  findOne(id: number) {
+  findNotification(id: number) {
     return `This action returns a #${id} alarm`;
   }
 
