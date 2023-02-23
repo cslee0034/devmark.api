@@ -27,11 +27,11 @@ export class BoxService {
     // 요청 문법은 맞지만 지시에 따를 수 없음
   }
 
-  async remove(body: { boxid: number; deleteImg: string }) {
+  async remove(body: { boxId: number; deleteImg: string }) {
     const deleteBox = await this.boxRepository.deleteBox(body);
     if (deleteBox) {
       const deleteImg = await this.boxRepository.deleteImg(body);
-      return { status: 422, success: true };
+      return { status: 200, success: true };
     }
     return { status: 422, success: false };
     // 요청 문법은 맞지만 지시에 따를 수 없음
