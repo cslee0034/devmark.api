@@ -32,6 +32,8 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
 
   const { setModalContent } = useContext(ModalContext);
   const [bookmarks, setBoookmarks] = useState<any[][]>([]);
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Modals
@@ -69,34 +71,23 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Memo Axios Get /api/content */
   const getBookmark = async () => {
     try {
-      await axios.get<Get>(`/api/content?boxId=${props.boxId}`).then((res) => {
-        console.log(res);
-        console.log(res.data.length);
+      await axios.get<Get>(`/api/bookmark?boxId=${props.boxId}`).then((res) => {
         const newBookmark: Array<any[]> = [];
         /*
          * [bookmarkName, encodedName, bookmarkURL, bookmarkId, [memoId, memoName]
          * 형태로 변환하여 state에 저장한다.
          */
         for (let i = 0; i < res.data.length; i++) {
-          const bookmarkName: string = res.data[i].contentName;
+          const bookmarkName: string = res.data[i].bookmarkName;
           const encodedName: string = encodeURIComponent(bookmarkName);
           const bookmarkURL: string = res.data[i].URL;
           const bookmarkId: string = res.data[i].id;
-
-          const newMemo = [];
-          for (let j = 0; j < res.data[i].Memos.length; j++) {
-            const memoId: string = res.data[i].Memos[j].id;
-            const memoName: string = res.data[i].Memos[j].memoName;
-
-            newMemo.push([memoId, memoName]);
-          }
 
           newBookmark.push([
             bookmarkName,
             encodedName,
             bookmarkURL,
             bookmarkId,
-            newMemo,
           ]);
           setBoookmarks(newBookmark);
         }
@@ -158,50 +149,6 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
                 </div>
 
                 <div className="bookmark-card-header-right">
-                  <div className="dropdown">
-                    <button
-                      className="bookmark-menu btn data-toggle"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-
-                    {/* Memo 있다면 표시 */}
-                    <ul className="dropdown-menu bookmark-dropdown">
-                      {bookmark[4] ? (
-                        // memo가 있다면
-                        <div>
-                          {bookmark[4].map(
-                            // dropdown item의 형태로 출력
-                            (memo: Array<string>, index: number) => (
-                              <li key={index}>
-                                <Link
-                                  to={`/memos/${memo[0]}?category=${bookmark[0]}`}
-                                  // 클릭시 해당 memo로 이동
-                                  className="dropdown-item"
-                                >
-                                  {memo[1]}
-                                </Link>
-                              </li>
-                            )
-                          )}
-                        </div>
-                      ) : null}
-
-                      <li>
-                        <Link
-                          to={`/memos/newmemo?category=${bookmark[1]}&box=${props.boxId}&bookmarkId=${bookmark[3]}`}
-                          className="dropdown-item"
-                          // 클릭시 쿼리스트링으로 정보를 가진채 newmemo로 이동
-                        >
-                          New &nbsp;
-                          <FontAwesomeIcon icon={faPlus} />
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
 
                   <button className="bookmark-menu">
                     <Link
