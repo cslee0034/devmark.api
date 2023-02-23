@@ -11,8 +11,7 @@ export class BookmarkEntity extends CommonEntity {
   @Column({ type: 'varchar', nullable: false })
   bookmarkName: string;
 
-  @MaxLength(2083, { message: 'URL의 최대 길이는 2083입니다.' })
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ length: 2083, type: 'varchar', nullable: false })
   URL: string;
 
   // relations
