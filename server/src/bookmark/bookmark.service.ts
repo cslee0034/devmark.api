@@ -21,11 +21,11 @@ export class BookmarkService {
 
   async update(body: UpdateBookmarkDto) {
     const updatedBookmark = await this.bookmarkRepository.updateBookmark(body);
-    return { status: 201, success: true };
+    return { status: 200, success: true };
   }
 
   async remove(id: number) {
     const deletedBookmark = await this.bookmarkRepository.deleteBookmark(id);
-    return { status: 201, success: true };
+    return { status: 200, success: true };
   }
 }

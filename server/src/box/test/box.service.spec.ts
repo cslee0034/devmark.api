@@ -42,7 +42,7 @@ const mockBoxRepository = () => ({
 
   deleteBox: jest.fn((boxId) => {
     if (boxId) {
-      return { status: 422, success: true };
+      return { status: 200, success: true };
     } else {
       return { status: 422, success: false };
     }
