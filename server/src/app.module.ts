@@ -9,6 +9,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { BoxModule } from './box/box.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
+import { AlarmModule } from './alarm/alarm.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
     AuthModule,
     BoxModule,
     BookmarkModule,
+    AlarmModule,
   ],
   controllers: [AppController],
   providers: [AppService],
