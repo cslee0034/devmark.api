@@ -5,13 +5,17 @@ import { AlarmRepository } from './repository/alarm.repository';
 @Injectable()
 export class AlarmService {
   constructor(private readonly alarmRepository: AlarmRepository) {}
+
   async create(body): Promise<{ status: number; success: boolean }> {
     const createdAlarm = await this.alarmRepository.createAlarm(body);
     return { status: 201, success: true };
   }
 
-  findAll() {
-    return `This action returns all alarm`;
+  async findAll(user_id) {
+    const readAllAlarm = await this.alarmRepository.findAllAlarmByUserId(
+      user_id,
+    );
+    return readAllAlarm;
   }
 
   findNotification(id: number) {

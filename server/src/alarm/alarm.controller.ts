@@ -11,6 +11,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { AlarmService } from './alarm.service';
 import { CreateAlarmDto } from './dto/create-alarm.dto';
+import { AlarmEntity } from './entities/alarm.entity';
 
 @Controller('api/alarm')
 export class AlarmController {
@@ -22,9 +23,10 @@ export class AlarmController {
     return this.alarmService.create(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll_alarm() {
-    return this.alarmService.findAll();
+  findAll_alarm(@ReqWithUserId() body): Promise<AlarmEntity[]> {
+    return this.alarmService.findAll(body.user_id);
   }
 
   @Get('notification')

@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AlarmEntity } from '../entities/alarm.entity';
@@ -20,6 +24,18 @@ export class AlarmRepository {
     } catch (error) {
       throw new InternalServerErrorException('error while saving bookmark');
       // 내부 서버 에러 500
+    }
+  }
+
+  async findAllAlarmByUserId(user_id) {
+    try {
+      const result = await this.bookmarkRepository.find({
+        where: { user: { id: user_id } },
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('error while finding box');
+      // 페이지 또는 파일을 찾을 수 없음 404
     }
   }
 }
