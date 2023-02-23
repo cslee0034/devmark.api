@@ -67,7 +67,7 @@ const EditAlarm: FC<P> = (props: P): JSX.Element => {
     try {
       await axios.post<Post>("/api/alarm", {
         alarmName: e.target!.Title.value,
-        date: startDate,
+        time: startDate,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
