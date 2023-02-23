@@ -29,7 +29,7 @@ export class BoxController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('')
   async UplaodBox(
     @ReqWithUserId() body,
   ): Promise<{ status: number; success: boolean }> {
