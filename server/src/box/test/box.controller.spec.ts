@@ -96,7 +96,7 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
-      const response = await controller.UplaodBox(createBoxDto);
+      const response = await controller.create_box(createBoxDto);
 
       expect(spyBoxService.create).toBeCalled();
       expect(spyBoxService.create).toBeCalledWith(createBoxDto);
@@ -105,7 +105,7 @@ describe('UserController', () => {
 
     it('박스 생성 실패', async () => {
       const createBoxDto: any = {};
-      const response = await controller.UplaodBox(createBoxDto);
+      const response = await controller.create_box(createBoxDto);
 
       expect(spyBoxService.create).toBeCalled();
       expect(spyBoxService.create).toBeCalledWith(createBoxDto);
@@ -120,7 +120,7 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
-      const response = await controller.findAll(ReqWithUserId);
+      const response = await controller.findAll_box(ReqWithUserId);
 
       expect(spyBoxService.findAll).toBeCalled();
       expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
@@ -133,7 +133,7 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 2,
       };
-      const response = await controller.findAll(ReqWithUserId);
+      const response = await controller.findAll_box(ReqWithUserId);
 
       expect(spyBoxService.findAll).toBeCalled();
       expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
@@ -150,7 +150,7 @@ describe('UserController', () => {
         boxId: '1',
         deleteImg: 'test_delete',
       };
-      const response = await controller.update(updateBoxDto);
+      const response = await controller.update_box(updateBoxDto);
 
       expect(spyBoxService.update).toBeCalled();
       expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
@@ -164,7 +164,7 @@ describe('UserController', () => {
         user_id: 1,
         boxId: '1',
       };
-      const response = await controller.update(updateBoxDto);
+      const response = await controller.update_box(updateBoxDto);
 
       expect(spyBoxService.update).toBeCalled();
       expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
@@ -180,7 +180,7 @@ describe('UserController', () => {
         user_id: 1,
         boxId: '1',
       };
-      const response = await controller.remove(ReqWithUserId);
+      const response = await controller.remove_box(ReqWithUserId);
 
       expect(spyBoxService.remove).toBeCalled();
       expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
@@ -193,7 +193,7 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
-      const response = await controller.remove(ReqWithUserId);
+      const response = await controller.remove_box(ReqWithUserId);
 
       expect(spyBoxService.remove).toBeCalled();
       expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);

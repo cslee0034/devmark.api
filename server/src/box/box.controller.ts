@@ -28,7 +28,7 @@ export class BoxController {
 
   @UseGuards(JwtAuthGuard)
   @Post('')
-  async UplaodBox(
+  async create_box(
     @ReqWithUserId() body,
   ): Promise<{ status: number; success: boolean }> {
     return this.boxService.create(body);
@@ -36,20 +36,24 @@ export class BoxController {
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll(@ReqWithUserId() body): Promise<BoxEntity> {
+  findAll_box(@ReqWithUserId() body): Promise<BoxEntity> {
     const user_id = body.user_id;
     return this.boxService.findAll(user_id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('')
-  update(@ReqWithUserId() body): Promise<{ status: number; success: boolean }> {
+  update_box(
+    @ReqWithUserId() body,
+  ): Promise<{ status: number; success: boolean }> {
     return this.boxService.update(body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('')
-  remove(@ReqWithUserId() body): Promise<{ status: number; success: boolean }> {
+  remove_box(
+    @ReqWithUserId() body,
+  ): Promise<{ status: number; success: boolean }> {
     return this.boxService.remove(body);
   }
 }
