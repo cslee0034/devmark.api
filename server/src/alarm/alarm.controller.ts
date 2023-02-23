@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { AlarmService } from './alarm.service';
 import { CreateAlarmDto } from './dto/create-alarm.dto';
 
@@ -6,9 +16,10 @@ import { CreateAlarmDto } from './dto/create-alarm.dto';
 export class AlarmController {
   constructor(private readonly alarmService: AlarmService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('')
-  create_alarm(@Body() createAlarmDto: CreateAlarmDto) {
-    return this.alarmService.create(createAlarmDto);
+  create_alarm(@ReqWithUserId() body) {
+    return this.alarmService.create(body);
   }
 
   @Get('')

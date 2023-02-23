@@ -4,6 +4,8 @@ import { AlarmController } from './alarm.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AlarmEntity } from './entities/alarm.entity';
+import { AlarmRepository } from './repository/alarm.repository';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 
 @Module({
   imports: [
@@ -14,6 +16,6 @@ import { AlarmEntity } from './entities/alarm.entity';
     }),
   ],
   controllers: [AlarmController],
-  providers: [AlarmService],
+  providers: [AlarmService, AlarmRepository, JwtAuthGuard],
 })
 export class AlarmModule {}

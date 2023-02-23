@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAlarmDto } from './dto/create-alarm.dto';
 import { UpdateAlarmDto } from './dto/update-alarm.dto';
+import { AlarmRepository } from './repository/alarm.repository';
 
 @Injectable()
 export class AlarmService {
-  create(createAlarmDto: CreateAlarmDto) {
-    return 'This action adds a new alarm';
+  constructor(private readonly alarmRepository: AlarmRepository) {}
+  async create(body): Promise<{ status: number; success: boolean }> {
+    const createdAlarm = await this.alarmRepository.createAlarm(body);
+    return { status: 201, success: true };
   }
 
   findAll() {
