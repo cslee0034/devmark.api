@@ -8,6 +8,7 @@ import * as Joi from 'joi';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { BoxModule } from './box/box.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { BoxModule } from './box/box.module';
     UserModule,
     AuthModule,
     BoxModule,
+    BookmarkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
