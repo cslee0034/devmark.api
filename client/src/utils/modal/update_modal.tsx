@@ -35,6 +35,8 @@ const UModal: FC<P> = (props: P): JSX.Element => {
 
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -143,10 +145,10 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   ) => {
     try {
       await axios.patch<Patch>("/api/box", {
-        box: e.target.Box.value,
-        url: imgURL,
-        id: boxId,
-        d_url: deleteImgUrl,
+        boxName: e.target.Box.value,
+        img: imgURL,
+        boxId: boxId,
+        deleteImg: deleteImgUrl,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
