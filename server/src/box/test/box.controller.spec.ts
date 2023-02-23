@@ -41,7 +41,6 @@ const mockBoxService = () => ({
   }),
 
   remove: jest.fn((ReqWithUserId) => {
-    console.log(ReqWithUserId);
     if (ReqWithUserId.boxId) {
       return { box: 1 };
     }
