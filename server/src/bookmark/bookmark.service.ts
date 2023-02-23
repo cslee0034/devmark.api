@@ -17,12 +17,9 @@ export class BookmarkService {
     return bookmarks;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bookmark`;
-  }
-
-  update(id: number, updateBookmarkDto: UpdateBookmarkDto) {
-    return `This action updates a #${id} bookmark`;
+  async update(body: UpdateBookmarkDto) {
+    const bookmarks = await this.bookmarkRepository.updateBookmark(body);
+    return { status: 201, success: true };
   }
 
   remove(id: number) {

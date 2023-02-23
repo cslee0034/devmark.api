@@ -28,27 +28,22 @@ export class BookmarkController {
     return this.bookmarkService.createBookmark(body);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('')
   findAll(@Query('boxId') boxId: string): Promise<BookmarkEntity[]> {
     return this.bookmarkService.findAll(+boxId);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.bookmarkService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Patch('')
+  update(@Body() body: UpdateBookmarkDto) {
+    return this.bookmarkService.update(body);
+  }
+
+  // @Delete(':id')
+  // remove(
+  //   @Param('id') id: string,
+  // ): Promise<{ status: number; success: boolean }> {
+  //   return this.bookmarkService.remove(+id);
   // }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateBookmarkDto: UpdateBookmarkDto,
-  ) {
-    return this.bookmarkService.update(+id, updateBookmarkDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookmarkService.remove(+id);
-  }
 }

@@ -1,5 +1,5 @@
 export class CreateBookmarkDto {
   bookmarkName: string;
-  bookmarkURL: string;
+  URL: string;
   boxId: string;
 }

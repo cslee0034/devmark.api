@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { type } from 'os';
 import { Repository } from 'typeorm';
 import { CreateBookmarkDto } from '../dto/create-bookmark.dto';
+import { UpdateBookmarkDto } from '../dto/update-bookmark.dto';
 import { BookmarkEntity } from '../entities/bookmark.entity';
 
 @Injectable()
@@ -43,6 +44,17 @@ export class BookmarkRepository {
     } catch (error) {
       throw new NotFoundException('error while finding box');
       // 페이지 또는 파일을 찾을 수 없음 404
+    }
+  }
+
+  async updateBookmark(body: UpdateBookmarkDto) {
+    try {
+      const result = await this.bookmarkRepository.update(body.bookmarkId, {
+        bookmarkName: body.bookmarkName,
+        URL: body.URL,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving bookmark');
     }
   }
 }
