@@ -15,8 +15,6 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { multerOptions } from 'src/common/utils/multer.options';
 import { BoxService } from './box.service';
-import { CreateBoxDto } from './dto/create-box.dto';
-import { UpdateBoxDto } from './dto/update-box.dto';
 import { BoxEntity } from './entities/box.entity';
 
 @Controller('api/box')
@@ -31,7 +29,7 @@ export class BoxController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('')
   async UplaodBox(
     @ReqWithUserId() body,
   ): Promise<{ status: number; success: boolean }> {
