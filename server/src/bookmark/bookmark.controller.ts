@@ -20,7 +20,7 @@ export class BookmarkController {
 
   @UseGuards(JwtAuthGuard)
   @Post('')
-  create(
+  create_bookmark(
     @Body() body: CreateBookmarkDto,
   ): Promise<{ status: number; success: boolean }> {
     return this.bookmarkService.create(body);
@@ -28,19 +28,19 @@ export class BookmarkController {
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll(@Query('boxId') boxId: string): Promise<BookmarkEntity[]> {
+  findAll_bookmark(@Query('boxId') boxId: string): Promise<BookmarkEntity[]> {
     return this.bookmarkService.findAll(+boxId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('')
-  update(@Body() body: UpdateBookmarkDto) {
+  update_bookmark(@Body() body: UpdateBookmarkDto) {
     return this.bookmarkService.update(body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('')
-  remove(@Body() body): Promise<{ status: number; success: boolean }> {
+  remove_bookmark(@Body() body): Promise<{ status: number; success: boolean }> {
     return this.bookmarkService.remove(body.id);
   }
 }
