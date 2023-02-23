@@ -36,4 +36,9 @@ export class UserEntity extends CommonEntity {
   })
   boxs: BoxEntity[];
   // OneToMany일때 Many쪽은 복수형 + 엔티티[]
+
+  @OneToMany(() => BoxEntity, (alarm) => alarm.user, {
+    cascade: true,
+  })
+  alarms: BoxEntity[];
 }
