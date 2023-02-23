@@ -168,13 +168,13 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* <Axios Request> - Bookmark Axios Patch /api/content */
+  /* <Axios Request> - Bookmark Axios Patch /api/bookmark */
   const updateContent = async (e: any, contentId: string) => {
     try {
-      await axios.patch<Patch>("/api/content", {
+      await axios.patch<Patch>("/api/bookmark", {
         bookmarkName: e.target.BookmarkName.value,
-        bookmarkURL: e.target.BookmarkURL.value,
-        id: contentId,
+        URL: e.target.BookmarkURL.value,
+        bookmarkId: contentId,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
