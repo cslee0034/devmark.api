@@ -45,10 +45,11 @@ export class BoxController {
     return this.boxService.findAll(user_id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateBoxDto: UpdateBoxDto) {
-  //   return this.boxService.update(+id, updateBoxDto);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Patch('')
+  update(@ReqWithUserId() body): Promise<{ status: number; success: boolean }> {
+    return this.boxService.update(body);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

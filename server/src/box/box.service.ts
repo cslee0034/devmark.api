@@ -17,8 +17,9 @@ export class BoxService {
     return boxs;
   }
 
-  update(id: number, updateBoxDto: UpdateBoxDto) {
-    return `This action updates a #${id} box`;
+  async update(body: UpdateBoxDto) {
+    const updateBox = await this.boxRepository.updateBox(body);
+    return { status: 200, success: true };
   }
 
   remove(id: number) {

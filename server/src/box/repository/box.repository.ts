@@ -39,4 +39,14 @@ export class BoxRepository {
       throw new Error('error while finding box');
     }
   }
+
+  async updateBox(body): Promise<any> {
+    try {
+      const { boxId, boxName, img } = body;
+      const result = await this.boxRepository.update(boxId, { boxName, img });
+      return { success: true };
+    } catch (error) {
+      throw new Error('error while update box');
+    }
+  }
 }
