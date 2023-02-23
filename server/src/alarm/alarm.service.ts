@@ -18,8 +18,11 @@ export class AlarmService {
     return readAllAlarm;
   }
 
-  findNotification(id: number) {
-    return `This action returns a #${id} alarm`;
+  async findNotification(user_id) {
+    const notificationAlarm = await this.alarmRepository.findNotifyAlarm(
+      user_id,
+    );
+    return notificationAlarm;
   }
 
   update(id: number, updateAlarmDto: UpdateAlarmDto) {

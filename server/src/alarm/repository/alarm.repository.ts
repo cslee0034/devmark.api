@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { createQuery } from 'mysql2/typings/mysql/lib/Connection';
 import { Repository } from 'typeorm';
 import { AlarmEntity } from '../entities/alarm.entity';
 
@@ -32,6 +33,20 @@ export class AlarmRepository {
       const result = await this.bookmarkRepository.find({
         where: { user: { id: user_id } },
       });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('error while finding box');
+      // 페이지 또는 파일을 찾을 수 없음 404
+    }
+  }
+
+  async findNotifyAlarm(user_id) {
+    try {
+      const query = `
+        SELECT * FROM alarm
+        WHERE user_id = ${user_id} AND time <= NOW()
+      `;
+      const result = await this.bookmarkRepository.query(query);
       return result;
     } catch (error) {
       throw new NotFoundException('error while finding box');

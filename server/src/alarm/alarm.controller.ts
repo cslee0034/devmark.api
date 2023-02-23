@@ -29,9 +29,10 @@ export class AlarmController {
     return this.alarmService.findAll(body.user_id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('notification')
-  findAll_notification_alarm(@Param('id') id: string) {
-    return this.alarmService.findNotification(+id);
+  findAll_notification_alarm(@ReqWithUserId() body) {
+    return this.alarmService.findNotification(body.user_id);
   }
 
   @Delete('')
