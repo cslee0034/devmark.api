@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBoxDto } from '../dto/create-box.dto';
@@ -21,7 +25,8 @@ export class BoxRepository {
       const result = await this.boxRepository.save(box);
       return;
     } catch (error) {
-      throw new Error('error while saving box');
+      throw new InternalServerErrorException('error while saving box');
+      // 내부 서버 에러 500
     }
   }
 
@@ -36,7 +41,8 @@ export class BoxRepository {
       });
       return result;
     } catch (error) {
-      throw new Error('error while finding box');
+      throw new NotFoundException('error while finding box');
+      // 페이지 또는 파일을 을 수 없음 404
     }
   }
 
@@ -46,7 +52,8 @@ export class BoxRepository {
       const result = await this.boxRepository.update(boxId, { boxName, img });
       return { success: true };
     } catch (error) {
-      throw new Error('error while update box');
+      throw new NotFoundException('error while update box');
+      // 페이지 또는 파일을 을 수 없음 404
     }
   }
 }
