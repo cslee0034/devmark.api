@@ -34,7 +34,9 @@ export class BookmarkController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('')
-  update_bookmark(@Body() body: UpdateBookmarkDto) {
+  update_bookmark(
+    @Body() body: UpdateBookmarkDto,
+  ): Promise<{ status: number; success: boolean }> {
     return this.bookmarkService.update(body);
   }
 
