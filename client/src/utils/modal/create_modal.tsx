@@ -121,9 +121,9 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     BoxId: string
   ) => {
     try {
-      await axios.post<Post>("/api/content", {
+      await axios.post<Post>("/api/bookmark", {
         bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
-        bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
+        URL: (e.target as HTMLFormElement).BookmarkURL.value,
         boxId: BoxId,
       });
     } catch (error: any) {
