@@ -33,7 +33,7 @@ export class BoxController {
   async UplaodBox(
     @ReqWithUserId() body,
   ): Promise<{ status: number; success: boolean }> {
-    return this.boxService.create(body);
+    return this.boxService.createBox(body);
   }
 
   @UseGuards(JwtAuthGuard)

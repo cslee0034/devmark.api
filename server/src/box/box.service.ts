@@ -7,9 +7,9 @@ import { BoxRepository } from './repository/box.repository';
 export class BoxService {
   constructor(private readonly boxRepository: BoxRepository) {}
 
-  async create(body: CreateBoxDto) {
+  async createBox(body: CreateBoxDto) {
     const newBox = await this.boxRepository.createBox(body);
-    return { status: 200, success: true };
+    return { status: 201, success: true };
   }
 
   async findAll(user_id: number) {
