@@ -55,8 +55,8 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     try {
       await axios.delete<Delete>("/api/box", {
         data: {
-          d_url: imgUrl,
-          id: boxId,
+          deleteImg: imgUrl,
+          boxId: boxId,
         },
       });
     } catch (error: any) {
