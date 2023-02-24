@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFeedDto } from './dto/create-feed.dto';
 import { UpdateFeedDto } from './dto/update-feed.dto';
+import { FeedRepository } from './repository/feed.repository';
 
 @Injectable()
 export class FeedService {
-  create(createFeedDto: CreateFeedDto) {
-    return 'This action adds a new feed';
+  constructor(private readonly feedRepository: FeedRepository) {}
+
+  async create(body) {
+    const createdFeed = await this.feedRepository.createFeed(body);
+    return { status: 201, success: true };
   }
 
   findAll() {

@@ -6,18 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { FeedService } from './feed.service';
-import { CreateFeedDto } from './dto/create-feed.dto';
-import { UpdateFeedDto } from './dto/update-feed.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 
 @Controller('api/feed')
 export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('')
-  create_feed(@Body() createFeedDto: CreateFeedDto) {
-    return this.feedService.create(createFeedDto);
+  create_feed(@ReqWithUserId() body) {
+    return this.feedService.create(body);
   }
 
   @Get('')
