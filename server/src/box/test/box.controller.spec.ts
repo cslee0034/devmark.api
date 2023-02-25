@@ -96,8 +96,11 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
+
+      // Excute
       const response = await controller.create_box(createBoxDto);
 
+      // Expect
       expect(spyBoxService.create).toBeCalled();
       expect(spyBoxService.create).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 201, success: true });
@@ -105,8 +108,11 @@ describe('UserController', () => {
 
     it('박스 생성 실패', async () => {
       const createBoxDto: any = {};
+
+      // Excute
       const response = await controller.create_box(createBoxDto);
 
+      // Expect
       expect(spyBoxService.create).toBeCalled();
       expect(spyBoxService.create).toBeCalledWith(createBoxDto);
       expect(response).toEqual({ status: 422, success: false });
@@ -120,8 +126,11 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
+
+      // Excute
       const response = await controller.findAll_box(ReqWithUserId);
 
+      // Expect
       expect(spyBoxService.findAll).toBeCalled();
       expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
       expect(response).toEqual({ box: 1 });
@@ -133,8 +142,11 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 2,
       };
+
+      // Excute
       const response = await controller.findAll_box(ReqWithUserId);
 
+      // Expect
       expect(spyBoxService.findAll).toBeCalled();
       expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
       expect(response).toEqual(NotFoundException);
@@ -150,8 +162,11 @@ describe('UserController', () => {
         boxId: '1',
         deleteImg: 'test_delete',
       };
+
+      // Excute
       const response = await controller.update_box(updateBoxDto);
 
+      // Expect
       expect(spyBoxService.update).toBeCalled();
       expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
       expect(response).toEqual({ status: 200, success: true });
@@ -164,8 +179,11 @@ describe('UserController', () => {
         user_id: 1,
         boxId: '1',
       };
+
+      // Excute
       const response = await controller.update_box(updateBoxDto);
 
+      // Expect
       expect(spyBoxService.update).toBeCalled();
       expect(spyBoxService.update).toBeCalledWith(updateBoxDto);
       expect(response).toEqual({ status: 422, success: false });
@@ -180,8 +198,11 @@ describe('UserController', () => {
         user_id: 1,
         boxId: '1',
       };
+
+      // Excute
       const response = await controller.remove_box(ReqWithUserId);
 
+      // Expect
       expect(spyBoxService.remove).toBeCalled();
       expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
       expect(response).toEqual({ box: 1 });
@@ -193,8 +214,11 @@ describe('UserController', () => {
         img: 'test_img',
         user_id: 1,
       };
+
+      // Excute
       const response = await controller.remove_box(ReqWithUserId);
 
+      // Expect
       expect(spyBoxService.remove).toBeCalled();
       expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
       expect(response).toEqual(InternalServerErrorException);
