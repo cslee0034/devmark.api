@@ -31,6 +31,8 @@ const mockAlarmRepository = () => ({
       return { status: 422, success: false };
     }
   }),
+
+  findNotifyAlarm: jest.fn(),
 });
 
 describe('AlarmService', () => {
@@ -93,6 +95,33 @@ describe('AlarmService', () => {
 
     it('알람 찾기 실패', async () => {
       const user_id = 2;
+      try {
+        const result = await spyAlarmService.findAll(user_id);
+      } catch (error) {
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+
+  describe('findAll_notification_alarm', () => {
+    const user_id = 1;
+
+    it('notify 알람 찾기 성공', async () => {
+      (spyAlarmRepository.findNotifyAlarm as jest.Mock).mockReturnValue({
+        alarm: 1,
+      });
+      const result = await spyAlarmService.findNotification(user_id);
+
+      expect(spyAlarmRepository.findNotifyAlarm).toBeCalled();
+      expect(spyAlarmRepository.findNotifyAlarm).toBeCalledWith(user_id);
+      expect(result).toEqual({ alarm: 1 });
+    });
+
+    it('notify 알람 찾기 실패', async () => {
+      (spyAlarmRepository.findNotifyAlarm as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
       try {
         const result = await spyAlarmService.findAll(user_id);
       } catch (error) {
