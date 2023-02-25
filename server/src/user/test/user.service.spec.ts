@@ -8,12 +8,7 @@ import { UnprocessableEntityException } from '@nestjs/common';
 jest.mock('bcrypt');
 
 const mockUserRepository = () => ({
-  findUserByEmail: jest.fn((email) => {
-    if (email === 'exist') {
-      throw new UnprocessableEntityException();
-    }
-    return null;
-  }),
+  findUserByEmail: jest.fn(),
   createUserLocal: jest.fn(),
 });
 
@@ -44,9 +39,15 @@ describe('UserService', () => {
     };
     (bcrypt.hash as jest.Mock).mockResolvedValue('test_hash');
 
-    it('새 유저 생성', async () => {
+    it('새 유저 생성 성공', async () => {
+      // Method Mocking
+      (spyUserRepository.findUserByEmail as jest.Mock).mockReturnValue(null);
+      (spyUserRepository.createUserLocal as jest.Mock).mockReturnValue(true);
+
+      // Excute
       const result = await spyUserService.createUser(mockCreateUserDto);
 
+      // Expect
       expect(spyUserRepository.findUserByEmail).toBeCalledWith(
         mockCreateUserDto.email,
       );
@@ -59,11 +60,33 @@ describe('UserService', () => {
       expect(result).toEqual({ status: 201, success: true });
     });
 
-    it('새 유저 생성 실패', async () => {
-      mockCreateUserDto.email = 'exist';
+    it('새 유저 생성 실패(이미 존재하는 사용자입니다)', async () => {
+      // Method Mocking
+      (spyUserRepository.findUserByEmail as jest.Mock).mockReturnValue('user');
+      (spyUserRepository.createUserLocal as jest.Mock).mockReturnValue(true);
+
       try {
+        // Excute
         const result = await spyUserService.createUser(mockCreateUserDto);
       } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(UnprocessableEntityException);
+      }
+    });
+
+    it('새 유저 생성 실패(createUserLocal 실패)', async () => {
+      // Method Mocking
+      (spyUserRepository.findUserByEmail as jest.Mock).mockReturnValue('user');
+      (spyUserRepository.createUserLocal as jest.Mock).mockRejectedValue(
+        new UnprocessableEntityException(),
+      );
+
+      try {
+        // Excute
+        const result = await spyUserService.createUser(mockCreateUserDto);
+      } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf(UnprocessableEntityException);
       }
