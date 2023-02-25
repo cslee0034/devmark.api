@@ -94,8 +94,11 @@ describe('UserController', () => {
         URL: 'test_url',
         boxId: '1',
       };
+
+      // Excute
       const response = await controller.create_bookmark(createBookmarkDto);
 
+      // Expect
       expect(spyBookmarkService.create).toBeCalled();
       expect(spyBookmarkService.create).toBeCalledWith(createBookmarkDto);
       expect(response).toEqual({ status: 201, success: true });
@@ -103,8 +106,11 @@ describe('UserController', () => {
 
     it('북마크 생성 실패', async () => {
       const createBookmarkDto: any = {};
+
+      // Excute
       const response = await controller.create_bookmark(createBookmarkDto);
 
+      // Expect
       expect(spyBookmarkService.create).toBeCalled();
       expect(spyBookmarkService.create).toBeCalledWith(createBookmarkDto);
       expect(response).toEqual({ status: 422, success: false });
@@ -114,8 +120,11 @@ describe('UserController', () => {
   describe('findAll_bookmark', () => {
     it('북마크 찾기 성공', async () => {
       const boxId = '1';
+
+      // Excute
       const response = await controller.findAll_bookmark(boxId);
 
+      // Expect
       expect(spyBookmarkService.findAll).toBeCalled();
       expect(spyBookmarkService.findAll).toBeCalledWith(+boxId);
       expect(response).toEqual({ box: 1 });
@@ -123,8 +132,11 @@ describe('UserController', () => {
 
     it('북마크 찾기 실패', async () => {
       const boxId = null;
+
+      // Excute
       const response = await controller.findAll_bookmark(boxId);
 
+      // Expect
       expect(spyBookmarkService.findAll).toBeCalled();
       expect(spyBookmarkService.findAll).toBeCalledWith(+boxId);
       expect(response).toEqual(NotFoundException);
@@ -139,8 +151,11 @@ describe('UserController', () => {
         boxId: '1',
         bookmarkId: 1,
       };
+
+      // Excute
       const response = await controller.update_bookmark(updateBookmarkDto);
 
+      // Expect
       expect(spyBookmarkService.update).toBeCalled();
       expect(spyBookmarkService.update).toBeCalledWith(updateBookmarkDto);
       expect(response).toEqual({ status: 200, success: true });
@@ -148,8 +163,11 @@ describe('UserController', () => {
 
     it('북마크 업데이트 실패', async () => {
       const updateBookmarkDto: any = {};
+
+      // Excute
       const response = await controller.update_bookmark(updateBookmarkDto);
 
+      // // Expect
       expect(spyBookmarkService.update).toBeCalled();
       expect(spyBookmarkService.update).toBeCalledWith(updateBookmarkDto);
       expect(response).toEqual({ status: 422, success: false });
@@ -161,8 +179,11 @@ describe('UserController', () => {
       const body = {
         id: 1,
       };
+
+      // Excute
       const response = await controller.remove_bookmark(body);
 
+      // Expect
       expect(spyBookmarkService.remove).toBeCalled();
       expect(spyBookmarkService.remove).toBeCalledWith(body.id);
       expect(response).toEqual({ status: 201, success: true });
@@ -172,8 +193,11 @@ describe('UserController', () => {
       const body = {
         id: null,
       };
+
+      // Excute
       const response = await controller.remove_bookmark(body);
 
+      // Expect
       expect(spyBookmarkService.remove).toBeCalled();
       expect(spyBookmarkService.remove).toBeCalledWith(body.id);
       expect(response).toEqual(InternalServerErrorException);
