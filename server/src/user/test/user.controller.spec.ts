@@ -73,7 +73,7 @@ describe('UserController', () => {
   });
 
   describe('registration', () => {
-    it('유저 생성', async () => {
+    it('유저 생성 컨트롤러 통과', async () => {
       const createUserDto: CreateUserDto = {
         email: 'testmail',
         nick: 'testnick',
@@ -86,7 +86,7 @@ describe('UserController', () => {
       expect(response).toEqual({ status: 201, success: true });
     });
 
-    it('유저 생성 실패', async () => {
+    it('유저 생성 컨트롤러 통과 실패', async () => {
       const createUserDto: any = {};
       const response = await controller.createUser(createUserDto);
 
@@ -97,7 +97,7 @@ describe('UserController', () => {
   });
 
   describe('login', () => {
-    it('로그인 성공', async () => {
+    it('로그인 컨트롤러 통과', async () => {
       const data: LoginRequestDto = {
         email: 'test@email.com',
         password: 'test',
@@ -109,7 +109,7 @@ describe('UserController', () => {
       expect(response).toEqual('test_token');
     });
 
-    it('로그인 실패', async () => {
+    it('로그인 컨트롤러 통과 실패', async () => {
       const data: any = {
         email: 'test@email.com',
       };
