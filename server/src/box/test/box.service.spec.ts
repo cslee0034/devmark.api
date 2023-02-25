@@ -45,9 +45,13 @@ describe('BoxService', () => {
     };
 
     it('새 박스 생성', async () => {
+      // Method Mocking
       (spyBoxRepository.createBox as jest.Mock).mockReturnValue(null);
+
+      // Excute
       const result = await spyBoxService.create(createBoxDto);
 
+      // Expect
       expect(spyBoxRepository.createBox).toBeCalled();
       expect(spyBoxRepository.createBox).toBeCalledWith({
         boxName: createBoxDto.boxName,
@@ -58,10 +62,15 @@ describe('BoxService', () => {
     });
 
     it('새 박스 생성 실패', async () => {
-      createBoxDto.boxName = null;
+      // Method Mocking
+      (spyBoxRepository.createBox as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
       try {
+        // Excute
         const result = await spyBoxService.create(createBoxDto);
       } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf(InternalServerErrorException);
       }
@@ -72,21 +81,30 @@ describe('BoxService', () => {
     const user_id = 1;
 
     it('박스 찾기 성공', async () => {
+      // Method Mocking
       (spyBoxRepository.findAllBoxByUserId as jest.Mock).mockReturnValue({
         box: 1,
       });
+
+      // Excute
       const result = await spyBoxService.findAll(user_id);
 
+      // Expect
       expect(spyBoxRepository.findAllBoxByUserId).toBeCalled();
       expect(spyBoxRepository.findAllBoxByUserId).toBeCalledWith(user_id);
       expect(result).toEqual({ box: 1 });
     });
 
     it('박스 찾기 실패', async () => {
-      const user_id = null;
+      // Method Mocking
+      (spyBoxRepository.findAllBoxByUserId as jest.Mock).mockRejectedValue(
+        new NotFoundException(),
+      );
       try {
+        // Excute
         const result = await spyBoxService.findAll(user_id);
       } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf(NotFoundException);
       }
