@@ -11,46 +11,11 @@ import { UpdateBoxDto } from '../dto/update-box.dto';
 jest.mock('bcrypt');
 
 const mockBoxRepository = () => ({
-  createBox: jest.fn((createBoxDto) => {
-    if (createBoxDto.boxName && createBoxDto.img && createBoxDto.user_id) {
-      return { box: 1 };
-    } else {
-      throw new InternalServerErrorException();
-    }
-  }),
-
-  findAllBoxByUserId: jest.fn((user_id) => {
-    if (user_id === 1) {
-      return { box: 1 };
-    }
-    return NotFoundException;
-  }),
-
-  updateBox: jest.fn((updateBoxDto) => {
-    if (
-      updateBoxDto.boxName &&
-      updateBoxDto.img &&
-      updateBoxDto.user_id &&
-      updateBoxDto.boxId &&
-      updateBoxDto.deleteImg
-    ) {
-      return { status: 200, success: true };
-    } else {
-      return { status: 422, success: false };
-    }
-  }),
-
-  deleteBox: jest.fn((boxId) => {
-    if (boxId) {
-      return { status: 200, success: true };
-    } else {
-      return { status: 422, success: false };
-    }
-  }),
-
-  deleteImg: jest.fn(() => {
-    return true;
-  }),
+  createBox: jest.fn(),
+  findAllBoxByUserId: jest.fn(),
+  updateBox: jest.fn(),
+  deleteBox: jest.fn(),
+  deleteImg: jest.fn(),
 });
 
 describe('BoxService', () => {
@@ -80,6 +45,7 @@ describe('BoxService', () => {
     };
 
     it('새 박스 생성', async () => {
+      (spyBoxRepository.createBox as jest.Mock).mockReturnValue(null);
       const result = await spyBoxService.create(createBoxDto);
 
       expect(spyBoxRepository.createBox).toBeCalled();
@@ -106,6 +72,9 @@ describe('BoxService', () => {
     const user_id = 1;
 
     it('박스 찾기 성공', async () => {
+      (spyBoxRepository.findAllBoxByUserId as jest.Mock).mockReturnValue({
+        box: 1,
+      });
       const result = await spyBoxService.findAll(user_id);
 
       expect(spyBoxRepository.findAllBoxByUserId).toBeCalled();
@@ -114,7 +83,7 @@ describe('BoxService', () => {
     });
 
     it('박스 찾기 실패', async () => {
-      const user_id = 2;
+      const user_id = null;
       try {
         const result = await spyBoxService.findAll(user_id);
       } catch (error) {
@@ -134,42 +103,119 @@ describe('BoxService', () => {
     };
 
     it('박스 업데이트 성공', async () => {
+      // Method Mocking
+      (spyBoxRepository.updateBox as jest.Mock).mockReturnValue(true);
+      (spyBoxRepository.deleteImg as jest.Mock).mockReturnValue(null);
+
+      // Excute
       const result = await spyBoxService.update(body);
 
+      // Expect
       expect(spyBoxRepository.updateBox).toBeCalledWith(body);
       expect(spyBoxRepository.deleteImg).toBeCalledWith(body);
       expect(result).toEqual({ status: 200, success: true });
     });
 
-    it('박스 업데이트 실패', async () => {
-      body.boxName = null;
+    it('박스 업데이트 실패(updatedBox 없는 경우)', async () => {
+      // Method Mocking
+      (spyBoxRepository.updateBox as jest.Mock).mockReturnValue(null);
+
+      // Excute
+      const result = await spyBoxService.update(body);
+
+      // Expect
+      expect(spyBoxRepository.updateBox).toBeCalledWith(body);
+      expect(result).toEqual({ status: 422, success: false });
+    });
+
+    it('박스 업데이트 실패(repository.updateBox에서 에러)', async () => {
+      // Method Mocking
+      (spyBoxRepository.updateBox as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
       try {
+        // Expect
         const result = await spyBoxService.update(body);
       } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
-        expect(error).toBeInstanceOf({ status: 422, success: false });
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+      }
+    });
+
+    it('박스 업데이트 실패(repository.deleteImg에서 에러)', async () => {
+      // Method Mocking
+      (spyBoxRepository.updateBox as jest.Mock).mockReturnValue(true);
+      (spyBoxRepository.deleteImg as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+      try {
+        // Expect
+        const result = await spyBoxService.update(body);
+      } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(InternalServerErrorException);
       }
     });
   });
 
   describe('delete', () => {
     const body = { boxId: 1, deleteImg: 'delete_img' };
-
     it('박스 삭제 성공', async () => {
+      // Method Mocking
+      (spyBoxRepository.deleteBox as jest.Mock).mockReturnValue(true);
+      (spyBoxRepository.deleteImg as jest.Mock).mockReturnValue(null);
+
+      // Excute
       const result = await spyBoxService.remove(body);
 
+      // Expect
       expect(spyBoxRepository.deleteBox).toBeCalledWith(body);
       expect(spyBoxRepository.deleteImg).toBeCalledWith(body);
       expect(result).toEqual({ status: 200, success: true });
     });
 
-    it('박스 삭제 실패', async () => {
-      body.boxId = null;
+    it('박스 삭제 실패(deletedBox 없는 경우)', async () => {
+      // Method Mocking
+      (spyBoxRepository.deleteBox as jest.Mock).mockReturnValue(null);
+
+      // Excute
+      const result = await spyBoxService.remove(body);
+
+      // Expect
+      expect(spyBoxRepository.deleteBox).toBeCalledWith(body);
+      expect(result).toEqual({ status: 422, success: false });
+    });
+
+    it('박스 업데이트 실패(repository.deleteBox에서 에러)', async () => {
+      // Method Mocking
+      (spyBoxRepository.deleteBox as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
       try {
+        // Expect
         const result = await spyBoxService.remove(body);
       } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
-        expect(error).toBeInstanceOf({ status: 422, success: false });
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+      }
+    });
+
+    it('박스 업데이트 실패(repository.deleteImg에서 에러)', async () => {
+      // Method Mocking
+      (spyBoxRepository.deleteBox as jest.Mock).mockReturnValue(true);
+      (spyBoxRepository.deleteImg as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+      try {
+        // Expect
+        const result = await spyBoxService.remove(body);
+      } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(InternalServerErrorException);
       }
     });
   });
