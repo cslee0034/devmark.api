@@ -37,6 +37,7 @@ describe('FeedController', () => {
 
   describe('create_feed', () => {
     it('피드 컨트롤러 통과', async () => {
+      // Method Mocking
       const ReqWithUserId: ReqWithUserId = {
         FeedName: 'test_feed',
         FeedContent: 'test_content',
@@ -44,8 +45,11 @@ describe('FeedController', () => {
         URL: '',
         user_id: '1',
       };
+
+      // Excute
       const response = await controller.create_feed(ReqWithUserId);
 
+      // Expect
       expect(spyFeedService.create).toBeCalled();
       expect(spyFeedService.create).toBeCalledWith(ReqWithUserId);
       expect(response).toEqual({ status: 201, success: true });
@@ -54,8 +58,10 @@ describe('FeedController', () => {
     it('피드 컨트롤러 통과 실패', async () => {
       const ReqWithUserId: ReqWithUserId = null;
       try {
+        // Excute
         const response = await controller.create_feed(ReqWithUserId);
       } catch (error) {
+        // Expect
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf(InternalServerErrorException);
       }
