@@ -18,7 +18,9 @@ export class FeedController {
 
   @UseGuards(JwtAuthGuard)
   @Post('')
-  create_feed(@ReqWithUserId() body) {
+  create_feed(
+    @ReqWithUserId() body,
+  ): Promise<{ status: number; success: boolean }> {
     return this.feedService.create(body);
   }
 
