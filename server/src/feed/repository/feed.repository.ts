@@ -12,10 +12,11 @@ export class FeedRepository {
 
   async createFeed(feed) {
     try {
+      const image = feed.img ? feed.img.url : '';
       const feed_order = {
         ...feed,
-        user: { id: Number(feed.user_id) },
-        img: feed.img.url,
+        user: { id: parseInt(feed.user_id) },
+        img: image,
         // box property 뿐 아니라 user property로 포함한다.
       };
       const result = await this.feedRepository.save(feed_order);

@@ -87,12 +87,12 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Feed Axios Post /api/memo */
   const createFeed = async (e: any) => {
     try {
-      await axios
-        .post<Post>("/api/feed", {
-          URL: e.target[0].value, // URL
-          FeedName: e.target[1].value,
-          FeedContent: e.target[2].value,
-        })
+      await axios.post<Post>("/api/feed", {
+        URL: e.target[0].value, // URL
+        FeedName: e.target[1].value,
+        FeedContent: e.target[2].value,
+        img: null,
+      });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
