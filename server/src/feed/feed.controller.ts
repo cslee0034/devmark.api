@@ -10,6 +10,7 @@ import {
 import { FeedService } from './feed.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
+import { FeedEntity } from './entities/feed.entity';
 
 @Controller('api/feed')
 export class FeedController {
@@ -25,7 +26,7 @@ export class FeedController {
 
   // @UseGuards(JwtAuthGuard)
   @Get('')
-  find_feed(@Query('id') id, @Query('search') search) {
+  find_feed(@Query('id') id, @Query('search') search): Promise<FeedEntity[]> {
     const query = { id, search };
     return this.feedService.findPage(query);
   }
