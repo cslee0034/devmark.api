@@ -47,7 +47,8 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
         done(null, { ...user, access_token });
       } else {
-        const payload = user;
+        const { id, email, nick, provider, snsId } = user;
+        const payload = { id, email, nick, provider, snsId };
 
         const access_token = this.jwtService.sign(payload, {
           secret: process.env.JWT_SECRET,
