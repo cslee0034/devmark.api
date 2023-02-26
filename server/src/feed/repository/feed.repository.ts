@@ -4,7 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { boolean } from 'joi';
 import { Like, Repository } from 'typeorm';
+import { CreateFeedDto } from '../dto/create-feed.dto';
 import { FeedEntity } from '../entities/feed.entity';
 
 @Injectable()
@@ -14,9 +16,11 @@ export class FeedRepository {
     private readonly feedRepository: Repository<FeedEntity>,
   ) {}
 
-  async createFeed(feed) {
+  async createFeed(feed: CreateFeedDto) {
     try {
-      const image = feed.img ? feed.img.url : '';
+      const image = feed.img
+        ? feed.img.url
+        : 'https://raw.githubusercontent.com/ChangSuLee00/CS-study/main/pictures/default.png';
       const feed_order = {
         ...feed,
         user: { id: parseInt(feed.user_id) },
@@ -30,7 +34,7 @@ export class FeedRepository {
     }
   }
 
-  async pagenateFeed(query) {
+  async pagenateFeed(query: { id: number; search: string | boolean }) {
     const page = 4;
     if (
       query.search == 'null' ||
@@ -49,13 +53,15 @@ export class FeedRepository {
           ],
           take: page * query.id,
           skip: page * query.id,
+          order: { id: 'DESC' },
           relations: ['user'],
         });
         return result;
-      } else if (query.id) {
+      } else {
         const result = await this.feedRepository.find({
           take: page * query.id,
           skip: page * query.id,
+          order: { id: 'DESC' },
           relations: ['user'],
         });
         return result;
@@ -65,7 +71,7 @@ export class FeedRepository {
     }
   }
 
-  async deleteFeed(id) {
+  async deleteFeed(id: number) {
     try {
       const result = await this.feedRepository.delete({ id });
     } catch (error) {

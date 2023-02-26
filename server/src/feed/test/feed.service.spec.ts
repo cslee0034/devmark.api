@@ -1,5 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { CreateFeedDto } from '../dto/create-feed.dto';
 import { FeedService } from '../feed.service';
 import { FeedRepository } from '../repository/feed.repository';
 
@@ -18,7 +19,7 @@ interface ReqWithUserId {
 }
 
 interface query {
-  id: string;
+  id: number;
   search: string;
 }
 
@@ -46,7 +47,7 @@ describe('FeedService', () => {
   });
 
   describe('createFeed', () => {
-    const ReqWithUserId: ReqWithUserId = {
+    const CreateFeedDto: CreateFeedDto = {
       FeedName: 'test_feed',
       FeedContent: 'test_content',
       img: '',
@@ -59,11 +60,11 @@ describe('FeedService', () => {
       (spyFeedRepository.createFeed as jest.Mock).mockReturnValue(null);
 
       // Excute
-      const result = await spyFeedService.create(ReqWithUserId);
+      const result = await spyFeedService.create(CreateFeedDto);
 
       // Expect
       expect(spyFeedRepository.createFeed).toBeCalled();
-      expect(spyFeedRepository.createFeed).toBeCalledWith(ReqWithUserId);
+      expect(spyFeedRepository.createFeed).toBeCalledWith(CreateFeedDto);
       expect(result).toEqual({ status: 201, success: true });
     });
 
@@ -74,7 +75,7 @@ describe('FeedService', () => {
       );
       try {
         // Excute
-        const result = await spyFeedService.create(ReqWithUserId);
+        const result = await spyFeedService.create(CreateFeedDto);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
@@ -84,7 +85,7 @@ describe('FeedService', () => {
   });
 
   describe('findPage', () => {
-    const query: query = { id: '1', search: 'search' };
+    const query: query = { id: 1, search: 'search' };
     it('피드 찾기 성공', async () => {
       // Method Mocking
       (spyFeedRepository.pagenateFeed as jest.Mock).mockReturnValue({
@@ -107,7 +108,7 @@ describe('FeedService', () => {
       );
       try {
         // Excute
-        const result = await spyFeedService.create(query);
+        const result = await spyFeedService.findPage(query);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
@@ -140,7 +141,7 @@ describe('FeedService', () => {
       );
       try {
         // Excute
-        const result = await spyFeedService.create(+body.id);
+        const result = await spyFeedService.remove(+body.id);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
