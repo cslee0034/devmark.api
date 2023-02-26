@@ -78,7 +78,7 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
     createFeed(e);
 
     /* Reload */
-    window.location.replace(`/feeds`);
+    window.location.replace(`/feeds?id=0`);
   };
 
   //--------------------------------------------------------
