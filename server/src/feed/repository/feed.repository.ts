@@ -32,10 +32,21 @@ export class FeedRepository {
 
   async pagenateFeed(query) {
     const page = 4;
+    console.log(query);
+    if (
+      query.search == 'null' ||
+      query.search == 'undefined' ||
+      query.search == 'false'
+    ) {
+      query.search = false;
+    }
     try {
       if (query.search) {
         const result = await this.feedRepository.find({
-          where: { FeedContent: Like(`%${query.search}%`) },
+          where: [
+            { FeedContent: Like(`%${query.search}%`) },
+            { FeedName: Like(`%${query.search}%`) },
+          ],
           take: page * query.id,
           skip: page * query.id,
         });
