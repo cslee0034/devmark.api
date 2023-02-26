@@ -48,6 +48,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
     deleteFeed(e);
     /* Reload */
     window.location.replace("/feeds?id=0");
+    window.location.reload();
   };
 
   const handleZeroId = () => {
