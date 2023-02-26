@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ModalContext, UserContext } from "../../App";
 import Header from "../common/Header";
 
@@ -25,6 +25,9 @@ interface P {}
 const FeedView: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = Number(searchParams.get("id"));
+  const search = searchParams.get("search");
 
   const { loginContent } = useContext(UserContext);
   const { setModalContent } = useContext(ModalContext);
@@ -47,32 +50,40 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
     window.location.replace("/feeds");
   };
 
+  const handleZeroId = () => {
+    if (id === 1) {
+      return;
+    }
+  };
+
   //--------------------------------------------------------
   // Axios Request
 
   /* <Axios Request> - Feed Axios Get /api/feed */
   const getFeed = async () => {
     try {
-      await axios.get<Get>("/api/feed").then((res) => {
-        const newFeed: Array<string[]> = [];
-        for (let i = 0; i < res.data.length; i++) {
-          const feedName: string = res.data[i].FeedName;
-          const feedContent: string = res.data[i].FeedContent;
-          const feedUrl: string = res.data[i].URL;
-          const feedImg: string = res.data[i].img;
-          const feedId: string = res.data[i].id;
-          const feedUserId: string = res.data[i].UserId;
-          newFeed.push([
-            feedName,
-            feedContent,
-            feedUrl,
-            feedImg,
-            feedId,
-            feedUserId,
-          ]);
-          setFeeds(newFeed);
-        }
-      });
+      await axios
+        .get<Get>(`/api/feed?id=${id}&search=${search}`)
+        .then((res) => {
+          const newFeed: Array<string[]> = [];
+          for (let i = 0; i < res.data.length; i++) {
+            const feedName: string = res.data[i].FeedName;
+            const feedContent: string = res.data[i].FeedContent;
+            const feedUrl: string = res.data[i].URL;
+            const feedImg: string = res.data[i].img;
+            const feedId: string = res.data[i].id;
+            const feedUserId: string = res.data[i].UserId;
+            newFeed.push([
+              feedName,
+              feedContent,
+              feedUrl,
+              feedImg,
+              feedId,
+              feedUserId,
+            ]);
+            setFeeds(newFeed);
+          }
+        });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -184,6 +195,41 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
           ))}
         </>
       ) : null}
+      <nav aria-label="Page_navigation">
+        <ul className="pagination">
+          <li className="page-item">
+            {id === 0 ? (
+              <a
+                href={`/feeds?id=${id}&search=${search}`}
+                className="page-link"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            ) : (
+              <a
+                href={`/feeds?id=${id - 1}&search=${search}`}
+                className="page-link"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            )}
+          </li>
+          <li className="page-item">
+            <div className="page-link">&nbsp; &nbsp;</div>
+          </li>
+          <li>
+            <a
+              href={`/feeds?id=${id + 1}&search=${search}`}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 };
