@@ -64,4 +64,12 @@ export class FeedRepository {
       throw new NotFoundException('error while find paging Feed');
     }
   }
+
+  async deleteFeed(id) {
+    try {
+      const result = await this.feedRepository.delete({ id });
+    } catch (error) {
+      throw new InternalServerErrorException('error while deleting Feed');
+    }
+  }
 }

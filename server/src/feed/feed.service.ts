@@ -24,7 +24,8 @@ export class FeedService {
     return `This action updates a #${id} feed`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} feed`;
+  async remove(id: number) {
+    const deleteFeed = await this.feedRepository.deleteFeed(id);
+    return { status: 201, success: true };
   }
 }

@@ -24,15 +24,16 @@ export class FeedController {
     return this.feedService.create(body);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('')
   find_feed(@Query('id') id, @Query('search') search): Promise<FeedEntity[]> {
     const query = { id, search };
     return this.feedService.findPage(query);
   }
 
-  @Delete(':id')
-  remove_feed(@Param('id') id: string) {
-    return this.feedService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Delete('')
+  remove_feed(@ReqWithUserId() body) {
+    return this.feedService.remove(+body.id);
   }
 }
