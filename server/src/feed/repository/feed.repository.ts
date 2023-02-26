@@ -42,18 +42,21 @@ export class FeedRepository {
     try {
       if (query.search) {
         const result = await this.feedRepository.find({
+          select: ['FeedName', 'FeedContent', 'URL', 'img', 'id'],
           where: [
             { FeedContent: Like(`%${query.search}%`) },
             { FeedName: Like(`%${query.search}%`) },
           ],
           take: page * query.id,
           skip: page * query.id,
+          relations: ['user'],
         });
         return result;
       } else if (query.id) {
         const result = await this.feedRepository.find({
           take: page * query.id,
           skip: page * query.id,
+          relations: ['user'],
         });
         return result;
       }

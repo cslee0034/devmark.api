@@ -72,7 +72,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
             const feedUrl: string = res.data[i].URL;
             const feedImg: string = res.data[i].img;
             const feedId: string = res.data[i].id;
-            const feedUserId: string = res.data[i].UserId;
+            const feedUserId: string = res.data[i].user.id;
             newFeed.push([
               feedName,
               feedContent,
