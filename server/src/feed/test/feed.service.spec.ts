@@ -6,6 +6,7 @@ import { FeedRepository } from '../repository/feed.repository';
 const mockFeedRepository = () => ({
   createFeed: jest.fn(),
   pagenateFeed: jest.fn(),
+  deleteFeed: jest.fn(),
 });
 
 interface ReqWithUserId {
@@ -19,6 +20,10 @@ interface ReqWithUserId {
 interface query {
   id: string;
   search: string;
+}
+
+interface body {
+  id: string;
 }
 
 describe('FeedService', () => {
@@ -103,6 +108,39 @@ describe('FeedService', () => {
       try {
         // Excute
         const result = await spyFeedService.create(query);
+      } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+      }
+    });
+  });
+
+  describe('deleteFeed', () => {
+    const body: body = { id: '1' };
+    it('피드 삭제 성공', async () => {
+      // Method Mocking
+      (spyFeedRepository.deleteFeed as jest.Mock).mockReturnValue({
+        Feed: 1,
+      });
+
+      // Excute
+      const result = await spyFeedService.remove(+body.id);
+
+      // Expect
+      expect(spyFeedRepository.deleteFeed).toBeCalled();
+      expect(spyFeedRepository.deleteFeed).toBeCalledWith(+body.id);
+      expect(result).toEqual({ status: 201, success: true });
+    });
+
+    it('피드 삭제 실패', async () => {
+      // Method Mocking
+      (spyFeedRepository.deleteFeed as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+      try {
+        // Excute
+        const result = await spyFeedService.create(+body.id);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;

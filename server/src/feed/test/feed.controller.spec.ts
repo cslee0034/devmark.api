@@ -18,6 +18,14 @@ const mockFeedService = () => ({
       throw new InternalServerErrorException();
     }
   }),
+
+  remove: jest.fn((id) => {
+    if (id) {
+      return { status: 200, success: true };
+    } else {
+      throw new InternalServerErrorException();
+    }
+  }),
 });
 
 interface ReqWithUserId {
@@ -31,6 +39,10 @@ interface ReqWithUserId {
 interface query {
   id: string;
   search: string;
+}
+
+interface body {
+  id: string;
 }
 
 describe('FeedController', () => {
@@ -97,6 +109,32 @@ describe('FeedController', () => {
       try {
         // Excute
         const response = await controller.find_feed(query.id, query.search);
+      } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+      }
+    });
+  });
+
+  describe('delete_feed', () => {
+    it('피드 삭제 컨트롤러 통과', async () => {
+      const body: body = { id: '1' };
+
+      // Excute
+      const response = await controller.remove_feed(body);
+
+      // Expect
+      expect(spyFeedService.remove).toBeCalled();
+      expect(spyFeedService.remove).toBeCalledWith(+body.id);
+      expect(response).toEqual({ status: 200, success: true });
+    });
+
+    it('피드 삭제 컨트롤러 통과 실패', async () => {
+      const body: body = { id: null };
+      try {
+        // Excute
+        const response = await controller.remove_feed(body);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
