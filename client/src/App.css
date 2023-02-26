@@ -639,6 +639,14 @@
   text-decoration-line: none;
 }
 
+.pagination{
+  position: relative; 
+  left: 50%;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 /* Back to top */
 
 .back-to-top {
