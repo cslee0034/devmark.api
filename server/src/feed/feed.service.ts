@@ -11,8 +11,9 @@ export class FeedService {
     return { status: 201, success: true };
   }
 
-  findAll() {
-    return `This action returns all feed`;
+  async findPage(query) {
+    const pagenatedFeeds = await this.feedRepository.pagenateFeed(query);
+    return pagenatedFeeds;
   }
 
   findOne(id: number) {

@@ -2,11 +2,10 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FeedService } from './feed.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
@@ -24,9 +23,11 @@ export class FeedController {
     return this.feedService.create(body);
   }
 
+  // @UseGuards(JwtAuthGuard)
   @Get('')
-  find_feed() {
-    return this.feedService.findAll();
+  find_feed(@Query('id') id, @Query('search') search) {
+    const query = { id, search };
+    return this.feedService.findPage(query);
   }
 
   @Delete(':id')

@@ -1,6 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { FeedEntity } from '../entities/feed.entity';
 
 @Injectable()
@@ -23,6 +27,28 @@ export class FeedRepository {
     } catch (error) {
       throw new InternalServerErrorException('error while saving Feed');
       // 내부 서버 에러 500}
+    }
+  }
+
+  async pagenateFeed(query) {
+    const page = 4;
+    try {
+      if (query.search) {
+        const result = await this.feedRepository.find({
+          where: { FeedContent: Like(`%${query.search}%`) },
+          take: page * query.id,
+          skip: page * query.id,
+        });
+        return result;
+      } else if (query.id) {
+        const result = await this.feedRepository.find({
+          take: page * query.id,
+          skip: page * query.id,
+        });
+        return result;
+      }
+    } catch (error) {
+      throw new NotFoundException('error while find paging Feed');
     }
   }
 }
