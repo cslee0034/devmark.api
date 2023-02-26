@@ -5,6 +5,7 @@ import { FeedRepository } from '../repository/feed.repository';
 
 const mockFeedRepository = () => ({
   createFeed: jest.fn(),
+  pagenateFeed: jest.fn(),
 });
 
 interface ReqWithUserId {
@@ -13,6 +14,11 @@ interface ReqWithUserId {
   img?: string;
   URL?: string;
   user_id?: string;
+}
+
+interface query {
+  id: string;
+  search: string;
 }
 
 describe('FeedService', () => {
@@ -64,6 +70,39 @@ describe('FeedService', () => {
       try {
         // Excute
         const result = await spyFeedService.create(ReqWithUserId);
+      } catch (error) {
+        // Expect
+        expect(error).toBeTruthy;
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+      }
+    });
+  });
+
+  describe('findPage', () => {
+    const query: query = { id: '1', search: 'search' };
+    it('피드 찾기 성공', async () => {
+      // Method Mocking
+      (spyFeedRepository.pagenateFeed as jest.Mock).mockReturnValue({
+        Feed: 1,
+      });
+
+      // Excute
+      const result = await spyFeedService.findPage(query);
+
+      // Expect
+      expect(spyFeedRepository.pagenateFeed).toBeCalled();
+      expect(spyFeedRepository.pagenateFeed).toBeCalledWith(query);
+      expect(result).toEqual({ Feed: 1 });
+    });
+
+    it('피드 찾기 실패', async () => {
+      // Method Mocking
+      (spyFeedRepository.pagenateFeed as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+      try {
+        // Excute
+        const result = await spyFeedService.create(query);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;

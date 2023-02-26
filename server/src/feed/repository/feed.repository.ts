@@ -32,7 +32,6 @@ export class FeedRepository {
 
   async pagenateFeed(query) {
     const page = 4;
-    console.log(query);
     if (
       query.search == 'null' ||
       query.search == 'undefined' ||
