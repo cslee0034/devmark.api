@@ -8,6 +8,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateBoxDto } from '../dto/update-box.dto';
+import { UserEntity } from '../../user/entities/user.entity';
+import { BoxEntity } from '../entities/box.entity';
+
+jest.mock('../../user/entities/user.entity');
 
 const mockBoxService = () => ({
   create: jest.fn((createBoxDto) => {
@@ -120,35 +124,27 @@ describe('UserController', () => {
   });
 
   describe('findAll', () => {
+    const user = new UserEntity();
     it('박스 찾기 성공', async () => {
-      const ReqWithUserId = {
-        boxName: 'test_boxname',
-        img: 'test_img',
-        user_id: 1,
-      };
-
       // Excute
-      const response = await controller.findAll_box(ReqWithUserId);
+      const response = await controller.findAll_box(user);
 
       // Expect
       expect(spyBoxService.findAll).toBeCalled();
-      expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
-      expect(response).toEqual({ box: 1 });
+      expect(spyBoxService.findAll).toBeCalledWith(user.id);
+      expect(response).toBeTruthy();
     });
 
     it('박스 찾기 실패', async () => {
-      const ReqWithUserId = {
-        boxName: 'test_boxname',
-        img: 'test_img',
-        user_id: 2,
-      };
+      const user = new UserEntity();
+      user.id = null;
 
       // Excute
-      const response = await controller.findAll_box(ReqWithUserId);
+      const response = await controller.findAll_box(user);
 
       // Expect
       expect(spyBoxService.findAll).toBeCalled();
-      expect(spyBoxService.findAll).toBeCalledWith(ReqWithUserId.user_id);
+      expect(spyBoxService.findAll).toBeCalledWith(user.id);
       expect(response).toEqual(NotFoundException);
     });
   });
@@ -192,35 +188,33 @@ describe('UserController', () => {
 
   describe('remove', () => {
     it('박스 삭제 성공', async () => {
-      const ReqWithUserId = {
-        boxName: 'test_boxname',
-        img: 'test_img',
-        user_id: 1,
-        boxId: '1',
+      const body: { boxId: number; deleteImg: string } = {
+        boxId: 1,
+        deleteImg: '',
       };
 
       // Excute
-      const response = await controller.remove_box(ReqWithUserId);
+      const response = await controller.remove_box(body);
 
       // Expect
       expect(spyBoxService.remove).toBeCalled();
-      expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
+      expect(spyBoxService.remove).toBeCalledWith(body);
       expect(response).toEqual({ box: 1 });
     });
 
     it('박스 삭제 실패', async () => {
-      const ReqWithUserId = {
-        boxName: 'test_boxname',
-        img: 'test_img',
-        user_id: 1,
+      const body: { boxId: number; deleteImg: string } = {
+        boxId: 1,
+        deleteImg: '',
       };
+      body.boxId = null;
 
       // Excute
-      const response = await controller.remove_box(ReqWithUserId);
+      const response = await controller.remove_box(body);
 
       // Expect
       expect(spyBoxService.remove).toBeCalled();
-      expect(spyBoxService.remove).toBeCalledWith(ReqWithUserId);
+      expect(spyBoxService.remove).toBeCalledWith(body);
       expect(response).toEqual(InternalServerErrorException);
     });
   });

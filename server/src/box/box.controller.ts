@@ -7,12 +7,16 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadedFile } from '@nestjs/common/decorators';
+import { Body, UploadedFile } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { multerOptions } from 'src/common/utils/multer.options';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { BoxService } from './box.service';
+import { CreateBoxDto } from './dto/create-box.dto';
+import { UpdateBoxDto } from './dto/update-box.dto';
 import { BoxEntity } from './entities/box.entity';
 
 @Controller('api/box')
@@ -29,22 +33,22 @@ export class BoxController {
   @UseGuards(JwtAuthGuard)
   @Post('')
   async create_box(
-    @ReqWithUserId() body,
+    @ReqWithUserId() body: CreateBoxDto,
   ): Promise<{ status: number; success: boolean }> {
     return this.boxService.create(body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll_box(@ReqWithUserId() body): Promise<BoxEntity> {
-    const user_id = body.user_id;
+  findAll_box(@CurrentUser() user: UserEntity): Promise<BoxEntity> {
+    const user_id = user.id;
     return this.boxService.findAll(user_id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('')
   update_box(
-    @ReqWithUserId() body,
+    @ReqWithUserId() body: UpdateBoxDto,
   ): Promise<{ status: number; success: boolean }> {
     return this.boxService.update(body);
   }
@@ -52,7 +56,7 @@ export class BoxController {
   @UseGuards(JwtAuthGuard)
   @Delete('')
   remove_box(
-    @ReqWithUserId() body,
+    @Body() body: { boxId: number; deleteImg: string },
   ): Promise<{ status: number; success: boolean }> {
     return this.boxService.remove(body);
   }

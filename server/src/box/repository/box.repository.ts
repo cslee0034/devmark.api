@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { CreateBoxDto } from '../dto/create-box.dto';
 import { BoxEntity } from '../entities/box.entity';
 import * as fs from 'fs';
+import { UpdateBoxDto } from '../dto/update-box.dto';
 
 @Injectable()
 export class BoxRepository {
@@ -47,7 +48,7 @@ export class BoxRepository {
     }
   }
 
-  async updateBox(body): Promise<any> {
+  async updateBox(body: UpdateBoxDto): Promise<any> {
     try {
       const { boxId, boxName, img } = body;
       const result = await this.boxRepository.update(boxId, { boxName, img });
@@ -58,7 +59,7 @@ export class BoxRepository {
     }
   }
 
-  async deleteImg(body) {
+  async deleteImg(body: any) {
     try {
       let url = body.deleteImg;
       url = url.replace('http://localhost:5000/img/', './uploads/');
@@ -69,7 +70,7 @@ export class BoxRepository {
     }
   }
 
-  async deleteBox(body) {
+  async deleteBox(body: { boxId: number; deleteImg: string }) {
     try {
       const result = await this.boxRepository.delete({ id: body.boxId });
       return result;
