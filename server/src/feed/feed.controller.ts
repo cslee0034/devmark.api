@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Param,
   Delete,
   UseGuards,
   Query,

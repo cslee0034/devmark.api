@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateFeedDto } from './dto/update-feed.dto';
 import { FeedRepository } from './repository/feed.repository';
 
 @Injectable()
@@ -14,14 +13,6 @@ export class FeedService {
   async findPage(query) {
     const pagenatedFeeds = await this.feedRepository.pagenateFeed(query);
     return pagenatedFeeds;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} feed`;
-  }
-
-  update(id: number, updateFeedDto: UpdateFeedDto) {
-    return `This action updates a #${id} feed`;
   }
 
   async remove(id: number) {
