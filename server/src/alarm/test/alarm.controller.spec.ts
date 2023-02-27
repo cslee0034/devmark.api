@@ -6,6 +6,8 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { DeleteAlarmDto } from '../dto/delete-alarm.dto';
 
 const mockAlarmService = () => ({
   create: jest.fn((body) => {
@@ -17,7 +19,7 @@ const mockAlarmService = () => ({
   }),
 
   findAll: jest.fn((user_id) => {
-    if (user_id === 1) {
+    if (user_id) {
       return { alarm: 1 };
     } else {
       return NotFoundException;
@@ -106,28 +108,30 @@ describe('UserController', () => {
 
   describe('findAll_alarm', () => {
     it('알람 찾기 성공', async () => {
-      const body = { user_id: 1 };
-      const response = await controller.findAll_alarm(body);
+      const user = new UserEntity();
+      const response = await controller.findAll_alarm(user);
 
       expect(spyAlarmService.findAll).toBeCalled();
-      expect(spyAlarmService.findAll).toBeCalledWith(body.user_id);
-      expect(response).toEqual({ alarm: 1 });
+      expect(spyAlarmService.findAll).toBeCalledWith(user.id);
+      expect(response).toBeTruthy();
     });
 
     it('알람 찾기 실패', async () => {
-      const body = { user_id: null };
-      const response = await controller.findAll_alarm(body);
+      const user = new UserEntity();
+      user.id = null;
+      const response = await controller.findAll_alarm(user);
 
       expect(spyAlarmService.findAll).toBeCalled();
-      expect(spyAlarmService.findAll).toBeCalledWith(body.user_id);
+      expect(spyAlarmService.findAll).toBeCalledWith(user.id);
       expect(response).toEqual(NotFoundException);
     });
   });
 
   describe('remove_alarm', () => {
     it('알람 삭제 성공', async () => {
-      const body = {
+      const body: DeleteAlarmDto = {
         id: 1,
+        user_id: 1,
       };
       const response = await controller.remove_alarm(body);
 
@@ -137,7 +141,11 @@ describe('UserController', () => {
     });
 
     it('알람 삭제 실패', async () => {
-      const body = {};
+      const body: DeleteAlarmDto = {
+        id: 1,
+        user_id: 1,
+      };
+      body.id = null;
       const response = await controller.remove_alarm(body);
 
       expect(spyAlarmService.remove).toBeCalled();

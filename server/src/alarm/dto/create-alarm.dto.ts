@@ -4,7 +4,7 @@ export class CreateAlarmDto {
   @IsString()
   alarmName: string;
   @IsDate()
-  date: Date;
+  time: Date;
   @IsNumber()
   user_id: number;
 }

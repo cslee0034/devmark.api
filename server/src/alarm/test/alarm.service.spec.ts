@@ -6,7 +6,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateAlarmDto } from '../dto/delete-alarm.dto';
+import { DeleteAlarmDto } from '../dto/delete-alarm.dto';
 
 const mockAlarmRepository = () => ({
   createAlarm: jest.fn((body) => {
@@ -55,19 +55,17 @@ describe('AlarmService', () => {
   });
 
   describe('create_alarm', () => {
-    const body: any = {
+    const body: CreateAlarmDto = {
       alarmName: 'test_alarm',
-      time: 'test_date',
+      time: new Date(),
+      user_id: 1,
     };
 
     it('새 알람 생성', async () => {
       const result = await spyAlarmService.create(body);
 
       expect(spyAlarmRepository.createAlarm).toBeCalled();
-      expect(spyAlarmRepository.createAlarm).toBeCalledWith({
-        alarmName: 'test_alarm',
-        time: 'test_date',
-      });
+      expect(spyAlarmRepository.createAlarm).toBeCalledWith(body);
       expect(result).toEqual({ status: 201, success: true });
     });
 
@@ -132,7 +130,7 @@ describe('AlarmService', () => {
   });
 
   describe('delete_alarm', () => {
-    const body = { id: 1 };
+    const body: DeleteAlarmDto = { id: 1, user_id: 1 };
 
     it('알람 삭제 성공', async () => {
       const result = await spyAlarmService.remove(body);
@@ -142,7 +140,8 @@ describe('AlarmService', () => {
     });
 
     it('알람 삭제 실패', async () => {
-      const body = { id: null };
+      const body: DeleteAlarmDto = { id: 1, user_id: 1 };
+      body.id = null;
       try {
         const result = await spyAlarmService.remove(body);
       } catch (error) {
