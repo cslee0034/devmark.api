@@ -7,4 +7,6 @@ import { Column, Entity } from 'typeorm';
 export class GptEntity extends CommonEntity {
   @Column({ type: 'varchar', nullable: true })
   techStack;
+  @Column({ type: 'varchar', nullable: true })
+  question;
 }
