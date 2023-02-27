@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
+import { ModalContext } from "../../App";
 import Header from "../common/Header";
 
 // Interfaces
-interface Get {
+interface Post {
   Error: any;
   box: string;
   img: string;
@@ -11,8 +12,7 @@ interface Get {
   i: number;
   [index: number]: any;
 
-  memoName: string;
-  memoContent: string;
+  result: string;
 }
 
 interface P {
@@ -24,6 +24,10 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
   const [techInput, setTechInput] = useState("");
+  const { setModalContent } = useContext(ModalContext);
+  const [viewQuestion, setViewQuestion] = useState("");
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -31,12 +35,39 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
   //   onSubmit Event
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(techInput);
+    generateQuestion();
   }
 
   //--------------------------------------------------------
   // Axios Request
 
+  const generateQuestion = async () => {
+    try {
+      await axios
+        .post<Post>("/api/gpt/question", {
+          techStack: techInput,
+        })
+        .then((res) => {
+          console.log(res);
+          setViewQuestion(res.data.result);
+        });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.message) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.message,
+          toggle: "view",
+        });
+      }
+    }
+  };
   //--------------------------------------------------------
   /* Fetching Data */
 
@@ -66,7 +97,7 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
               <input
                 className="form-control"
                 type="text"
-                placeholder={`What is the difference between null and undefined in JavaScript?`}
+                placeholder={viewQuestion}
                 aria-label="Disabled input example"
                 disabled
               ></input>

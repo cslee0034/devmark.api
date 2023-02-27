@@ -35,6 +35,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
   const { loginContent } = useContext(UserContext);
   const { setModalContent } = useContext(ModalContext);
   const [feeds, setFeeds] = useState<string[][]>([]);
+  
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
