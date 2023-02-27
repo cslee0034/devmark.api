@@ -1,4 +1,4 @@
-import { maxLength, MaxLength } from 'class-validator';
+import { MaxLength } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';

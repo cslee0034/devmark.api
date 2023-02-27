@@ -11,6 +11,7 @@ import { BoxModule } from './box/box.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { AlarmModule } from './alarm/alarm.module';
 import { FeedModule } from './feed/feed.module';
+import { GptModule } from './gpt/gpt.module';
 
 @Module({
   imports: [
@@ -37,9 +38,9 @@ import { FeedModule } from './feed/feed.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       // entities: ['src/**/*.entity{.ts,.js}'] load
-      // synchronize: true,
+      synchronize: true,
       // 변경사항 업데이트
-      // dropSchema: true,
+      dropSchema: true,
       // row 삭제
       // --> typeORM 오류로 인해 synchronize와 dropSchema는 동일하게 설정 해야 한다.
       // logging: true,
@@ -51,6 +52,7 @@ import { FeedModule } from './feed/feed.module';
     BookmarkModule,
     AlarmModule,
     FeedModule,
+    GptModule,
   ],
   controllers: [AppController],
   providers: [AppService],
