@@ -101,8 +101,11 @@ function generatePrompt(question, answer) {
     question[0].toUpperCase() + question.slice(1).toLowerCase();
   const capitalizedAnswer =
     answer[0].toUpperCase() + answer.slice(1).toLowerCase();
-  return `Question: ${capitalizedQuestion}.
-  Answer: ${capitalizedAnswer}
-  check if answer is right
-  in 50character`;
+  return `
+  Question: ${capitalizedQuestion}.
+  Answer: ${capitalizedAnswer}.
+  if Answer is right = Within 50 charactes, give me more information.
+  else if Answer is wrong = Within 50 characters, give me correct answer.
+  YOU MUST ANSWER WITHIN 50 CHARACTERS
+  `;
 }
