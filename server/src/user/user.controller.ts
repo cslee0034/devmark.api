@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Req,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,6 +16,8 @@ import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { UserEntity } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('api/user')
 export class UserController {
@@ -37,10 +40,16 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   // Guards에서 인증처리된 것을 req에 넘겨준다.
   @Get('info')
-  findOne(@CurrentUser() user) {
+  findOne(@CurrentUser() user: UserEntity) {
     // 커스텀 데코레이터
     return user;
     // user를 readonly로 넘겨준다.
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/')
+  patchUser(@CurrentUser() user: UserEntity, @Body() body: UpdateUserDto) {
+    return this.userService.update(user, body);
   }
 
   @Get('kakao')

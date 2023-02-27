@@ -1,8 +1,13 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from './repository/user.repository';
+import { UserEntity } from './entities/user.entity';
 // commonjs는 default import가 없음
 
 @Injectable()
@@ -27,16 +32,22 @@ export class UserService {
     return { status: 201, success: true };
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
+  async update(user: UserEntity, body: UpdateUserDto) {
+    const { nick, password } = body;
+    const userId = user.id.toString();
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    const exUser = await this.userRepository.findUserByIdWithoutPassword(
+      userId,
+    );
+    if (!exUser) {
+      throw new InternalServerErrorException('error while finding user');
+    }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    const hashPassword = await bcrypt.hash(password, 12);
+    body.password = hashPassword;
+
+    await this.userRepository.updateUser(user, body);
+    return;
   }
 
   remove(id: number) {

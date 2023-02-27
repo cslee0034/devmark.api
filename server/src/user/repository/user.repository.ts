@@ -71,4 +71,13 @@ export class UserRepository {
       // 내부 서버 에러 500
     }
   }
+
+  async updateUser(user, body) {
+    try {
+      return await this.userRepository.update(user.id, body);
+    } catch (error) {
+      throw new InternalServerErrorException('error while saving user');
+      // 내부 서버 에러 500
+    }
+  }
 }
