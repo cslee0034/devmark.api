@@ -1,8 +1,10 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosResponse } from "axios";
-import React, { FC, useContext, useEffect, useRef, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ModalContext, UserContext } from "../../App";
 import Header from "../common/Header";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 // Interfaces
 interface Get {
@@ -28,6 +30,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const id = Number(searchParams.get("id"));
   const search = searchParams.get("search");
+  const [writeSearch, setWriteSearch] = useState("");
 
   const { loginContent } = useContext(UserContext);
   const { setModalContent } = useContext(ModalContext);
@@ -49,12 +52,6 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
     /* Reload */
     window.location.replace("/feeds?id=0");
     window.location.reload();
-  };
-
-  const handleZeroId = () => {
-    if (id === 1) {
-      return;
-    }
   };
 
   //--------------------------------------------------------
@@ -153,9 +150,29 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
       <div className="edit-feed-container">
         <Link to="/feeds/newfeed">
           <button type="button" className="btn btn-secondary feed-edit">
-            Edit Feed
+            Edit
           </button>
         </Link>
+
+        <div className="feed-input-group">
+          <input
+            type="search"
+            className="form-control rounded feed-search-form"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            value={writeSearch}
+            onChange={(e) => setWriteSearch(e.target.value)}
+          />
+          <button
+            type="button"
+            className="btn btn-outline-primary feed-search-btn"
+          >
+            <a href={`/feeds?id=${id}&search=${writeSearch}`}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </a>
+          </button>
+        </div>
       </div>
 
       {/* Cards */}
@@ -203,7 +220,6 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
               <a
                 href={`/feeds?id=${id}&search=${search}`}
                 className="page-link"
-                aria-label="Previous"
               >
                 <span aria-hidden="true">&laquo;</span>
               </a>
@@ -213,7 +229,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
                 className="page-link"
                 aria-label="Previous"
               >
-                <span aria-hidden="true">&laquo;</span>
+                <span>&laquo;</span>
               </a>
             )}
           </li>
@@ -224,9 +240,8 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
             <a
               href={`/feeds?id=${id + 1}&search=${search}`}
               className="page-link"
-              aria-label="Next"
             >
-              <span aria-hidden="true">&raquo;</span>
+              <span>&raquo;</span>
             </a>
           </li>
         </ul>

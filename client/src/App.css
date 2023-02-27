@@ -6,6 +6,7 @@
   width: 100%;
   height: 100%;
   display: flex;
+  overflow-x: hidden;
 }
 
 /* Sidebar */
@@ -613,11 +614,21 @@
 .edit-feed-container {
   width: 100%;
   display: flex;
-  justify-content: left;
+  /* justify-content: space-between; */
+}
+
+.feed-input-group {
+  display: flex;
+  margin-right: 25px;
+}
+
+.feed-search-form {
+  margin-bottom: 0px;
 }
 
 .feed-edit {
   margin-left: 25px;
+  margin-right: 10px;
 }
 
 .feed-row {
@@ -639,8 +650,8 @@
   text-decoration-line: none;
 }
 
-.pagination{
-  position: relative; 
+.pagination {
+  position: relative;
   left: 50%;
 
   margin-top: 2rem;
