@@ -90,7 +90,7 @@ const Login = (): JSX.Element => {
           const Provider = String(res.data.provider);
           window.localStorage.setItem("userId", UserId);
           window.localStorage.setItem("userNick", UserNick);
-          window.localStorage.setItem("privider", Provider);
+          window.localStorage.setItem("provider", Provider);
           window.localStorage.setItem("token", tokenRef.current);
 
           window.location.replace("/");

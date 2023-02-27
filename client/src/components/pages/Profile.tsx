@@ -33,8 +33,8 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   // Check Local Login
-  const localUserLoggedin =
-    localStorage.getItem("local") || sessionStorage.getItem("local");
+  const localUserLoggedin = localStorage.getItem("provider") === "local";
+  console.log(loginContent);
 
   //--------------------------------------------------------
   // Event Handler
@@ -88,6 +88,8 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
     updateUser(e);
 
     window.location.replace("/");
+
+    alert("please login again");
   };
 
   /* <Event Handler> - Delete User */
@@ -112,15 +114,12 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
           password: e.target.Password.value,
         })
         .then((res) => {
-          window.sessionStorage.clear();
-          window.sessionStorage.setItem("userId", loginContent.userId);
-          window.sessionStorage.setItem("userNick", e.target.Nickname.value);
-          window.sessionStorage.setItem("local", "true");
+          window.localStorage.clear();
 
           setLoginContent({
             loggedIn: false,
-            userId: loginContent.userId,
-            userNick: e.target.Nickname.value,
+            userId: "",
+            userNick: "",
           });
         });
     } catch (error: any) {
@@ -146,7 +145,6 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
     try {
       await axios.delete<Delete>("/api/user").then((res) => {
         // logout
-        window.sessionStorage.clear();
         window.localStorage.clear();
 
         setLoginContent({
@@ -218,7 +216,7 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
                 placeholder="Nickname"
               />
               {/* Login Button */}
-              <button type="submit" className="login-button mt-2 mb-4">
+              <button type="submit" className="login-button mt-2 mb-2">
                 Modify
               </button>
             </form>
@@ -276,7 +274,7 @@ const ProfilePage: FC<P> = (props: P): JSX.Element => {
                 disabled
               />
               {/* Login Button */}
-              <button type="submit" className="login-button mt-2 mb-4">
+              <button type="submit" className="login-button mt-2 mb-2">
                 Oauth User Cannot Modify
               </button>
             </form>
