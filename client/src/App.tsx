@@ -19,6 +19,7 @@ import DeleteModal from "./utils/modal/delete_modal";
 import FeedPage from "./views/FeedPage";
 import AlertModal from "./utils/modal/alert_modal";
 import ProfilePage from "./views/ProfilePage";
+import GptPage from "./views/GptPage";
 
 // Contexts
 
@@ -226,6 +227,7 @@ const App = (): JSX.Element => {
                         <Route path="/redirect" element={<RedirectPage />} />
                         <Route path="/feeds" element={<FeedPage />} />
                         <Route path="/feeds/:feed_id" element={<FeedPage />} />
+                        <Route path="/gpts" element={<GptPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                       </Routes>
                     </div>

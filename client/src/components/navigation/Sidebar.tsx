@@ -5,6 +5,7 @@ import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 
 const Slidebar = (): JSX.Element => {
@@ -63,6 +64,16 @@ const Slidebar = (): JSX.Element => {
             <FontAwesomeIcon icon={faComment} />
           </div>
           <div className="sidebar-feed-explain">&nbsp; Feed</div>
+        </Link>
+      </li>
+
+      {/* Slidebar - Gpt */}
+      <li className="nav-item my-1 sidebar-feed-container">
+        <Link to="/gpts" className="nav-link sidebar-feed">
+          <div>
+          <FontAwesomeIcon icon={faClipboard}/>
+          </div>
+          <div className="sidebar-feed-explain">&nbsp; GPT</div>
         </Link>
       </li>
 
