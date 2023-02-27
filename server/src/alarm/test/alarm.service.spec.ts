@@ -6,7 +6,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateAlarmDto } from '../dto/update-alarm.dto';
+import { UpdateAlarmDto } from '../dto/delete-alarm.dto';
 
 const mockAlarmRepository = () => ({
   createAlarm: jest.fn((body) => {

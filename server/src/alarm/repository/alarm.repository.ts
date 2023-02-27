@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateAlarmDto } from '../dto/create-alarm.dto';
 import { AlarmEntity } from '../entities/alarm.entity';
 
 @Injectable()
@@ -14,10 +15,10 @@ export class AlarmRepository {
     private readonly alarmRepository: Repository<AlarmEntity>,
   ) {}
 
-  async createAlarm(body) {
+  async createAlarm(body: CreateAlarmDto) {
     const alarm = {
       ...body,
-      user: { id: Number(body.user_id) },
+      user: { id: body.user_id },
     };
     try {
       const result = await this.alarmRepository.save(alarm);
@@ -27,10 +28,13 @@ export class AlarmRepository {
     }
   }
 
-  async findAllAlarmByUserId(user_id) {
+  async findAllAlarmByUserId(id: number) {
     try {
       const result = await this.alarmRepository.find({
-        where: { user: { id: user_id } },
+        where: { user: { id: id } },
+        order: {
+          time: 'ASC',
+        },
       });
       return result;
     } catch (error) {
@@ -39,11 +43,11 @@ export class AlarmRepository {
     }
   }
 
-  async findNotifyAlarm(user_id) {
+  async findNotifyAlarm(id: number) {
     try {
       const query = `
         SELECT * FROM alarm
-        WHERE user_id = ${user_id} AND time <= NOW()
+        WHERE user_id = ${id} AND time <= NOW()
       `;
       const result = await this.alarmRepository.query(query);
       return result;
