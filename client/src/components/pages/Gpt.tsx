@@ -24,18 +24,24 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
   const [techInput, setTechInput] = useState("");
+  const [answerInput, setAnswerInput] = useState("");
   const { setModalContent } = useContext(ModalContext);
   const [viewQuestion, setViewQuestion] = useState("");
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
   //--------------------------------------------------------
   // Event Handler
 
-  //   onSubmit Event
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // onSubmitQuestion Event
+  async function onSubmitQuestion(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     generateQuestion();
+  }
+
+  // onSubmitAnswer Event
+  async function onSubmitAnswer(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    generateAnswer();
   }
 
   //--------------------------------------------------------
@@ -46,6 +52,35 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
       await axios
         .post<Post>("/api/gpt/question", {
           techStack: techInput,
+        })
+        .then((res) => {
+          console.log(res);
+          setViewQuestion(res.data.result);
+        });
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          (error.response as AxiosResponse<{ message: string }>)?.data.message
+        );
+      } else {
+        console.error(error);
+      }
+      if (error.response.data.message) {
+        setModalContent({
+          header: "Edit ERROR",
+          message: error.response.data.message,
+          toggle: "view",
+        });
+      }
+    }
+  };
+
+  const generateAnswer = async () => {
+    try {
+      await axios
+        .post<Post>("/api/gpt/answer", {
+          question: viewQuestion,
+          answer: answerInput,
         })
         .then((res) => {
           console.log(res);
@@ -82,7 +117,7 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
       <div>
         <main className="gpt_main">
           <h3>Tech Interview</h3>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmitQuestion}>
             <input
               type="text"
               name="question"
@@ -93,7 +128,7 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
             <input type="submit" value="Generate" />
           </form>
           <div>
-            <form className="edit-form">
+            <form className="edit-form" onSubmit={onSubmitAnswer}>
               <input
                 className="form-control"
                 type="text"
@@ -105,6 +140,8 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
                 className="form-control"
                 id="Text"
                 placeholder="Write your answer here"
+                value={answerInput}
+                onChange={(e) => setAnswerInput(e.target.value)}
               ></textarea>
               <button type="submit" className="login-button mt-2 mb-4">
                 Check my answer
