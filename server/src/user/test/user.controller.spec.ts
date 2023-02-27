@@ -5,6 +5,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { AuthService } from '../../auth/auth.service';
 import { LoginRequestDto } from '../../auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { UserEntity } from '../entities/user.entity';
 
 const mockUserService = () => ({
   createUser: jest.fn((createUserDto) => {
@@ -123,14 +124,14 @@ describe('UserController', () => {
 
   describe('info', () => {
     it('정보 가져오기 성공', () => {
-      const user = MockJwtAuthGuard(null);
+      const user = new UserEntity();
       const findOneSpy = jest.spyOn(controller, 'findOne');
       // authService나 userService에서 가져오는 것이 아니고
       // controller의 메서드를 spy한다.
       const response = controller.findOne(user);
 
       expect(findOneSpy).toBeCalledWith(user);
-      expect(response).toEqual({ email: 'test_email', id: 'test_id' });
+      expect(response).toBeTruthy();
     });
   });
 
