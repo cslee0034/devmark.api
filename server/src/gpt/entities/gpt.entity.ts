@@ -1,5 +1,6 @@
 import { CommonEntity } from 'src/common/entities/common.entity';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
   name: 'GPT',
@@ -9,4 +10,15 @@ export class GptEntity extends CommonEntity {
   techStack;
   @Column({ type: 'varchar', nullable: true })
   question;
+
+  @ManyToOne(() => UserEntity, (user) => user.gpts, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn([
+    {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+  ])
+  user: UserEntity;
 }

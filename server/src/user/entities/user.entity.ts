@@ -3,6 +3,7 @@ import { AlarmEntity } from 'src/alarm/entities/alarm.entity';
 import { BoxEntity } from 'src/box/entities/box.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { FeedEntity } from 'src/feed/entities/feed.entity';
+import { GptEntity } from 'src/gpt/entities/gpt.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
 
 @Entity({
@@ -39,7 +40,7 @@ export class UserEntity extends CommonEntity {
   boxs: BoxEntity[];
   // OneToMany일때 Many쪽은 복수형 + 엔티티[]
 
-  @OneToMany(() => BoxEntity, (alarm) => alarm.user, {
+  @OneToMany(() => AlarmEntity, (alarm) => alarm.user, {
     cascade: true,
   })
   alarms: AlarmEntity[];
@@ -48,4 +49,9 @@ export class UserEntity extends CommonEntity {
     cascade: true,
   })
   feeds: FeedEntity[];
+
+  @OneToMany(() => GptEntity, (gpt) => gpt.user, {
+    cascade: true,
+  })
+  gpts: GptEntity[];
 }

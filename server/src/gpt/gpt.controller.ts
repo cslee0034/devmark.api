@@ -17,7 +17,7 @@ export class GptController {
 
   @UseGuards(JwtAuthGuard)
   @Post('answer')
-  answer() {
-    return this.gptService.answer();
+  answer(@CurrentUser() user: UserEntity, @Body() gpt: CreateGptDto) {
+    return this.gptService.answer(user, gpt);
   }
 }
