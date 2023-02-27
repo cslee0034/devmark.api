@@ -76,7 +76,16 @@ export class UserRepository {
     try {
       return await this.userRepository.update(user.id, body);
     } catch (error) {
-      throw new InternalServerErrorException('error while saving user');
+      throw new InternalServerErrorException('error while updating user');
+      // 내부 서버 에러 500
+    }
+  }
+
+  async deleteUser(id: number) {
+    try {
+      return await this.userRepository.delete(id);
+    } catch (error) {
+      throw new InternalServerErrorException('error while deleting user');
       // 내부 서버 에러 500
     }
   }

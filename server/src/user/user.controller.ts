@@ -8,6 +8,7 @@ import {
   Req,
   Res,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -50,6 +51,12 @@ export class UserController {
   @Patch('/')
   patchUser(@CurrentUser() user: UserEntity, @Body() body: UpdateUserDto) {
     return this.userService.update(user, body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/')
+  deleteUser(@CurrentUser() user: UserEntity) {
+    return this.userService.remove(user.id);
   }
 
   @Get('kakao')

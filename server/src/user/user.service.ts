@@ -50,7 +50,8 @@ export class UserService {
     return;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const deleteUser = await this.userRepository.deleteUser(id);
+    return { status: 200, success: true };
   }
 }
