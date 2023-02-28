@@ -161,7 +161,7 @@ const Login = (): JSX.Element => {
           <button className="kakao-container mb-3">
             <img
               className="kakao-login"
-              src={`${process.env.PUBLIC_URL}/images/kakao_login.png`}
+              src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/kakao_login.png?raw=true`}
             ></img>
           </button>
         </a>
@@ -171,7 +171,7 @@ const Login = (): JSX.Element => {
           <button className="github-container mb-3">
             <img
               className="github-login"
-              src={`${process.env.PUBLIC_URL}/images/github_login.png`}
+              src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/github_login.png?raw=true`}
             ></img>
           </button>
         </a>

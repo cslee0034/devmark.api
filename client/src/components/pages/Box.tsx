@@ -166,7 +166,7 @@ const Box = (): JSX.Element => {
           <div className="col">
             <div className="add-card card h-100" onClick={addBox}>
               <img
-                src={`${process.env.PUBLIC_URL}/images/add-item.png`}
+                src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/add-item.png?raw=true`}
                 className="card-img-add"
                 alt="..."
               />
