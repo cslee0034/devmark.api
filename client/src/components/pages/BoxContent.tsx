@@ -141,7 +141,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
             <div className="card bookmark-card" key={index}>
               <div className="bookmark-card-header">
                 <div className="bookmark-card-header-left">
-                  <a href={bookmark[2]} target="_blank">
+                  <a href={bookmark[2]} target="_blank" className="bookmark-name-container">
                     {/* 이동할 북마크 링크 */}
                     <button className="bookmark-menu">{bookmark[0]}</button>
                     {/* 북마크 이름 */}

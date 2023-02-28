@@ -54,8 +54,9 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
           techStack: techInput,
         })
         .then((res) => {
-          console.log(res);
-          setViewQuestion(res.data.result);
+          let gptText = res.data.result;
+          let NormGptText = gptText.replace(/\n/g, "");
+          setViewQuestion(NormGptText);
         });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -83,8 +84,9 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
           answer: answerInput,
         })
         .then((res) => {
-          console.log(res);
-          setViewQuestion(res.data.result);
+          let gptText = res.data.result;
+          let NormGptText = gptText.replace(/\n/g, "");
+          setViewQuestion(NormGptText);
         });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -128,14 +130,13 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
             <input type="submit" value="Generate" />
           </form>
           <div>
-            <form className="edit-form" onSubmit={onSubmitAnswer}>
-              <input
-                className="form-control"
-                type="text"
+            <form className="edit-form gpt-form" onSubmit={onSubmitAnswer}>
+              <textarea
+                className="form-control form-control-gpt"
                 placeholder={viewQuestion}
                 aria-label="Disabled input example"
                 disabled
-              ></input>
+              ></textarea>
               <textarea
                 className="form-control"
                 id="Text"

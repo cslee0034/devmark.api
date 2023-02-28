@@ -18,7 +18,7 @@ const Scrollback = (): JSX.Element => {
 
   // CheckScroll
   const CheckScroll = () => {
-    if (window.scrollY > 150) {
+    if (window.scrollY > 5) {
       setShowButton(true);
     } else {
       setShowButton(false);

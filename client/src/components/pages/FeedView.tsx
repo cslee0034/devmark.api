@@ -214,9 +214,8 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
           ))}
         </>
       ) : null}
-      <nav aria-label="Page_navigation">
-        <ul className="pagination">
-          <li className="page-item">
+        <div className="page_nav mt-5">
+          <button className="page-item">
             {id === 0 ? (
               <a
                 href={`/feeds?id=${id}&search=${search}`}
@@ -233,20 +232,19 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
                 <span>&laquo;</span>
               </a>
             )}
-          </li>
-          <li className="page-item">
+          </button>
+          <button className="page-item">
             <div className="page-link">&nbsp; &nbsp;</div>
-          </li>
-          <li>
+          </button>
+          <button className="page-item">
             <a
               href={`/feeds?id=${id + 1}&search=${search}`}
               className="page-link"
             >
               <span>&raquo;</span>
             </a>
-          </li>
-        </ul>
-      </nav>
+          </button>
+        </div>
     </>
   );
 };
