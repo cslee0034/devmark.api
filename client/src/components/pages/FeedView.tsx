@@ -214,7 +214,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
           ))}
         </>
       ) : null}
-        <div className="page_nav mt-5">
+        <div className="page_nav mt-5 mb-5">
           <button className="page-item">
             {id === 0 ? (
               <a

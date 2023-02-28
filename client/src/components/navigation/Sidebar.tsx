@@ -59,12 +59,12 @@ const Slidebar = (): JSX.Element => {
 
       {/* Slidebar - Feed */}
       <li className="nav-item my-1 sidebar-feed-container">
-        <Link to="/feeds?id=0" className="nav-link sidebar-feed">
+        <a href="/feeds?id=0" className="nav-link sidebar-feed">
           <div>
             <FontAwesomeIcon icon={faComment} />
           </div>
           <div className="sidebar-feed-explain">&nbsp; Feed</div>
-        </Link>
+        </a>
       </li>
 
       {/* Slidebar - Gpt */}
