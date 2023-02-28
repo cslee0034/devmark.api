@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGptDto } from './dto/create-gpt.dto';
 import { Configuration, OpenAIApi } from 'openai';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GptEntity } from './entities/gpt.entity';
 import { Repository } from 'typeorm';
+import { CreateGpt_Q_Dto } from './dto/create-gpt-question.dto';
+import { CreateGpt_A_Dto } from './dto/create-gpt-answer.dto';
 
 @Injectable()
 export class GptService {
@@ -20,7 +21,7 @@ export class GptService {
   openai = new OpenAIApi(this.configuration);
 
   // Question
-  async question(user: UserEntity, gpt: CreateGptDto) {
+  async question(user: UserEntity, gpt: CreateGpt_Q_Dto) {
     // Config Error
     if (!this.configuration.apiKey) {
       throw new Error('OpenAI API key not configured');
@@ -53,7 +54,7 @@ export class GptService {
   }
 
   // Answer
-  async answer(user: UserEntity, gpt: CreateGptDto) {
+  async answer(user: UserEntity, gpt: CreateGpt_A_Dto) {
     // Config Error
     if (!this.configuration.apiKey) {
       throw new Error('OpenAI API key not configured');

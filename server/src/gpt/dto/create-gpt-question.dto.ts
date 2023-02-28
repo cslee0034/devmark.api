@@ -1,8 +1,8 @@
 import { PickType } from '@nestjs/mapped-types';
 import { GptEntity } from '../entities/gpt.entity';
 
-export class CreateGptDto extends PickType(GptEntity, ['techStack'] as const) {
-  question?: string;
-  answer?: string;
+export class CreateGpt_Q_Dto extends PickType(GptEntity, [
+  'techStack',
+] as const) {
   user?: object;
 }
