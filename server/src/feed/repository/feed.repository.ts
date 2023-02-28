@@ -51,7 +51,7 @@ export class FeedRepository {
             { FeedContent: Like(`%${query.search}%`) },
             { FeedName: Like(`%${query.search}%`) },
           ],
-          take: page * query.id,
+          take: 4,
           skip: page * query.id,
           order: { id: 'DESC' },
           relations: ['user'],
@@ -59,7 +59,7 @@ export class FeedRepository {
         return result;
       } else {
         const result = await this.feedRepository.find({
-          take: page * query.id,
+          take: 4,
           skip: page * query.id,
           order: { id: 'DESC' },
           relations: ['user'],
