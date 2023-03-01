@@ -18,6 +18,10 @@ async function bootstrap() {
     prefix: '/img',
     // static file 제공 주소.
   });
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
   app.useGlobalFilters(new AllExceptionFiller(winstonLogger));
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(5000);
