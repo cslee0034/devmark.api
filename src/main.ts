@@ -6,6 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express/interfaces';
 import { AllExceptionFiller } from './common/exception/exception.fillter';
 import { winstonLogger } from './common/utils/logger.winston';
 import * as path from 'path';
+import helmet from 'helmet';
 
 async function bootstrap() {
   dotenv.config();
@@ -18,6 +19,7 @@ async function bootstrap() {
     prefix: '/img',
     // static file 제공 주소.
   });
+  app.use(helmet());
   app.enableCors({
     origin: true,
     credentials: true,
