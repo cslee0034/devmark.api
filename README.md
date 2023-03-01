@@ -57,7 +57,9 @@ Unit Test를 작성해가며 Controller와 Service의 유효성을 테스트 했
 
 # Express -> Nest.js 프레임워크 이전
 
-좋은 설계와 디자인패턴에 대해 공부하고 싶어 Express로 개발을 완료한 어플리케이션을 Nest.js으로 재작성 했습니다.
+좋은 설계와 디자인패턴에 대해 공부하고 싶어 
+
+Express로 개발을 완료한 어플리케이션을 Nest.js으로 재작성 했습니다.
 
 Pipe-filter 패턴(DTO), Repository 패턴, Intercepter 패턴, Dependancy Injection을 이용한 의존성 역전 등
 
