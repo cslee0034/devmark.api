@@ -45,7 +45,6 @@ export class AlarmRepository {
 
   async findNotifyAlarm(id: number) {
     try {
-      console.log(id);
       const query = `
         SELECT * FROM alarm
         WHERE user_id = ${id} AND time <= NOW()
