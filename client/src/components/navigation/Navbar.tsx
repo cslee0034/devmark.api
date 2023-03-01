@@ -33,36 +33,8 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const [notification, setNotification] = useState<string>();
 
-  //--------------------------------------------------------
-  // Axios Request
-
-  /* <Axios Request> - Logout Axios Post /api/user/logout */
-  const logout = async () => {
-    try {
-      await axios.post<Post>("/api/user/logout").then((res) => {
-        setLoginContent({
-          loggedIn: false,
-          userId: null,
-        });
-        window.location.replace("/");
-      });
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          (error.response as AxiosResponse<{ message: string }>)?.data.message
-        );
-      } else {
-        console.error(error);
-      }
-      if (error.response.data.Error) {
-        setModalContent({
-          header: "ERROR",
-          message: error.response.data.Error,
-          toggle: "view",
-        });
-      }
-    }
-  };
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Axios Request
@@ -71,7 +43,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const nofityAlarm = async () => {
     try {
-      await axios.get<Get>("/api/alarm/notification").then((res) => {
+      await axios.get<Get>(process.env.REACT_APP_API_URL + "/api/alarm/notification").then((res) => {
         const alarms = res.data.length;
         setNotification(alarms);
       });
@@ -83,10 +55,10 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }
@@ -172,9 +144,11 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
                   to="/"
                   className="dropdown-item"
                   onClick={() => {
-                    logout();
                     localStorage.clear();
-                    sessionStorage.clear();
+                    setLoginContent({
+                      loggedIn: false,
+                      userId: null,
+                    });
                   }}
                 >
                   Logout

@@ -23,6 +23,8 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -119,9 +121,9 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     BoxId: string
   ) => {
     try {
-      await axios.post<Post>("/api/content", {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
-        bookmarkURL: (e.target as HTMLFormElement).BookmarkURL.value,
+        URL: (e.target as HTMLFormElement).BookmarkURL.value,
         boxId: BoxId,
       });
     } catch (error: any) {
@@ -146,7 +148,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
-      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/box/img", formData, config).then((res) => {
         imageURL = res.data.url;
       });
     } catch (error: any) {
@@ -170,10 +172,16 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Post /api/box */
   const createBox = async (e: any, imgURL: string) => {
     try {
-      await axios.post<Post>("/api/box/", {
-        box: e.target.Box.value,
-        url: imgURL,
-      });
+      await axios.post<Post>(process.env.REACT_APP_API_URL + 
+        "/api/box/",
+        {
+          boxName: e.target.Box.value,
+          img: imgURL,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(

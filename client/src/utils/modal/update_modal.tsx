@@ -35,6 +35,8 @@ const UModal: FC<P> = (props: P): JSX.Element => {
 
   const { setModalContent } = useContext(ModalContext);
   const [file, setFile] = useState<File>();
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -113,7 +115,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
-      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/box/img", formData, config).then((res) => {
         imageURL = res.data.url;
         if (res.data.Error) {
           setModalContent({
@@ -142,11 +144,11 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     deleteImgUrl: string
   ) => {
     try {
-      await axios.patch<Patch>("/api/box", {
-        box: e.target.Box.value,
-        url: imgURL,
-        id: boxId,
-        d_url: deleteImgUrl,
+      await axios.patch<Patch>(process.env.REACT_APP_API_URL + "/api/box", {
+        boxName: e.target.Box.value,
+        img: imgURL,
+        boxId: boxId,
+        deleteImg: deleteImgUrl,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -166,13 +168,13 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* <Axios Request> - Bookmark Axios Patch /api/content */
+  /* <Axios Request> - Bookmark Axios Patch /api/bookmark */
   const updateContent = async (e: any, contentId: string) => {
     try {
-      await axios.patch<Patch>("/api/content", {
+      await axios.patch<Patch>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         bookmarkName: e.target.BookmarkName.value,
-        bookmarkURL: e.target.BookmarkURL.value,
-        id: contentId,
+        URL: e.target.BookmarkURL.value,
+        bookmarkId: contentId,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {

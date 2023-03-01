@@ -41,28 +41,28 @@ const FrontPage = (): JSX.Element => {
     <>
       {viewport()}
       <div id="frontpage-container" className="container-not-logged-in">
-          <div className="front-page-text">
-            <h1>
-              Mark your Dev, <br /> Learn faster!
-            </h1>
-            <h4>
-              <br />
-              <br />
-              Dev-Mark helps you organize your bookmarks
-              <br />
-              <br />
-              And manage your dev-life
-              <br />
-              <br />
-              Use feed to share your Dev experience!
-            </h4>
-          </div>
-          <img
-            className="background-img"
-            src={`${process.env.PUBLIC_URL}/images/Frontpage-background.png`}
-          ></img>
-          <Scrollback/>
+        <div className="front-page-text">
+          <h1>
+            Mark your Dev, <br /> Learn faster!
+          </h1>
+          <h4>
+            <br />
+            <br />
+            Dev-Mark helps you organize your bookmarks
+            <br />
+            <br />
+            And manage your dev-life
+            <br />
+            <br />
+            Use feed to share your Dev experience!
+          </h4>
         </div>
+        <img
+          className="background-img"
+          src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/default.png?raw=true`}
+        ></img>
+        <Scrollback />
+      </div>
     </>
   );
 };

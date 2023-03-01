@@ -9,6 +9,7 @@ interface Post {
   password: string;
   confirmPassword: string;
   nickname: string;
+  success: boolean;
 }
 
 /* Email Check Reg*/
@@ -98,13 +99,15 @@ const Register = (): JSX.Element => {
   const register = async (e: any) => {
     try {
       await axios
-        .post<Post>("/api/user/registration", {
+        .post<Post>(process.env.REACT_APP_API_URL + "/api/user/registration", {
           email: e.target.Email.value,
           nick: e.target.Nickname.value,
           password: e.target.Password.value,
         })
         .then((res) => {
-          window.location.replace("/auth");
+          if (res.data.success) {
+            window.location.replace("/auth");
+          }
         });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -114,10 +117,10 @@ const Register = (): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "Register ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }

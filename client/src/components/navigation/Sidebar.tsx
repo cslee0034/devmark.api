@@ -4,8 +4,8 @@ import { faBookBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 
 const Slidebar = (): JSX.Element => {
@@ -57,23 +57,23 @@ const Slidebar = (): JSX.Element => {
         </Link>
       </li>
 
-      {/* Slidebar - Memo */}
-      <li className="nav-item my-1 sidebar-memo-container">
-        <Link to="/memos" className="nav-link sidebar-memo">
-          <div>
-            <FontAwesomeIcon icon={faEdit} />
-          </div>
-          <div className="sidebar-memo-explain">&nbsp; Memo</div>
-        </Link>
-      </li>
-
       {/* Slidebar - Feed */}
       <li className="nav-item my-1 sidebar-feed-container">
-        <Link to="/feeds" className="nav-link sidebar-feed">
+        <a href="/feeds?id=0" className="nav-link sidebar-feed">
           <div>
             <FontAwesomeIcon icon={faComment} />
           </div>
           <div className="sidebar-feed-explain">&nbsp; Feed</div>
+        </a>
+      </li>
+
+      {/* Slidebar - Gpt */}
+      <li className="nav-item my-1 sidebar-feed-container">
+        <Link to="/gpts" className="nav-link sidebar-feed">
+          <div>
+          <FontAwesomeIcon icon={faClipboard}/>
+          </div>
+          <div className="sidebar-feed-explain">&nbsp; GPT</div>
         </Link>
       </li>
 

@@ -57,22 +57,22 @@ const AboutPage = (): JSX.Element => {
           <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
           <h2>
-            <mark>TILs</mark>
+            <mark>Feed</mark>
           </h2>
-          <h4>use TILs to record your daily leaning</h4>
+          <h4>use Feed to share your experience</h4>
 
           <hr className="sidebar-divider my-0 mt-4 mb-4" />
 
           <h2>
-            <mark>Feed</mark>
+            <mark>GPT</mark>
           </h2>
-          <h4>use Feed to share your experience</h4>
+          <h4>use chatGPT to ask a question</h4>
         </div>
         <img
           className="background-img"
-          src={`${process.env.PUBLIC_URL}/images/Frontpage-background.png`}
+          src={`https://github.com/ChangSuLee00/CS-study/blob/main/pictures/default.png?raw=true`}
         ></img>
-        <Scrollback/>
+        <Scrollback />
       </div>
     </>
   );

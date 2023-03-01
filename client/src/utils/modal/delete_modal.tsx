@@ -21,6 +21,8 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   //--------------------------------------------------------
   // Declaration of useState, useContext, useRef ...
   const { setModalContent } = useContext(ModalContext);
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   //--------------------------------------------------------
   // Event Handler
@@ -37,11 +39,11 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   };
 
   /* <Event Handler> - Delete Bookmark */
-  const contentDelete = (e: React.MouseEvent<HTMLElement>) => {
+  const bookmarkDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     /* Delete Box */
-    deleteContent(props.id);
+    deleteBookmark(props.id);
 
     /* Reload */
     window.location.reload();
@@ -53,10 +55,10 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Delete /api/box */
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
-      await axios.delete<Delete>("/api/box", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/box", {
         data: {
-          d_url: imgUrl,
-          id: boxId,
+          deleteImg: imgUrl,
+          boxId: boxId,
         },
       });
     } catch (error: any) {
@@ -77,12 +79,12 @@ const DModal: FC<P> = (props: P): JSX.Element => {
     }
   };
 
-  /* <Axios Request> - Bookmark Axios delete /api/content */
-  const deleteContent = async (contentId: string) => {
+  /* <Axios Request> - Bookmark Axios delete /api/bookmark */
+  const deleteBookmark = async (bookmarkId: string) => {
     try {
-      await axios.delete<Delete>("/api/content", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         data: {
-          id: contentId,
+          id: bookmarkId,
         },
       });
     } catch (error: any) {
@@ -111,7 +113,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
       return <button onClick={boxDelete}>Yes</button>;
     }
     if (props.header === "Delete_Content") {
-      return <button onClick={contentDelete}>Yes</button>;
+      return <button onClick={bookmarkDelete}>Yes</button>;
     }
   };
 

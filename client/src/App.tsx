@@ -14,12 +14,12 @@ import AlarmPage from "./views/Alarm";
 import "./App.css";
 import RedirectPage from "./views/RedirectPage";
 import CreateModal from "./utils/modal/create_modal";
-import MemoPage from "./views/MemoPage";
 import UpdateModal from "./utils/modal/update_modal";
 import DeleteModal from "./utils/modal/delete_modal";
 import FeedPage from "./views/FeedPage";
 import AlertModal from "./utils/modal/alert_modal";
 import ProfilePage from "./views/ProfilePage";
+import GptPage from "./views/GptPage";
 
 // Contexts
 
@@ -223,12 +223,11 @@ const App = (): JSX.Element => {
                           path="/alarms/:alarm_id"
                           element={<AlarmPage />}
                         />
-                        <Route path="/memos" element={<MemoPage />} />
-                        <Route path="/memos/:memo_id" element={<MemoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/redirect" element={<RedirectPage />} />
                         <Route path="/feeds" element={<FeedPage />} />
                         <Route path="/feeds/:feed_id" element={<FeedPage />} />
+                        <Route path="/gpts" element={<GptPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                       </Routes>
                     </div>

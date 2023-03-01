@@ -65,9 +65,9 @@ const EditAlarm: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Alarm Axios Post /api/alarm */
   const createAlarm = async (e: any, startDate: Date) => {
     try {
-      await axios.post<Post>("/api/alarm", {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/alarm", {
         alarmName: e.target!.Title.value,
-        date: startDate,
+        time: startDate,
       });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -77,10 +77,10 @@ const EditAlarm: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "Edit ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }

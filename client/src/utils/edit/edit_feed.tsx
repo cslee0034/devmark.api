@@ -78,7 +78,7 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
     createFeed(e);
 
     /* Reload */
-    window.location.replace(`/feeds`);
+    window.location.replace(`/`);
   };
 
   //--------------------------------------------------------
@@ -87,13 +87,12 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Feed Axios Post /api/memo */
   const createFeed = async (e: any) => {
     try {
-      await axios
-        .post<Post>("/api/feed", {
-          options: e.target[0].value, // URL for og
-          url: e.target[0].value, // URL
-          feedName: e.target[1].value,
-          feedContent: e.target[2].value,
-        })
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/feed", {
+        URL: e.target[0].value, // URL
+        FeedName: e.target[1].value,
+        FeedContent: e.target[2].value,
+        img: null,
+      });
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -102,10 +101,10 @@ const EditFeed: FC<P> = (props: P): JSX.Element => {
       } else {
         console.error(error);
       }
-      if (error.response.data.Error) {
+      if (error.response.data.message) {
         setModalContent({
           header: "Edit ERROR",
-          message: error.response.data.Error,
+          message: error.response.data.message,
           toggle: "view",
         });
       }
