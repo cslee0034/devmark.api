@@ -12,7 +12,9 @@ chatGPT의 API를 통해 질문을 받습니다.
 
 <img width="941" alt="image" src="https://user-images.githubusercontent.com/98637739/222258456-078951da-151e-470f-9351-6516dfe780d4.png">
 
-chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다. (50 글자 이내의 데모 API만 사용이 가능해 Rigth, Wrong만 판별합니다)
+chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다. 
+
+(50 글자 이내의 데모 API만 사용이 가능해 Rigth, Wrong만 판별합니다)
 
 ## 북마크 관리
 
@@ -87,3 +89,10 @@ Unit Test를 작성해가며 Controller와 Service의 유효성을 테스트 했
 - react-bootstrap (2.7.0)
 
 - axios (1.2.1)
+
+---
+
+# ERD
+
+<img width="485" alt="image" src="https://user-images.githubusercontent.com/98637739/222259745-5799378a-6877-4560-8845-41c3375cba0d.png">
+
