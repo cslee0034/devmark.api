@@ -44,9 +44,9 @@ import { GptEntity } from './gpt/entities/gpt.entity';
       database: process.env.MYSQL_DATABASE,
       autoLoadEntities: true,
       // entities: ['src/**/*.entity{.ts,.js}'] load
-      synchronize: true,
+      // synchronize: true,
       // 변경사항 업데이트
-      dropSchema: true,
+      // dropSchema: true,
       // row 삭제
       // --> typeORM 오류로 인해 synchronize와 dropSchema는 동일하게 설정 해야 한다.
       // logging: true,
