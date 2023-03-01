@@ -1,4 +1,3 @@
-import { MaxLength } from 'class-validator';
 import { BoxEntity } from 'src/box/entities/box.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
@@ -7,8 +6,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
   name: 'bookmark',
 })
 export class BookmarkEntity extends CommonEntity {
-  @MaxLength(15, { message: '북마크는 최대 15글자입니다.' })
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: false, length: 15 })
   bookmarkName: string;
 
   @Column({ length: 2083, type: 'varchar', nullable: false })

@@ -1,4 +1,3 @@
-import { MaxLength } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
@@ -7,8 +6,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
   name: 'alarm',
 })
 export class AlarmEntity extends CommonEntity {
-  @MaxLength(15, { message: '알람명은 최대 15글자입니다.' })
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: false, length: 15 })
   alarmName: string;
 
   @Column({ nullable: false })
