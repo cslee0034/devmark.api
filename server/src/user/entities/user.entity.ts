@@ -7,7 +7,7 @@ import { GptEntity } from 'src/gpt/entities/gpt.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
 
 @Entity({
-  name: 'USER',
+  name: 'user',
 })
 export class UserEntity extends CommonEntity {
   @IsEmail()

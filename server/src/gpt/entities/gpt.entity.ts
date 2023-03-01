@@ -3,7 +3,7 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
-  name: 'GPT',
+  name: 'gpt',
 })
 export class GptEntity extends CommonEntity {
   @Column({ type: 'varchar', nullable: true })

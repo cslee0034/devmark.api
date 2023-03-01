@@ -4,7 +4,7 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
-  name: 'FEED',
+  name: 'feed',
 })
 export class FeedEntity extends CommonEntity {
   @MaxLength(15, { message: '피드 이름은 최대 15글자입니다.' })

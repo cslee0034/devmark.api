@@ -5,7 +5,7 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({
-  name: 'BOX',
+  name: 'box',
 })
 export class BoxEntity extends CommonEntity {
   @MaxLength(15, { message: '북마크 상자는 최대 15글자입니다.' })

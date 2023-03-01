@@ -4,7 +4,7 @@ import { CommonEntity } from 'src/common/entities/common.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
-  name: 'BOOKMARK',
+  name: 'bookmark',
 })
 export class BookmarkEntity extends CommonEntity {
   @MaxLength(15, { message: '북마크는 최대 15글자입니다.' })
