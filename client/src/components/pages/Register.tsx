@@ -99,7 +99,7 @@ const Register = (): JSX.Element => {
   const register = async (e: any) => {
     try {
       await axios
-        .post<Post>("/api/user/registration", {
+        .post<Post>(process.env.REACT_APP_API_URL + "/api/user/registration", {
           email: e.target.Email.value,
           nick: e.target.Nickname.value,
           password: e.target.Password.value,
