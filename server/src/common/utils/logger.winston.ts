@@ -21,7 +21,7 @@ export const winstonLogger = WinstonModule.createLogger({
       level: process.env.NODE_ENV === 'prod' ? 'info' : 'silly',
       format: winston.format.combine(
         winston.format.timestamp(),
-        utilities.format.nestLike('PFM', {
+        utilities.format.nestLike('Dev-mark', {
           prettyPrint: true,
         }),
       ),
