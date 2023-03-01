@@ -105,8 +105,8 @@ function generatePrompt(question, answer) {
   return `
   Question: ${capitalizedQuestion}.
   Answer: ${capitalizedAnswer}.
-  if Answer is right = Within 50 charactes, give me more information.
-  else if Answer is wrong = Within 50 characters, give me correct answer.
+  if Answer is right = give me 'Right'.
+  else if Answer is wrong = give me 'Wrong'.
   YOU MUST ANSWER WITHIN 50 CHARACTERS
   `;
 }
