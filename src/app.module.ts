@@ -12,6 +12,12 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { AlarmModule } from './alarm/alarm.module';
 import { FeedModule } from './feed/feed.module';
 import { GptModule } from './gpt/gpt.module';
+import { UserEntity } from './user/entities/user.entity';
+import { BoxEntity } from './box/entities/box.entity';
+import { AlarmEntity } from './alarm/entities/alarm.entity';
+import { BookmarkEntity } from './bookmark/entities/bookmark.entity';
+import { FeedEntity } from './feed/entities/feed.entity';
+import { GptEntity } from './gpt/entities/gpt.entity';
 
 @Module({
   imports: [
@@ -44,7 +50,14 @@ import { GptModule } from './gpt/gpt.module';
       // row 삭제
       // --> typeORM 오류로 인해 synchronize와 dropSchema는 동일하게 설정 해야 한다.
       // logging: true,
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities: [
+        UserEntity,
+        BoxEntity,
+        BookmarkEntity,
+        AlarmEntity,
+        FeedEntity,
+        GptEntity,
+      ],
     }),
     UserModule,
     AuthModule,
