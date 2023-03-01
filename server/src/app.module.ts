@@ -22,25 +22,25 @@ import { GptModule } from './gpt/gpt.module';
       // pord 환경일 때는 configModuel이 환경변수 파일을 무시
       validationSchema: Joi.object({
         NODE_ENV: Joi.string().required(),
-        DB_HOST: Joi.string().required(),
-        DB_PORT: Joi.string().required(),
-        DB_USER: Joi.string().required(),
-        DB_PASSWORD: Joi.string().required(),
-        DB_NAME: Joi.string().required(),
+        MYSQL_HOST: Joi.string().required(),
+        MYSQL_PORT: Joi.string().required(),
+        MYSQL_USERNAME: Joi.string().required(),
+        MYSQL_PASSWORD: Joi.string().required(),
+        MYSQL_DATABASE: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: process.env.MYSQL_HOST,
+      port: +process.env.MYSQL_PORT,
+      username: process.env.MYSQL_USERNAME,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_DATABASE,
       autoLoadEntities: true,
       // entities: ['src/**/*.entity{.ts,.js}'] load
-      // synchronize: true,
+      synchronize: true,
       // 변경사항 업데이트
-      // dropSchema: true,
+      dropSchema: true,
       // row 삭제
       // --> typeORM 오류로 인해 synchronize와 dropSchema는 동일하게 설정 해야 한다.
       // logging: true,
