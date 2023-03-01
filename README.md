@@ -53,12 +53,31 @@ Unit Test를 작성해가며 Controller와 Service의 유효성을 테스트 했
 
 ![image](https://user-images.githubusercontent.com/98637739/222253623-c5f99914-fd06-4716-910b-43c5fc1590c4.png)
 
+---
+
+# Express -> Nest.js 프레임워크 이전
+
+좋은 설계와 디자인패턴에 대해 공부하고 싶어 Express로 개발을 완료한 어플리케이션을 Nest.js으로 재작성 했습니다.
+
+Pipe-filter 패턴(DTO), Repository 패턴, Intercepter 패턴, Dependancy Injection을 이용한 의존성 역전 등
+
+Nest.js의 설계에 대해 공부해가며 프로젝트를 만들었습니다.
 
 ---
 
 # Architecture
 
 ![image](https://user-images.githubusercontent.com/98637739/222233439-1f6401dc-c393-4693-afca-22e655cd3e95.png)
+
+Git Action을 이용해 CI/CD 파이프라인을 구축하였습니다.
+
+Docker를 이용해 Server와 DB를 컨테이너화 하여 EC2 서비스에 업로드 했습니다.
+
+RDS를 이용해 Server의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+
+Winston과 Daily Logger를 이용해 Log 파일을 관리하도록 했습니다.
+
+Grafana와 CloudWatch를 이용해 인프라 모니터링 체계를 구축 했습니다 (비용문제로 현재는 삭제)
 
 ---
 
