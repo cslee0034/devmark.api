@@ -29,7 +29,7 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 
 ## 북마크 공유 피드
 
-<img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222257110-4ae35cd9-33e5-44a0-8fa0-34703c167e50.png">
+<img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222268898-38197cd4-a9d5-4cd0-a168-5d85bea4c429.png">
 
 ---
 
