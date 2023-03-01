@@ -50,7 +50,7 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
   const generateQuestion = async () => {
     try {
       await axios
-        .post<Post>("/api/gpt/question", {
+        .post<Post>(process.env.REACT_APP_API_URL + "/api/gpt/question", {
           techStack: techInput,
         })
         .then((res) => {
@@ -79,7 +79,7 @@ const GptMain: FC<P> = (props: P): JSX.Element => {
   const generateAnswer = async () => {
     try {
       await axios
-        .post<Post>("/api/gpt/answer", {
+        .post<Post>(process.env.REACT_APP_API_URL + "/api/gpt/answer", {
           question: viewQuestion,
           answer: answerInput,
         })

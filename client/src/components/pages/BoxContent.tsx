@@ -71,7 +71,7 @@ const BoxContent: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Memo Axios Get /api/content */
   const getBookmark = async () => {
     try {
-      await axios.get<Get>(`/api/bookmark?boxId=${props.boxId}`).then((res) => {
+      await axios.get<Get>(process.env.REACT_APP_API_URL + `/api/bookmark?boxId=${props.boxId}`).then((res) => {
         const newBookmark: Array<any[]> = [];
         /*
          * [bookmarkName, encodedName, bookmarkURL, bookmarkId, [memoId, memoName]

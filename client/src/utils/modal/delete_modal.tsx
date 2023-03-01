@@ -55,7 +55,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Delete /api/box */
   const deleteBox = async (imgUrl: string, boxId: string) => {
     try {
-      await axios.delete<Delete>("/api/box", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/box", {
         data: {
           deleteImg: imgUrl,
           boxId: boxId,
@@ -82,7 +82,7 @@ const DModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Bookmark Axios delete /api/bookmark */
   const deleteBookmark = async (bookmarkId: string) => {
     try {
-      await axios.delete<Delete>("/api/bookmark", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         data: {
           id: bookmarkId,
         },

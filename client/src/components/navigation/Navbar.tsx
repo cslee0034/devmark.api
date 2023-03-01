@@ -43,7 +43,7 @@ const NavBar: FC<P> = (props: P): JSX.Element => {
 
   const nofityAlarm = async () => {
     try {
-      await axios.get<Get>("/api/alarm/notification").then((res) => {
+      await axios.get<Get>(process.env.REACT_APP_API_URL + "/api/alarm/notification").then((res) => {
         const alarms = res.data.length;
         setNotification(alarms);
       });

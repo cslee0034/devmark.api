@@ -58,7 +58,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Alarm Axios Get /api/alarm -- Get All */
   const getAlarms = async () => {
     try {
-      await axios.get<Get>("/api/alarm").then((res) => {
+      await axios.get<Get>(process.env.REACT_APP_API_URL + "/api/alarm").then((res) => {
         let newAlarm: Array<any[]> = [];
         for (let i = 0; i < res.data.length; i++) {
           const alarmName: string = res.data[i].alarmName;
@@ -97,7 +97,7 @@ const AlarmMain: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Alarm Axios Delete /api/alarm */
   const deleteAlarm = async (alarmId: string) => {
     try {
-      await axios.delete<Delete>("/api/alarm", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/alarm", {
         data: {
           id: alarmId,
         },

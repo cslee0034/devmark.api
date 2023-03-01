@@ -62,7 +62,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
   const getFeed = async () => {
     try {
       await axios
-        .get<Get>(`/api/feed?id=${id}&search=${search}`)
+        .get<Get>(process.env.REACT_APP_API_URL + `/api/feed?id=${id}&search=${search}`)
         .then((res) => {
           const newFeed: Array<string[]> = [];
           for (let i = 0; i < res.data.length; i++) {
@@ -104,7 +104,7 @@ const FeedView: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Feed Axios Delete /api/feed */
   const deleteFeed = async (feedId: string) => {
     try {
-      await axios.delete<Delete>("/api/feed", {
+      await axios.delete<Delete>(process.env.REACT_APP_API_URL + "/api/feed", {
         data: {
           id: feedId,
         },

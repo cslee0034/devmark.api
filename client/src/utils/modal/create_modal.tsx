@@ -121,7 +121,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
     BoxId: string
   ) => {
     try {
-      await axios.post<Post>("/api/bookmark", {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         bookmarkName: (e.target as HTMLFormElement).BookmarkName.value,
         URL: (e.target as HTMLFormElement).BookmarkURL.value,
         boxId: BoxId,
@@ -148,7 +148,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
-      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/box/img", formData, config).then((res) => {
         imageURL = res.data.url;
       });
     } catch (error: any) {
@@ -172,7 +172,7 @@ const CModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Box Axios Post /api/box */
   const createBox = async (e: any, imgURL: string) => {
     try {
-      await axios.post<Post>(
+      await axios.post<Post>(process.env.REACT_APP_API_URL + 
         "/api/box/",
         {
           boxName: e.target.Box.value,

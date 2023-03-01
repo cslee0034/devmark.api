@@ -115,7 +115,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   let imageURL = "";
   const uploadImg = async (e: any, formData: FormData, config: object) => {
     try {
-      await axios.post<Post>("/api/box/img", formData, config).then((res) => {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/box/img", formData, config).then((res) => {
         imageURL = res.data.url;
         if (res.data.Error) {
           setModalContent({
@@ -144,7 +144,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
     deleteImgUrl: string
   ) => {
     try {
-      await axios.patch<Patch>("/api/box", {
+      await axios.patch<Patch>(process.env.REACT_APP_API_URL + "/api/box", {
         boxName: e.target.Box.value,
         img: imgURL,
         boxId: boxId,
@@ -171,7 +171,7 @@ const UModal: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Bookmark Axios Patch /api/bookmark */
   const updateContent = async (e: any, contentId: string) => {
     try {
-      await axios.patch<Patch>("/api/bookmark", {
+      await axios.patch<Patch>(process.env.REACT_APP_API_URL + "/api/bookmark", {
         bookmarkName: e.target.BookmarkName.value,
         URL: e.target.BookmarkURL.value,
         bookmarkId: contentId,

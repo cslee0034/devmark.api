@@ -58,7 +58,7 @@ const Box = (): JSX.Element => {
   /* <Axios Request> - Box Axios Get /api/box */
   const getBox = async () => {
     try {
-      await axios.get<Get>("/api/box").then((res) => {
+      await axios.get<Get>(process.env.REACT_APP_API_URL + "/api/box").then((res) => {
         const newBox: Array<string[]> = [];
         for (let i = 0; i < res.data.length; i++) {
           const boxName: string = res.data[i].boxName;

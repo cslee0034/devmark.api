@@ -48,7 +48,7 @@ const Login = (): JSX.Element => {
   const login = async (e: any) => {
     try {
       await axios
-        .post<Post>("/api/user/login", {
+        .post<Post>(process.env.REACT_APP_API_URL + "/api/user/login", {
           email: e.target.Email.value,
           password: e.target.Password.value,
         })
@@ -80,7 +80,7 @@ const Login = (): JSX.Element => {
   const getInfo = async (e: any) => {
     try {
       await axios
-        .get<Get>("/api/user/info", {
+        .get<Get>(process.env.REACT_APP_API_URL + "/api/user/info", {
           headers: { Authorization: `Bearer ${tokenRef.current}` },
         })
         .then((res) => {

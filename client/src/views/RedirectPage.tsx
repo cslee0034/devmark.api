@@ -18,7 +18,7 @@ const RedirectPage = (): JSX.Element => {
   const getInfo = async () => {
     try {
       await axios
-        .get<Get>("/api/user/info", {
+        .get<Get>(process.env.REACT_APP_API_URL + "/api/user/info", {
           headers: { Authorization: `Bearer ${access_token}` },
         })
         .then((res) => {

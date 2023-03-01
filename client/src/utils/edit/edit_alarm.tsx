@@ -65,7 +65,7 @@ const EditAlarm: FC<P> = (props: P): JSX.Element => {
   /* <Axios Request> - Alarm Axios Post /api/alarm */
   const createAlarm = async (e: any, startDate: Date) => {
     try {
-      await axios.post<Post>("/api/alarm", {
+      await axios.post<Post>(process.env.REACT_APP_API_URL + "/api/alarm", {
         alarmName: e.target!.Title.value,
         time: startDate,
       });
