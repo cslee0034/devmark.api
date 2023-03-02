@@ -27,7 +27,7 @@ export class BoxController {
   @Post('img')
   @UseInterceptors(FileInterceptor('img', multerOptions('')))
   uploadImg(@UploadedFile() img: Express.Multer.File) {
-    return { url: `http://localhost:5000/img/${img.filename}` };
+    return { url: `${process.env.SERVER_URL}/img/${img.filename}` };
   }
 
   @UseGuards(JwtAuthGuard)
