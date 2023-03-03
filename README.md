@@ -1,3 +1,7 @@
+# 배포 페이지
+
+https://dev-mark-66ab1.web.app/
+
 # Dev-Mark 개발 일지
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
@@ -291,10 +295,14 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 
 <img width="944" alt="image" src="https://user-images.githubusercontent.com/98637739/222256189-5a88e3f9-41ba-455a-ac2b-38d7b480b210.png">
 
-
 ## 북마크 공유 피드
 
 <img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222268898-38197cd4-a9d5-4cd0-a168-5d85bea4c429.png">
+
+## Oauth 구현
+
+<img width="945" alt="Oauth" src="https://user-images.githubusercontent.com/98637739/222728641-e4602057-2aa4-4c4d-959d-a83532fcf48e.png">
+
 
 ---
 
