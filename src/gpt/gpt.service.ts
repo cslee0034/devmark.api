@@ -92,8 +92,9 @@ function generatePromptQuestion(techStack) {
   const capitalizedQuestion =
     techStack[0].toUpperCase() + techStack.slice(1).toLowerCase();
   return `Give me tech-interview question
-  about: ${capitalizedQuestion}
-  in 50character`;
+  about '${capitalizedQuestion}'
+  YOU MUST REPLY WITHIN 50 CHARACTERS
+  again YOU MUST REPLY WITHIN 50 CHARACTERS`;
 }
 
 function generatePrompt(question, answer) {
