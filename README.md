@@ -294,19 +294,34 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/98637739/222255428-0185660e-355d-4308-bcdf-07c7eefa9966.png">
 
 <img width="947" alt="image" src="https://user-images.githubusercontent.com/98637739/222255874-ddf03967-dab2-4dca-aed4-c73ed722b3d7.png">
+  
+북마크를 분류하는 서비스를 UI 친화적으로 구현하기 위해 노력 했습니다.
 
 ## 북마크 알람
 
 <img width="944" alt="image" src="https://user-images.githubusercontent.com/98637739/222256189-5a88e3f9-41ba-455a-ac2b-38d7b480b210.png">
+  
+나중에 보기로 하고 잊어비리는 북마크가 없도록 알람 서비스를 구현 했습니다.
 
 ## 북마크 공유 피드
 
 <img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222268898-38197cd4-a9d5-4cd0-a168-5d85bea4c429.png">
+  
+좋은 포스트들을 공유할 수 있도록 피드를 만들었습니다.
 
 ## Oauth 구현
 
 <img width="945" alt="Oauth" src="https://user-images.githubusercontent.com/98637739/222728641-e4602057-2aa4-4c4d-959d-a83532fcf48e.png">
+  
+간편하게 로그인할 수 있게 Oauth를 구현 했습니다.
+  
+## 반응형 웹 구현
 
+<img width="619" alt="1" src="https://user-images.githubusercontent.com/98637739/222781341-31840076-4f02-4681-8434-0f160c14c044.png">
+
+<img width="619" alt="2" src="https://user-images.githubusercontent.com/98637739/222781393-993ce5ba-2da9-4015-8ffe-ba34e2a1f2ac.png">
+
+모바일 환경에서 이용할 수 있도록 반응형 웹으로 서비스를 구현 했습니다.
 
 ---
 
