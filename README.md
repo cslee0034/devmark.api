@@ -342,13 +342,15 @@ Nest.js의 설계에 대해 공부해가며 프로젝트를 만들었습니다.
 
 # Architecture
 
-![image](https://user-images.githubusercontent.com/98637739/222233439-1f6401dc-c393-4693-afca-22e655cd3e95.png)
+<img width="578" alt="pfm-server2" src="https://user-images.githubusercontent.com/98637739/222736765-aa45f2ed-b817-4616-b812-57c2179cbf73.png">
 
-Git Action을 이용해 CI/CD 파이프라인을 구축하였습니다.
+Nginx를 이용해 리버스 프록시 서버를 구축하고 HTTPS 통신을 하도록 구성했습니다.
 
-Docker를 이용해 Server와 DB를 컨테이너화 하여 EC2 서비스에 업로드 했습니다.
+PM2를 이용해 클러스터를 만들어 무중단 서비스를 구현했습니다.
 
-RDS를 이용해 Server의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+RDS를 이용해 서버의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+
+Firebase를 이용해 프런트엔드 서버를 배포했습니다.
 
 Winston과 Daily Logger를 이용해 Log 파일을 관리하도록 했습니다.
 
