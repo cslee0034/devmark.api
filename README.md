@@ -2,6 +2,10 @@
 
 https://dev-mark-66ab1.web.app/
 
+# 프런트엔드 레포지토리
+
+https://github.com/ChangSuLee00/Dev-Mark-Front
+
 # Dev-Mark 개발 일지
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
