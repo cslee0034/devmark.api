@@ -69,9 +69,10 @@ export class UserController {
   @UseGuards(AuthGuard('kakao'))
   async kakaoLoginCallback(@Req() req, @Res() res): Promise<any> {
     const access_token = req.user.access_token;
-    res.cookie('access_token', access_token);
-    res.redirect(`http://localhost:3000/redirect`);
-    res.end();
+    res
+      .redirect(`${process.env.REDIRECT_FRONT}`)
+      .cookie('access_token', access_token)
+      .end();
   }
 
   @Get('github')
@@ -84,8 +85,9 @@ export class UserController {
   @UseGuards(AuthGuard('github'))
   async githubLoginCallback(@Req() req, @Res() res): Promise<any> {
     const access_token = req.user.access_token;
-    res.cookie('access_token', access_token);
-    res.redirect(`http://localhost:3000/redirect`);
-    res.end();
+    res
+      .redirect(`${process.env.REDIRECT_FRONT}`)
+      .cookie('access_token', access_token)
+      .end();
   }
 }
