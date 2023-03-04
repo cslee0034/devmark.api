@@ -63,7 +63,7 @@ export class BoxRepository {
   async deleteImg(body: any) {
     try {
       let url = body.deleteImg;
-      url = url.replace('http://localhost:5000/img/', './uploads/');
+      url = url.replace(`${process.env.SERVER_URL}`, './uploads/');
       fs.unlinkSync(url);
     } catch (error) {
       throw new InternalServerErrorException('error while saving box');
