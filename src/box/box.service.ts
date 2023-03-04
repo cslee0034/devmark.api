@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateBoxDto } from './dto/create-box.dto';
 import { UpdateBoxDto } from './dto/update-box.dto';
 import { BoxRepository } from './repository/box.repository';
@@ -27,8 +28,8 @@ export class BoxService {
     // 요청 문법은 맞지만 지시에 따를 수 없음
   }
 
-  async remove(body: { boxId: number; deleteImg: string }) {
-    const deletedBox = await this.boxRepository.deleteBox(body);
+  async remove(user: UserEntity, body: { boxId: number; deleteImg: string }) {
+    const deletedBox = await this.boxRepository.deleteBox(user, body);
     if (deletedBox) {
       const deletedImg = await this.boxRepository.deleteImg(body);
       return { status: 200, success: true };

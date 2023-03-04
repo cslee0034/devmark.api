@@ -56,8 +56,9 @@ export class BoxController {
   @UseGuards(JwtAuthGuard)
   @Delete('')
   remove_box(
+    @CurrentUser() user: UserEntity,
     @Body() body: { boxId: number; deleteImg: string },
   ): Promise<{ status: number; success: boolean }> {
-    return this.boxService.remove(body);
+    return this.boxService.remove(user, body);
   }
 }

@@ -9,6 +9,7 @@ import { CreateBoxDto } from '../dto/create-box.dto';
 import { BoxEntity } from '../entities/box.entity';
 import * as fs from 'fs';
 import { UpdateBoxDto } from '../dto/update-box.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class BoxRepository {
@@ -70,9 +71,15 @@ export class BoxRepository {
     }
   }
 
-  async deleteBox(body: { boxId: number; deleteImg: string }) {
+  async deleteBox(
+    user: UserEntity,
+    body: { boxId: number; deleteImg: string },
+  ) {
     try {
-      const result = await this.boxRepository.delete({ id: body.boxId });
+      const result = await this.boxRepository.delete({
+        id: body.boxId,
+        user: user,
+      });
       return result;
     } catch (error) {
       throw new InternalServerErrorException('error while saving box');
