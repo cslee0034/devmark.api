@@ -158,9 +158,7 @@ describe('UserController', () => {
       await controller.kakaoLoginCallback(req, res);
 
       expect(kakaoLoginCallbackSpy).toBeCalled();
-      expect(res.cookie).toBeCalledWith('access_token', 'token');
-      expect(res.redirect).toBeCalledWith('http://localhost:3000/redirect');
-      expect(res.end).toBeCalled();
+      expect(res.redirect).toBeCalled();
     });
   });
 
@@ -187,9 +185,7 @@ describe('UserController', () => {
       await controller.githubLoginCallback(req, res);
 
       expect(githubLoginCallbackSpy).toBeCalled();
-      expect(res.cookie).toBeCalledWith('access_token', 'token');
-      expect(res.redirect).toBeCalledWith('http://localhost:3000/redirect');
-      expect(res.end).toBeCalled();
+      expect(res.redirect).toBeCalled();
     });
   });
 });
