@@ -13,6 +13,8 @@ import { ReqWithUserId } from 'src/common/decorators/req_user_id.decorator';
 import { FeedEntity } from './entities/feed.entity';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { DeleteFeedDto } from './dto/delete-feed.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 
 @Controller('api/feed')
 export class FeedController {
@@ -26,7 +28,6 @@ export class FeedController {
     return this.feedService.create(body);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('')
   find_feed(
     @Query('id', ParseIntPipe) id: number,
@@ -39,8 +40,9 @@ export class FeedController {
   @UseGuards(JwtAuthGuard)
   @Delete('')
   remove_feed(
+    @CurrentUser() user: UserEntity,
     @ReqWithUserId() body: DeleteFeedDto,
   ): Promise<{ status: number; success: boolean }> {
-    return this.feedService.remove(+body.id);
+    return this.feedService.remove(user, +body.id);
   }
 }
