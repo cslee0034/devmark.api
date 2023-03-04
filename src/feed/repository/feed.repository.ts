@@ -71,9 +71,9 @@ export class FeedRepository {
     }
   }
 
-  async deleteFeed(id: number) {
+  async deleteFeed(user, id: number) {
     try {
-      const result = await this.feedRepository.delete({ id });
+      const result = await this.feedRepository.delete({ id: id, user: user });
     } catch (error) {
       throw new InternalServerErrorException('error while deleting Feed');
     }

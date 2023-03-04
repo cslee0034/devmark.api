@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { boolean } from 'joi';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { FeedRepository } from './repository/feed.repository';
 
@@ -17,8 +18,8 @@ export class FeedService {
     return pagenatedFeeds;
   }
 
-  async remove(id: number) {
-    const deleteFeed = await this.feedRepository.deleteFeed(id);
+  async remove(user: UserEntity, id: number) {
+    const deleteFeed = await this.feedRepository.deleteFeed(user, id);
     return { status: 201, success: true };
   }
 }
