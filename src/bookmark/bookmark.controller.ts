@@ -7,8 +7,11 @@ import {
   Delete,
   UseGuards,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from './dto/update-bookmark.dto';
@@ -21,28 +24,36 @@ export class BookmarkController {
   @UseGuards(JwtAuthGuard)
   @Post('')
   create_bookmark(
+    @CurrentUser() user: UserEntity,
     @Body() body: CreateBookmarkDto,
   ): Promise<{ status: number; success: boolean }> {
-    return this.bookmarkService.create(body);
+    return this.bookmarkService.create(user, body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('')
-  findAll_bookmark(@Query('boxId') boxId: string): Promise<BookmarkEntity[]> {
-    return this.bookmarkService.findAll(+boxId);
+  findAll_bookmark(
+    @CurrentUser() user: UserEntity,
+    @Query('boxId', ParseIntPipe) boxId: number,
+  ): Promise<BookmarkEntity[]> {
+    return this.bookmarkService.findAll(user, boxId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('')
   update_bookmark(
+    @CurrentUser() user: UserEntity,
     @Body() body: UpdateBookmarkDto,
   ): Promise<{ status: number; success: boolean }> {
-    return this.bookmarkService.update(body);
+    return this.bookmarkService.update(user, body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('')
-  remove_bookmark(@Body() body): Promise<{ status: number; success: boolean }> {
-    return this.bookmarkService.remove(body.id);
+  remove_bookmark(
+    @CurrentUser() user: UserEntity,
+    @Body() body,
+  ): Promise<{ status: number; success: boolean }> {
+    return this.bookmarkService.remove(user, body);
   }
 }

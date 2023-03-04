@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BoxEntity } from 'src/box/entities/box.entity';
 import { Repository } from 'typeorm';
 import { CreateBookmarkDto } from '../dto/create-bookmark.dto';
 import { UpdateBookmarkDto } from '../dto/update-bookmark.dto';
