@@ -4,8 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateAlarmDto } from '../dto/create-alarm.dto';
+import { DeleteAlarmDto } from '../dto/delete-alarm.dto';
 import { AlarmEntity } from '../entities/alarm.entity';
 
 @Injectable()
@@ -57,9 +59,12 @@ export class AlarmRepository {
     }
   }
 
-  async deleteAlarm(body) {
+  async deleteAlarm(user: UserEntity, body: DeleteAlarmDto) {
     try {
-      const result = await this.alarmRepository.delete({ id: body.id });
+      const result = await this.alarmRepository.delete({
+        id: body.id,
+        user: user,
+      });
     } catch (error) {
       throw new InternalServerErrorException('error while saving alarm');
       // 내부 서버 에러 500

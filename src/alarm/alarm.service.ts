@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateAlarmDto } from './dto/create-alarm.dto';
 import { DeleteAlarmDto } from './dto/delete-alarm.dto';
 import { AlarmEntity } from './entities/alarm.entity';
@@ -26,9 +27,10 @@ export class AlarmService {
   }
 
   async remove(
+    user: UserEntity,
     body: DeleteAlarmDto,
   ): Promise<{ status: number; success: boolean }> {
-    const deleteAlarm = await this.alarmRepository.deleteAlarm(body);
+    const deleteAlarm = await this.alarmRepository.deleteAlarm(user, body);
     return { status: 200, success: true };
   }
 }

@@ -39,8 +39,9 @@ export class AlarmController {
   @UseGuards(JwtAuthGuard)
   @Delete('')
   remove_alarm(
+    @CurrentUser() user: UserEntity,
     @ReqWithUserId() body: DeleteAlarmDto,
   ): Promise<{ status: number; success: boolean }> {
-    return this.alarmService.remove(body);
+    return this.alarmService.remove(user, body);
   }
 }
