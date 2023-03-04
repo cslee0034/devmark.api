@@ -1,5 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateFeedDto } from '../dto/create-feed.dto';
 import { FeedService } from '../feed.service';
 import { FeedRepository } from '../repository/feed.repository';
@@ -118,6 +119,7 @@ describe('FeedService', () => {
   });
 
   describe('deleteFeed', () => {
+    const user = new UserEntity();
     const body: body = { id: '1' };
     it('피드 삭제 성공', async () => {
       // Method Mocking
@@ -126,11 +128,11 @@ describe('FeedService', () => {
       });
 
       // Excute
-      const result = await spyFeedService.remove(+body.id);
+      const result = await spyFeedService.remove(user, +body.id);
 
       // Expect
       expect(spyFeedRepository.deleteFeed).toBeCalled();
-      expect(spyFeedRepository.deleteFeed).toBeCalledWith(+body.id);
+      expect(spyFeedRepository.deleteFeed).toBeCalledWith(user, +body.id);
       expect(result).toEqual({ status: 201, success: true });
     });
 
@@ -141,7 +143,7 @@ describe('FeedService', () => {
       );
       try {
         // Excute
-        const result = await spyFeedService.remove(+body.id);
+        const result = await spyFeedService.remove(user, +body.id);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;

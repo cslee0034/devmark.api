@@ -120,15 +120,16 @@ describe('FeedController', () => {
   });
 
   describe('delete_feed', () => {
+    const user = new UserEntity();
     it('피드 삭제 컨트롤러 통과', async () => {
       const body: body = { id: '1' };
 
       // Excute
-      const response = await controller.remove_feed(body);
+      const response = await controller.remove_feed(user, body);
 
       // Expect
       expect(spyFeedService.remove).toBeCalled();
-      expect(spyFeedService.remove).toBeCalledWith(+body.id);
+      expect(spyFeedService.remove).toBeCalledWith(user, +body.id);
       expect(response).toEqual({ status: 200, success: true });
     });
 
@@ -136,7 +137,7 @@ describe('FeedController', () => {
       const body: body = { id: null };
       try {
         // Excute
-        const response = await controller.remove_feed(body);
+        const response = await controller.remove_feed(user, body);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
