@@ -44,8 +44,8 @@ const mockBoxService = () => ({
     }
   }),
 
-  remove: jest.fn((ReqWithUserId) => {
-    if (ReqWithUserId.boxId) {
+  remove: jest.fn((user, body) => {
+    if (body.boxId) {
       return { box: 1 };
     }
     return InternalServerErrorException;
@@ -188,21 +188,23 @@ describe('UserController', () => {
 
   describe('remove', () => {
     it('박스 삭제 성공', async () => {
+      const user = new UserEntity();
       const body: { boxId: number; deleteImg: string } = {
         boxId: 1,
         deleteImg: '',
       };
 
       // Excute
-      const response = await controller.remove_box(body);
+      const response = await controller.remove_box(user, body);
 
       // Expect
       expect(spyBoxService.remove).toBeCalled();
-      expect(spyBoxService.remove).toBeCalledWith(body);
+      expect(spyBoxService.remove).toBeCalledWith(user, body);
       expect(response).toEqual({ box: 1 });
     });
 
     it('박스 삭제 실패', async () => {
+      const user = new UserEntity();
       const body: { boxId: number; deleteImg: string } = {
         boxId: 1,
         deleteImg: '',
@@ -210,11 +212,11 @@ describe('UserController', () => {
       body.boxId = null;
 
       // Excute
-      const response = await controller.remove_box(body);
+      const response = await controller.remove_box(user, body);
 
       // Expect
       expect(spyBoxService.remove).toBeCalled();
-      expect(spyBoxService.remove).toBeCalledWith(body);
+      expect(spyBoxService.remove).toBeCalledWith(user, body);
       expect(response).toEqual(InternalServerErrorException);
     });
   });

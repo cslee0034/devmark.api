@@ -7,6 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateBoxDto } from '../dto/update-box.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 jest.mock('bcrypt');
 
@@ -179,6 +180,7 @@ describe('BoxService', () => {
   });
 
   describe('delete', () => {
+    const user = new UserEntity();
     const body = { boxId: 1, deleteImg: 'delete_img' };
     it('박스 삭제 성공', async () => {
       // Method Mocking
@@ -186,10 +188,10 @@ describe('BoxService', () => {
       (spyBoxRepository.deleteImg as jest.Mock).mockReturnValue(null);
 
       // Excute
-      const result = await spyBoxService.remove(body);
+      const result = await spyBoxService.remove(user, body);
 
       // Expect
-      expect(spyBoxRepository.deleteBox).toBeCalledWith(body);
+      expect(spyBoxRepository.deleteBox).toBeCalledWith(user, body);
       expect(spyBoxRepository.deleteImg).toBeCalledWith(body);
       expect(result).toEqual({ status: 200, success: true });
     });
@@ -199,10 +201,10 @@ describe('BoxService', () => {
       (spyBoxRepository.deleteBox as jest.Mock).mockReturnValue(null);
 
       // Excute
-      const result = await spyBoxService.remove(body);
+      const result = await spyBoxService.remove(user, body);
 
       // Expect
-      expect(spyBoxRepository.deleteBox).toBeCalledWith(body);
+      expect(spyBoxRepository.deleteBox).toBeCalledWith(user, body);
       expect(result).toEqual({ status: 422, success: false });
     });
 
@@ -213,7 +215,7 @@ describe('BoxService', () => {
       );
       try {
         // Expect
-        const result = await spyBoxService.remove(body);
+        const result = await spyBoxService.remove(user, body);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
@@ -229,7 +231,7 @@ describe('BoxService', () => {
       );
       try {
         // Expect
-        const result = await spyBoxService.remove(body);
+        const result = await spyBoxService.remove(user, body);
       } catch (error) {
         // Expect
         expect(error).toBeTruthy;
