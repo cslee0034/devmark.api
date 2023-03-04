@@ -7,6 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { DeleteAlarmDto } from '../dto/delete-alarm.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 const mockAlarmRepository = () => ({
   createAlarm: jest.fn((body) => {
@@ -130,20 +131,22 @@ describe('AlarmService', () => {
   });
 
   describe('delete_alarm', () => {
+    const user = new UserEntity();
     const body: DeleteAlarmDto = { id: 1, user_id: 1 };
 
     it('알람 삭제 성공', async () => {
-      const result = await spyAlarmService.remove(body);
+      const result = await spyAlarmService.remove(user, body);
 
-      expect(spyAlarmRepository.deleteAlarm).toBeCalledWith(body);
+      expect(spyAlarmRepository.deleteAlarm).toBeCalledWith(user, body);
       expect(result).toEqual({ status: 200, success: true });
     });
 
     it('알람 삭제 실패', async () => {
+      const user = new UserEntity();
       const body: DeleteAlarmDto = { id: 1, user_id: 1 };
       body.id = null;
       try {
-        const result = await spyAlarmService.remove(body);
+        const result = await spyAlarmService.remove(user, body);
       } catch (error) {
         expect(error).toBeTruthy;
         expect(error).toBeInstanceOf({ status: 422, success: false });

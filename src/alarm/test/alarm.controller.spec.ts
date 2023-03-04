@@ -34,7 +34,7 @@ const mockAlarmService = () => ({
     }
   }),
 
-  remove: jest.fn((body) => {
+  remove: jest.fn((user, body) => {
     if (body.id) {
       return { status: 200, success: true };
     }
@@ -129,27 +129,29 @@ describe('UserController', () => {
 
   describe('remove_alarm', () => {
     it('알람 삭제 성공', async () => {
+      const user = new UserEntity();
       const body: DeleteAlarmDto = {
         id: 1,
         user_id: 1,
       };
-      const response = await controller.remove_alarm(body);
+      const response = await controller.remove_alarm(user, body);
 
       expect(spyAlarmService.remove).toBeCalled();
-      expect(spyAlarmService.remove).toBeCalledWith(body);
+      expect(spyAlarmService.remove).toBeCalledWith(user, body);
       expect(response).toEqual({ status: 200, success: true });
     });
 
     it('알람 삭제 실패', async () => {
+      const user = new UserEntity();
       const body: DeleteAlarmDto = {
         id: 1,
         user_id: 1,
       };
       body.id = null;
-      const response = await controller.remove_alarm(body);
+      const response = await controller.remove_alarm(user, body);
 
       expect(spyAlarmService.remove).toBeCalled();
-      expect(spyAlarmService.remove).toBeCalledWith(body);
+      expect(spyAlarmService.remove).toBeCalledWith(user, body);
       expect(response).toEqual(InternalServerErrorException);
     });
   });
