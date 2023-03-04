@@ -8,9 +8,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateBookmarkDto } from '../dto/update-bookmark.dto';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 const mockBookmarkService = () => ({
-  create: jest.fn((createBookmarkDto) => {
+  create: jest.fn((user, createBookmarkDto) => {
     if (
       createBookmarkDto.bookmarkName &&
       createBookmarkDto.URL &&
@@ -22,7 +23,7 @@ const mockBookmarkService = () => ({
     }
   }),
 
-  findAll: jest.fn((boxId) => {
+  findAll: jest.fn((user, boxId) => {
     if (boxId === 1) {
       return { box: 1 };
     } else {
@@ -30,7 +31,7 @@ const mockBookmarkService = () => ({
     }
   }),
 
-  update: jest.fn((updateBookmarkDto) => {
+  update: jest.fn((user, updateBookmarkDto) => {
     if (updateBookmarkDto.bookmarkId) {
       return { status: 200, success: true };
     } else {
@@ -38,9 +39,9 @@ const mockBookmarkService = () => ({
     }
   }),
 
-  remove: jest.fn((body) => {
-    if (body) {
-      return { status: 201, success: true };
+  remove: jest.fn((user, body) => {
+    if (body.id) {
+      return { status: 200, success: true };
     }
     return InternalServerErrorException;
   }),
@@ -89,6 +90,7 @@ describe('UserController', () => {
 
   describe('create_bookmark', () => {
     it('북마크 생성 성공', async () => {
+      const user = new UserEntity();
       const createBookmarkDto: CreateBookmarkDto = {
         bookmarkName: 'test_bookmarkname',
         URL: 'test_url',
@@ -96,55 +98,65 @@ describe('UserController', () => {
       };
 
       // Excute
-      const response = await controller.create_bookmark(createBookmarkDto);
+      const response = await controller.create_bookmark(
+        user,
+        createBookmarkDto,
+      );
 
       // Expect
       expect(spyBookmarkService.create).toBeCalled();
-      expect(spyBookmarkService.create).toBeCalledWith(createBookmarkDto);
+      expect(spyBookmarkService.create).toBeCalledWith(user, createBookmarkDto);
       expect(response).toEqual({ status: 201, success: true });
     });
 
     it('북마크 생성 실패', async () => {
+      const user = new UserEntity();
       const createBookmarkDto: any = {};
 
       // Excute
-      const response = await controller.create_bookmark(createBookmarkDto);
+      const response = await controller.create_bookmark(
+        user,
+        createBookmarkDto,
+      );
 
       // Expect
       expect(spyBookmarkService.create).toBeCalled();
-      expect(spyBookmarkService.create).toBeCalledWith(createBookmarkDto);
+      expect(spyBookmarkService.create).toBeCalledWith(user, createBookmarkDto);
       expect(response).toEqual({ status: 422, success: false });
     });
   });
 
   describe('findAll_bookmark', () => {
     it('북마크 찾기 성공', async () => {
-      const boxId = '1';
+      const user = new UserEntity();
+      const boxId = 1;
 
       // Excute
-      const response = await controller.findAll_bookmark(boxId);
+      const response = await controller.findAll_bookmark(user, boxId);
 
       // Expect
       expect(spyBookmarkService.findAll).toBeCalled();
-      expect(spyBookmarkService.findAll).toBeCalledWith(+boxId);
+      expect(spyBookmarkService.findAll).toBeCalledWith(user, boxId);
       expect(response).toEqual({ box: 1 });
     });
 
     it('북마크 찾기 실패', async () => {
+      const user = new UserEntity();
       const boxId = null;
 
       // Excute
-      const response = await controller.findAll_bookmark(boxId);
+      const response = await controller.findAll_bookmark(user, boxId);
 
       // Expect
       expect(spyBookmarkService.findAll).toBeCalled();
-      expect(spyBookmarkService.findAll).toBeCalledWith(+boxId);
+      expect(spyBookmarkService.findAll).toBeCalledWith(user, boxId);
       expect(response).toEqual(NotFoundException);
     });
   });
 
   describe('update_bookmark', () => {
     it('북마크 업데이트 성공', async () => {
+      const user = new UserEntity();
       const updateBookmarkDto: UpdateBookmarkDto = {
         bookmarkName: 'test_bookmarkname',
         URL: 'test_url',
@@ -153,53 +165,62 @@ describe('UserController', () => {
       };
 
       // Excute
-      const response = await controller.update_bookmark(updateBookmarkDto);
+      const response = await controller.update_bookmark(
+        user,
+        updateBookmarkDto,
+      );
 
       // Expect
       expect(spyBookmarkService.update).toBeCalled();
-      expect(spyBookmarkService.update).toBeCalledWith(updateBookmarkDto);
+      expect(spyBookmarkService.update).toBeCalledWith(user, updateBookmarkDto);
       expect(response).toEqual({ status: 200, success: true });
     });
 
     it('북마크 업데이트 실패', async () => {
+      const user = new UserEntity();
       const updateBookmarkDto: any = {};
 
       // Excute
-      const response = await controller.update_bookmark(updateBookmarkDto);
+      const response = await controller.update_bookmark(
+        user,
+        updateBookmarkDto,
+      );
 
       // // Expect
       expect(spyBookmarkService.update).toBeCalled();
-      expect(spyBookmarkService.update).toBeCalledWith(updateBookmarkDto);
+      expect(spyBookmarkService.update).toBeCalledWith(user, updateBookmarkDto);
       expect(response).toEqual({ status: 422, success: false });
     });
   });
 
   describe('remove_bookmark', () => {
     it('북마크 삭제 성공', async () => {
+      const user = new UserEntity();
       const body = {
         id: 1,
       };
 
       // Excute
-      const response = await controller.remove_bookmark(body);
+      const response = await controller.remove_bookmark(user, body);
 
       // Expect
       expect(spyBookmarkService.remove).toBeCalled();
-      expect(spyBookmarkService.remove).toBeCalledWith(body.id);
-      expect(response).toEqual({ status: 201, success: true });
+      expect(spyBookmarkService.remove).toBeCalledWith(user, body);
+      expect(response).toEqual({ status: 200, success: true });
     });
 
     it('북마크 삭제 실패', async () => {
+      const user = new UserEntity();
       const body = {
         id: null,
       };
 
       // Excute
-      const response = await controller.remove_bookmark(body);
+      const response = await controller.remove_bookmark(user, body);
 
       // Expect
       expect(spyBookmarkService.remove).toBeCalled();
-      expect(spyBookmarkService.remove).toBeCalledWith(body.id);
+      expect(spyBookmarkService.remove).toBeCalledWith(user, body);
       expect(response).toEqual(InternalServerErrorException);
     });
   });
