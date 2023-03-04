@@ -1,3 +1,11 @@
+# 배포 페이지
+
+https://dev-mark-66ab1.web.app/
+
+# 프런트엔드 레포지토리
+
+https://github.com/ChangSuLee00/Dev-Mark-Front
+
 # Dev-Mark 개발 일지
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
@@ -286,15 +294,34 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/98637739/222255428-0185660e-355d-4308-bcdf-07c7eefa9966.png">
 
 <img width="947" alt="image" src="https://user-images.githubusercontent.com/98637739/222255874-ddf03967-dab2-4dca-aed4-c73ed722b3d7.png">
+  
+북마크를 분류하는 서비스를 UI 친화적으로 구현하기 위해 노력 했습니다.
 
 ## 북마크 알람
 
 <img width="944" alt="image" src="https://user-images.githubusercontent.com/98637739/222256189-5a88e3f9-41ba-455a-ac2b-38d7b480b210.png">
-
+  
+나중에 보기로 하고 잊어비리는 북마크가 없도록 알람 서비스를 구현 했습니다.
 
 ## 북마크 공유 피드
 
 <img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222268898-38197cd4-a9d5-4cd0-a168-5d85bea4c429.png">
+  
+좋은 포스트들을 공유할 수 있도록 피드를 만들었습니다.
+
+## Oauth 구현
+
+<img width="945" alt="Oauth" src="https://user-images.githubusercontent.com/98637739/222728641-e4602057-2aa4-4c4d-959d-a83532fcf48e.png">
+  
+간편하게 로그인할 수 있게 Oauth를 구현 했습니다.
+  
+## 반응형 웹 구현
+
+<img width="619" alt="1" src="https://user-images.githubusercontent.com/98637739/222781341-31840076-4f02-4681-8434-0f160c14c044.png">
+
+<img width="619" alt="2" src="https://user-images.githubusercontent.com/98637739/222781393-993ce5ba-2da9-4015-8ffe-ba34e2a1f2ac.png">
+
+모바일 환경에서 이용할 수 있도록 반응형 웹으로 서비스를 구현 했습니다.
 
 ---
 
@@ -334,13 +361,15 @@ Nest.js의 설계에 대해 공부해가며 프로젝트를 만들었습니다.
 
 # Architecture
 
-![image](https://user-images.githubusercontent.com/98637739/222233439-1f6401dc-c393-4693-afca-22e655cd3e95.png)
+<img width="578" alt="pfm-server2" src="https://user-images.githubusercontent.com/98637739/222736765-aa45f2ed-b817-4616-b812-57c2179cbf73.png">
 
-Git Action을 이용해 CI/CD 파이프라인을 구축하였습니다.
+Nginx를 이용해 리버스 프록시 서버를 구축하고 HTTPS 통신을 하도록 구성했습니다.
 
-Docker를 이용해 Server와 DB를 컨테이너화 하여 EC2 서비스에 업로드 했습니다.
+PM2를 이용해 클러스터를 만들어 무중단 서비스를 구현했습니다.
 
-RDS를 이용해 Server의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+RDS를 이용해 서버의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+
+Firebase를 이용해 프런트엔드 서버를 배포했습니다.
 
 Winston과 Daily Logger를 이용해 Log 파일을 관리하도록 했습니다.
 
