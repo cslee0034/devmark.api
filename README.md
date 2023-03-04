@@ -295,7 +295,7 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 
 <img width="947" alt="image" src="https://user-images.githubusercontent.com/98637739/222255874-ddf03967-dab2-4dca-aed4-c73ed722b3d7.png">
   
-북마크를 분류하는 서비스를 UI 친화적으로 구현하기 위해 노력 했습니다.
+북마크를 분류하는 서비스를 유저 친화적으로 구현하기 위해 노력 했습니다.
 
 ## 북마크 알람
 
@@ -308,6 +308,8 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 <img width="945" alt="image" src="https://user-images.githubusercontent.com/98637739/222268898-38197cd4-a9d5-4cd0-a168-5d85bea4c429.png">
   
 좋은 포스트들을 공유할 수 있도록 피드를 만들었습니다.
+
+피드는 Open Graph를 가져와서 보여줍니다.
 
 ## Oauth 구현
 
@@ -349,7 +351,7 @@ Unit Test를 작성해가며 Controller와 Service의 유효성을 테스트 했
 
 # Express -> Nest.js 프레임워크 이전
 
-좋은 설계와 디자인패턴에 대해 공부하고 싶어 
+Nest.js 프레임 워크를 이용해 더 좋은 설계로 앱을 리팩토링하고 디자인패턴에 대해 공부하고 싶어 
 
 Express로 개발을 완료한 어플리케이션을 Nest.js으로 재작성 했습니다.
 
