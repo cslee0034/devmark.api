@@ -20,7 +20,7 @@ https://dev-mark-66ab1.web.app/
 
 https://github.com/ChangSuLee00/Dev-Mark-Front
 
-# 개발 일지 (22.12~28 ~ 22.03.06)
+# 개발 일지 (22.12.8 ~ 22.03.06)
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
 
