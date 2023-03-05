@@ -10,6 +10,26 @@ https://github.com/ChangSuLee00/Dev-Mark-Front
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
 
+---
+
+# Architecture
+
+<img width="578" alt="pfm-server2" src="https://user-images.githubusercontent.com/98637739/222736765-aa45f2ed-b817-4616-b812-57c2179cbf73.png">
+
+Nginx를 이용해 리버스 프록시 서버를 구축하고 HTTPS 통신을 하도록 구성했습니다.
+
+PM2를 이용해 클러스터를 만들어 무중단 서비스를 구현했습니다.
+
+RDS를 이용해 서버의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
+
+Firebase를 이용해 프런트엔드 서버를 배포했습니다.
+
+Winston과 Daily Logger를 이용해 Log 파일을 관리하도록 했습니다.
+
+Grafana와 CloudWatch를 이용해 인프라 모니터링 체계를 구축 했습니다 (비용문제로 현재는 삭제)
+
+---
+
 # Project : 북마크 관리 + ChatGPT를 이용한 면접 서비스 | 22.01 ~ 22.03
 
 ## ChatGPT 기술 면접
@@ -289,6 +309,12 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 
 (50 글자 이내의 데모 API만 사용이 가능해 Rigth, Wrong만 판별합니다)
 
+## Oauth 구현
+
+<img width="945" alt="Oauth" src="https://user-images.githubusercontent.com/98637739/222728641-e4602057-2aa4-4c4d-959d-a83532fcf48e.png">
+  
+간편하게 로그인할 수 있게 Oauth를 구현 했습니다.
+
 ## 북마크 관리
 
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/98637739/222255428-0185660e-355d-4308-bcdf-07c7eefa9966.png">
@@ -310,12 +336,6 @@ chatGPT의 API를 이용해 질문에 대한 피드백을 받습니다.
 좋은 포스트들을 공유할 수 있도록 피드를 만들었습니다.
 
 피드는 Open Graph를 가져와서 보여줍니다.
-
-## Oauth 구현
-
-<img width="945" alt="Oauth" src="https://user-images.githubusercontent.com/98637739/222728641-e4602057-2aa4-4c4d-959d-a83532fcf48e.png">
-  
-간편하게 로그인할 수 있게 Oauth를 구현 했습니다.
   
 ## 반응형 웹 구현
 
@@ -358,24 +378,6 @@ Express로 개발을 완료한 어플리케이션을 Nest.js으로 재작성 했
 Pipe-filter 패턴(DTO), Repository 패턴, Intercepter 패턴, Dependancy Injection을 이용한 의존성 역전 등
 
 Nest.js의 설계에 대해 공부해가며 프로젝트를 만들었습니다.
-
----
-
-# Architecture
-
-<img width="578" alt="pfm-server2" src="https://user-images.githubusercontent.com/98637739/222736765-aa45f2ed-b817-4616-b812-57c2179cbf73.png">
-
-Nginx를 이용해 리버스 프록시 서버를 구축하고 HTTPS 통신을 하도록 구성했습니다.
-
-PM2를 이용해 클러스터를 만들어 무중단 서비스를 구현했습니다.
-
-RDS를 이용해 서버의 예상치 못한 종료에 대비해 DB 클라우드화를 했습니다.
-
-Firebase를 이용해 프런트엔드 서버를 배포했습니다.
-
-Winston과 Daily Logger를 이용해 Log 파일을 관리하도록 했습니다.
-
-Grafana와 CloudWatch를 이용해 인프라 모니터링 체계를 구축 했습니다 (비용문제로 현재는 삭제)
 
 ---
 
