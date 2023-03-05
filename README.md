@@ -1,23 +1,22 @@
 # Project : 북마크 관리 + ChatGPT를 이용한 면접 서비스 | 22.01 ~ 22.03
-
-# 목차
+# Dev-mark 목차
 
 1. [배포 페이지](#배포-페이지)
 2. [프런트엔드 레포지토리](#프런트엔드-레포지토리)
-3. [Dev-Mark 개발 일지](#Dev-Mark-개발-일지)
-4. [Server-Architecture](#Architecture)
+3. [개발 일지](#개발-일지)
+4. [Architecture](#architecture)
 5. [테스트 코드 작성](#테스트-코드-작성)
-6. [프레임워크 이전](#Express-->-Nest.js-프레임워크-이전)
+6. [프레임워크 이전 리팩토링](#프레임워크-이전-리팩토링)
 7. [서비스 소개](#서비스-소개)
 8. [서비스 구현](#서비스-구현)
-- [ChatGPT 기술 면접](#ChatGPT-기술-면접)
-- [Oauth 구현](##Oauth-구현)
+- [ChatGPT 기술 면접](#chatgpt-기술-면접)
+- [Oauth 구현](##oauth-구현)
 - [북마크 관리](##북마크-관리)
 - [북마크 알람](##북마크-알람)
 - [북마크 공유 피드](##북마크-공유-피드)
 - [반응형 웹 구현](##반응형-웹-구현)
 9. [개발환경](#개발환경)
-10. [ERD](#ERD)
+10. [ERD](#erd)
 
 # 배포 페이지
 
@@ -27,7 +26,7 @@ https://dev-mark-66ab1.web.app/
 
 https://github.com/ChangSuLee00/Dev-Mark-Front
 
-# Dev-Mark 개발 일지
+# 개발 일지
 
 https://kaput-geometry-436.notion.site/d8230eef4ced4582a6884d3d552734b0?v=0257760f0464402ca87762d4646d063c
 
@@ -59,7 +58,9 @@ Unit Test를 작성해가며 Controller와 Service의 유효성을 테스트 했
 
 ---
 
-# Express -> Nest.js 프레임워크 이전
+# 프레임워크 이전 리팩토링
+
+Express -> Nest.js 
 
 Nest.js 프레임 워크를 이용해 더 좋은 설계로 앱을 리팩토링하고 디자인패턴에 대해 공부하고 싶어 
 
